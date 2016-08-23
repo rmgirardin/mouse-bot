@@ -20,7 +20,7 @@ Now you can use `node app.js` in the terminal in your mouse-bot directory folder
 The bot recognizes when new users are added to the server and greets then with a custom greeting. In this case, it greets the user and tells them to review the `#rules` channel.
 
 #### Commands
-Mouse bot has a few /commands that will do various things.
+
 - /help
     - lists /commands
     - typing a command after '/help' gives a description of that command
