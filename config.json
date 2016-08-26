@@ -1,0 +1,29 @@
+{
+    "discord" : {
+        "token" : "MjEzMzgxMTAzMjg3OTI2Nzg1.Co_2GQ.BgbjJPtU0h9hPYRKQx4iZzHfW8A",
+        "annChannel" : "177481799121895424",
+        "officerChannel" : "216615805901733888"
+    },
+
+    "twitter" : {
+        "cKey" : "y7P0CbeWSM7FchEx191FXX6JV",
+        "cSecret" : "mxYdCESV2hnk9y9cgjZJwgWux1RTgoUmRUDc1viB5jbmccm9Yu",
+        "aTokenKey" : "766310833223860227-TYFF1NIJ1T5c62RWkHCituKzqmVvvui",
+        "aTokenSecret" : "cI1oylqrw0C9UqQ3fytuItrZ6KRacTGn1r9OTHQ1rBECX"
+    },
+
+    "guildReset" : 2030,
+
+    "rancor" : {
+        "timerHours" : 24,
+        "startMsg" : "The Rancor Raid has been started. Only do 0 damage for 24 hours. See #rules",
+        "endMsg" : "It's been 24 hours since the raid has started. Everyone can attack like normal!"
+    },
+
+    "help" : {
+        "dailies" : "I list the current guild activity and the next one to coming up.",
+        "ch" : "Put a character's name after '/ch' and I'll look up the character info on swgoh.gg.",
+        "rancor" : "I will notify everyone in the announcements channel that a raid has been started and to abide by the 0 damage rule. Then after 24 hours I will post another announcement that the 0 damage rule has been lifted.",
+        "tstart" : "I will start a timer. After '/tstart', enter the number of minutes for the timer and I will notify you when the time is up."
+    }
+}
