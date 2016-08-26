@@ -112,9 +112,9 @@ bot.on('message', msg => {
         timer.start(parseInt(minutesToSeconds));
         bot.sendMessage(msg, "Timer started for " + messageTrimmed + " minute(s).");
         timer.on('end', function() {
-            bot.sendMessage(msg, "*DING!* *DING!* *DING!*" + '\n' + "Your timer has ended.");
+            bot.sendMessage(msg, "*DING! DING! DING!*" + '\n' + "Your timer has ended.");
         })
-        console.log(msg.author.username + ' started a timer for ' + messageTrimmed + ' minute(s)')
+        console.log(msg.author.username + ' started a timer'); // update console
     }
 
 	// ----- Rules
@@ -137,6 +137,7 @@ bot.on('message', msg => {
 		var minute = date.getMinutes();
 		var time = hour.toString() + minute.toString();
 		bot.sendMessage(msg, "The time is " + time + " and the day is " + day);
+        console.log(msg.author.username + ' asked for the time'); // update console
 	}
 
     // ----- Help
@@ -150,7 +151,7 @@ bot.on('message', msg => {
         } else {
             bot.sendMessage(msg, "I don't know that command. Make sure it's spelled correctly and try typing it again. For a list of commands, type \"/help\".");
         }
-        console.log(msg.author.username + " asked for help"); // update console
+        console.log(msg.author.username + ' asked for help'); // update console
     }
 });
 
@@ -222,10 +223,10 @@ function helpLoop() {
 // Login output
 function output(error) {
         if (error) {
-                console.log("There was an error logging in: %s", error);
+                console.log('There was an error logging in: %s', error);
                 return;
         } else
-                console.log("%s has successfully logged in.", bot.user.username);
+                console.log('%s has successfully logged in.', bot.user.username);
 }
 
 bot.loginWithToken(env.discord.token, output);

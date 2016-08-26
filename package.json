@@ -1,6 +1,6 @@
 {
   "name": "mouse-bot",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Discord bot for Star Wars: Galaxy of Heroes based on discord.js",
   "keywords": [
     "Discord",
@@ -11,6 +11,7 @@
     "Galaxy of Heroes",
     "SWGoH"
   ],
+
   "author": {
     "name": "Richard Girardin",
     "email": "rm@girard.in",
@@ -33,11 +34,7 @@
   "devDependencies": {},
   "bundleDependencies": [],
 
-  "private": true,
-
   "scripts": {
-      "start": "node app.js",
-      "monitor": "nodemon app.js",
-      "deploy": "gcloud app deploy"
+      "start": "node index.js",
   }
 }
