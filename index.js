@@ -32,7 +32,7 @@ streamer.stream();
 streamer.on('data', function(json) {
 	var tweet = json;
 	bot.sendMessage(env.discord.annChannel, tweet.text);
-	console.log("An update from the forums has been posted in #announcements");
+	console.log('An update from the forums has been posted in #announcements');
 });
 
 // Defining the variables
@@ -48,32 +48,32 @@ const day5 = "**Challenges**";
 const day6 = "**Dark Side Battles**";
 
 const helpArray = [
-    "/dailies (lists current and next guild activity)",
-    "/ch *<character name>* (looks up character info on swgoh.gg)",
-    "/rancor (starts a 24 hour timer and posts reminders in #announcements)",
-    "/stimer *<#>* (starts a timer for # minutes)",
-    "/help (repeats this message)"]
+    "/dailies",
+    "/ch *(character name)*",
+    "/rancor",
+    "/stimer *(#)*",
+    "/help *(command)*"]
 
 // Connecting Mouse Bot
-bot.on("ready", () => {
-	console.log("Ready to begin serving!");
+bot.on('ready', () => {
+	console.log("%s is servering %s channel(s) over %s server(s)", bot.user.username, bot.channels.length, bot.servers.length);
 });
 
 // When the Mouse Bot disconnects
-bot.on("disconnected", () => {
-	console.log("I've been disconnected!");
+bot.on('disconnected', () => {
+	console.log("NOOOOOOOO!! I've been disconnected!");
 	process.exit(1); //exit node.js with an error
 });
 
 // Welcomes new members to the server
 bot.on('serverNewMember', (server, user) => {
-  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". I am Mouse Bot here to serve. Please make sure to read the #rules channel. If you ever need help, just use '/help' and I'll be there to assist.");
-  console.log(user.username + " joined the server: " + server); // update console
+  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". I am Mouse Bot here to serve. Please make sure to read the #rules channel. If you ever need help, just use \"/help\" and I'll assist.");
+  console.log(user.username + ' joined the server: ' + server); // update console
 });
 
 // ----- /COMMANDS ----- //
 
-bot.on("message", msg => {
+bot.on('message', msg => {
 
     // Setting and checking for prefix
     const prefix = "/";
@@ -81,19 +81,19 @@ bot.on("message", msg => {
     if(msg.author.bot) return;
 
 	// ----- Dailies
-	if (msg.content.startsWith(prefix + "dailies")) {
+	if (msg.content.startsWith(prefix + 'dailies')) {
 		dayCheck(msg);
-		console.log("Gave " + msg.author.username + " the dailies update"); // update console
+		console.log('Gave ' + msg.author.username + ' the dailies update'); // update console
 	}
 
 	// ----- Character Seach
-	if (msg.content.startsWith(prefix + "ch")) {
+	if (msg.content.startsWith(prefix + 'ch')) {
 		characterLookup(msg);
-		console.log(msg.author.username + " asked me to search for character information"); // update console
+		console.log(msg.author.username + ' asked me to search for character information'); // update console
 	}
 
     // ----- Rancor Raid Timer and Notifier
-    if (msg.content.startsWith(prefix + "rancor")) {
+    if (msg.content.startsWith(prefix + 'rancor')) {
         timer.start(env.rancor.timerHours*3600); // convert hours to seconds
         timer.on('start', function() {
             bot.sendMessage(env.discord.annChannel, env.rancor.startMsg);
@@ -101,18 +101,20 @@ bot.on("message", msg => {
         timer.on('end', function() {
             bot.sendMessage(env.discord.annChannel, env.rancor.endMsg);
         })
+        console.log(msg.author.username + ' has started the Rancor Raid timer') // update console
     }
 
     // ----- Timer
-    if (msg.content.startsWith(prefix + "tstart")) {
+    if (msg.content.startsWith(prefix + 'tstart')) {
         var messageSubstring = msg.content.substr(7);
         var messageTrimmed = messageSubstring.trim();
         var minutesToSeconds = 60*parseInt(messageTrimmed);
         timer.start(parseInt(minutesToSeconds));
-        bot.sendMessage(msg, "Timer started for " + messageTrimmed + " minutes.");
+        bot.sendMessage(msg, "Timer started for " + messageTrimmed + " minute(s).");
         timer.on('end', function() {
-            bot.sendMessage(msg, "*DING* *DING* *DING*" + '\n' + "Timer has ended.");
+            bot.sendMessage(msg, "*DING!* *DING!* *DING!*" + '\n' + "Your timer has ended.");
         })
+        console.log(msg.author.username + ' started a timer for ' + messageTrimmed + ' minute(s)')
     }
 
 	// ----- Rules
@@ -139,7 +141,15 @@ bot.on("message", msg => {
 
     // ----- Help
     if (msg.content.startsWith(prefix + "help")) {
-        bot.sendMessage(msg, "I am user.name. I know everything about SWGoH. Try using some of the following commands:" + '\n' + helpLoop());
+        var messageSubstring = msg.content.substr(6);
+        var str = messageSubstring.replace('/','');
+        if (str.length < 1) {
+            bot.sendMessage(msg, "I am " + bot.user.username + ". I know everything about SWGoH. Try using some of the following commands:" + '\n' + helpLoop());
+        } else if (env.help[str]) {
+            bot.sendMessage(msg, env.help[str]);
+        } else {
+            bot.sendMessage(msg, "I don't know that command. Make sure it's spelled correctly and try typing it again. For a list of commands, type \"/help\".");
+        }
         console.log(msg.author.username + " asked for help"); // update console
     }
 });
@@ -195,7 +205,7 @@ function characterLookup(msg) {
 	var messageSubstring = msg.content.substr(3);
 	var messageTrimmed = messageSubstring.trim();
 	var messageReplaced = messageTrimmed.replace(" ","+");
-	bot.sendMessage(msg, "http://www.google.com/webhp?#q=" + messageReplaced + "+swgoh.gg+feeling+lucky&btnI"); // Uses Google's "I'm feeling lucky" to search on swgoh.gg
+	bot.sendMessage(msg, "<http://www.google.com/webhp?#q=" + messageReplaced + "+swgoh.gg+feeling+lucky&btnI>"); // Uses Google's "I'm feeling lucky" to search on swgoh.gg
 // If the link above does not work, try using the link below
 //        bot.sendMessage(msg, "http://www.google.com/search?ie=UTF-8&oe=UTF-8&sourceid=navclient&gfns=1&q=" + messageReplaced + "+swgoh.gg");
 }
@@ -210,12 +220,12 @@ function helpLoop() {
 }
 
 // Login output
-function output(error, token) {
+function output(error) {
         if (error) {
-                console.log(`There was an error logging in: ${error}`);
+                console.log("There was an error logging in: %s", error);
                 return;
         } else
-                console.log(`Mouse Bot has successfully logged in.`);
+                console.log("%s has successfully logged in.", bot.user.username);
 }
 
 bot.loginWithToken(env.discord.token, output);
