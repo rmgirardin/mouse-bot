@@ -67,7 +67,7 @@ bot.on('disconnected', () => {
 
 // Welcomes new members to the server
 bot.on('serverNewMember', (server, user) => {
-  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". I am Mouse Bot here to serve. Please make sure to read the #rules channel. If you ever need help, just use \"/help\" and I'll assist.");
+  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". Please make sure to read the <#215110854394380301> channel. If you ever need help, just use \"/help\" and I'll assist.");
   console.log(user.username + ' joined the server: ' + server); // update console
 });
 
