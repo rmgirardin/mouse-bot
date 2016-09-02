@@ -8,7 +8,7 @@ This bot uses [discord.js](https://github.com/hydrabolt/discord.js.git) API for 
 To run off of your computer, you'll first need [node 0.12+](https://www.npmjs.com/package/forever/tutorial).
 
 Then install discord.js through the terminal: `npm install discord.js`<br>
-You will also need to install `timer.js` and `user-stream` the same way.
+You will also need to install `timer.js` the same way.
 
 Open `config.json.example` and add keys to the blank fields. For `token` add you're bots token from the [Discord App](https://discordapp.com/developers/applications/me) page. Then add the announcements channel ID to `annChannel` and do the same for `officerChannel`. If you do not use an officer channel, you can just put the general channel's ID here. (If you don't know how to find the channel ID, follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-server-ID-)) Also add the Twitter keys from the [Twitter Apps](https://apps.twitter.com/). Finally, rename `config.json.example` to `config.json`.
 
@@ -37,7 +37,9 @@ The bot recognizes when new users are added to the server and greets then with a
     - tells you to visit the `#rules` channel
 
 #### Forum Feed Updates
-For this I use [IFTTT](http://ifttt.com) to tweet the post titles and links of [game](https://forums.galaxy-of-heroes.starwars.ea.com/categories/game-updates)/[developer](https://forums.galaxy-of-heroes.starwars.ea.com/categories/developer-updates) updates from the SWGoH forum to a twitter account. Using a twitter application, the bot streams the twitter feed with the help of `user-stream`.
+~~For this I use [IFTTT](http://ifttt.com) to tweet the post titles and links of [game](https://forums.galaxy-of-heroes.starwars.ea.com/categories/game-updates)/[developer](https://forums.galaxy-of-heroes.starwars.ea.com/categories/developer-updates) updates from the SWGoH forum to a twitter account. Using a twitter application, the bot streams the twitter feed with the help of `user-stream`.~~
+
+This is now on the to-do and hopeful will be updated and working soon.
 
 ## Help
 If you need help, you can always ask me.
