@@ -7,7 +7,6 @@ const Timer = require('timer.js');
 var timer = new Timer({
     tick: 30,
     onstart : function() {
-        console.log('A timer has been started'); // update console
     },
     onstop : function() {
         console.log('The timer has been stopped'); // update console
@@ -67,7 +66,7 @@ bot.on('disconnected', () => {
 
 // Welcomes new members to the server
 bot.on('serverNewMember', (server, user) => {
-  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". Please make sure to read the <#215110854394380301> channel. If you ever need help, just use \"/help\" and I'll assist.");
+  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". Please make sure to read the " + env.discord.rulesChannel + ". If you ever need help, just use \"/help\" and I'll assist.");
   console.log(user.username + ' joined the server: ' + server); // update console
 });
 
@@ -96,10 +95,10 @@ bot.on('message', msg => {
     if (msg.content.startsWith(prefix + 'rancor')) {
         timer.start(env.rancor.timerHours*3600); // convert hours to seconds
         timer.on('start', function() {
-            bot.sendMessage(env.discord.annChannel, env.rancor.startMsg);
+            bot.sendMessage(env.discord.annChannel, "The Rancor Raid has been started. Only do 0 damage for 24 hours. See the " + env.discord.rulesChannel);
         })
         timer.on('end', function() {
-            bot.sendMessage(env.discord.annChannel, env.rancor.endMsg);
+            bot.sendMessage(env.discord.annChannel, "It's been 24 hours since the raid has started. Everyone can attack like normal!");
         })
         console.log(msg.author.username + ' has started the Rancor Raid timer') // update console
     }
@@ -110,7 +109,7 @@ bot.on('message', msg => {
         var messageTrimmed = messageSubstring.trim();
         var minutesToSeconds = 60*parseInt(messageTrimmed);
         timer.start(parseInt(minutesToSeconds));
-        bot.sendMessage(msg, "Timer started for " + messageTrimmed + " minute(s).");
+        bot.sendMessage(msg, "A timer has been started for " + messageTrimmed + " minute(s).");
         timer.on('end', function() {
             bot.sendMessage(msg, "*DING! DING! DING!*" + '\n' + "Your timer has ended.");
         })
