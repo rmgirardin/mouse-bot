@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const env = require('./config.json');
 const bot = new Discord.Client();
+const env = require('./config.json');
 
 // Initialize timer
 const Timer = require('timer.js');
@@ -15,23 +15,6 @@ var timer = new Timer({
     onend : function() {
         console.log('The timer has ended'); // update console
     }
-});
-
-// Set up Twitter streaming from @bot_mouse
-const Twitter = require('user-stream');
-const streamer = new Twitter({
-    consumer_key: env.twitter.cKey,
-    consumer_secret: env.twitter.cSecret,
-    access_token_key: env.twitter.aTokenKey,
-    access_token_secret: env.twitter.aTokenSecret
-});
-streamer.stream();
-
-// Post any new tweets to the #announcements channel
-streamer.on('data', function(json) {
-	var tweet = json;
-	bot.sendMessage(env.discord.annChannel, tweet.text);
-	console.log('An update from the forums has been posted in #announcements');
 });
 
 // Defining the variables
@@ -93,7 +76,7 @@ bot.on('message', msg => {
 
     // ----- Rancor Raid Timer and Notifier
     if (msg.content.startsWith(prefix + 'rancor')) {
-        timer.start(env.rancor.timerHours*3600); // convert hours to seconds
+        timer.start(env.rancorTimer*3600); // convert hours to seconds
         timer.on('start', function() {
             bot.sendMessage(env.discord.annChannel, "The Rancor Raid has been started. Only do 0 damage for 24 hours. See the " + env.discord.rulesChannel);
         })

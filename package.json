@@ -28,7 +28,6 @@
   "dependencies": {
     "express": "^3.4.4",
     "discord.js": "8.1.0",
-    "user-stream": "0.0.7",
     "timer.js": "1.0.4"
   },
   "devDependencies": {},
