@@ -41,6 +41,11 @@ The bot recognizes when new users are added to the server and greets then with a
 
 This is now on the to-do and hopeful will be updated and working soon.
 
+## To-Do
+
+- Add forum feed updater
+- Damage amount randomizer in raid message
+
 ## Help
 If you need help, you can always ask me.
 

@@ -49,7 +49,7 @@ bot.on('disconnected', () => {
 
 // Welcomes new members to the server
 bot.on('serverNewMember', (server, user) => {
-  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". Please make sure to read the " + env.discord.rulesChannel + ". If you ever need help, just use \"/help\" and I'll assist.");
+  bot.sendMessage(server.channels.get('name', 'general'), "Welcome, " + user.username + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you ever need help, just use \"/help\" and I'll assist.");
   console.log(user.username + ' joined the server: ' + server); // update console
 });
 
@@ -78,7 +78,7 @@ bot.on('message', msg => {
     if (msg.content.startsWith(prefix + 'rancor')) {
         timer.start(env.rancorTimer*3600); // convert hours to seconds
         timer.on('start', function() {
-            bot.sendMessage(env.discord.annChannel, "The Rancor Raid has been started. Only do 0 damage for 24 hours. See the " + env.discord.rulesChannel);
+            bot.sendMessage(env.discord.annChannel, "The Rancor Raid has been started. Only do 0 damage for 24 hours. See the <#" + env.discord.rulesChannel + ">");
         })
         timer.on('end', function() {
             bot.sendMessage(env.discord.annChannel, "It's been 24 hours since the raid has started. Everyone can attack like normal!");
@@ -101,7 +101,7 @@ bot.on('message', msg => {
 
 	// ----- Rules
 	if (msg.content.startsWith(prefix + "rules")) {
-		bot.sendMessage(msg, "The rules are updated in the #rules channel.");
+		bot.sendMessage(msg, "The rules are updated in the <#" + env.discord.rulesChannel + "> channel.");
 		console.log(msg.author.username + " asked me about the rules"); // update console
 	}
 
