@@ -49,7 +49,7 @@ bot.on('disconnected', () => {
 
 // Welcomes new members to the server
 bot.on('guildMemberAdd', (guild, member) => {
-  bot.channels.sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
+  guild.defaultChannel.sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
   console.log(member.nickname + ' joined the server: ' + server); // update console
 });
 
@@ -78,10 +78,10 @@ bot.on('message', message => {
     if (message.content.startsWith(prefix + 'rancor')) {
         timer.start(env.rancorTimer*3600); // convert hours to seconds
         timer.on('start', function() {
-            message.channel.sendMessage("The Rancor Raid has been started. Only do 0 damage for 24 hours. See the <#" + env.discord.rulesChannel + ">");
+            message.guild.channels.find('name', 'announcements').sendMessage("The Rancor Raid has been started. Only do 0 damage for 24 hours. See the <#" + env.discord.rulesChannel + ">");
         })
         timer.on('end', function() {
-            message.channel.sendMessage("It's been 24 hours since the raid has started. Everyone can attack like normal!");
+            message.guild.channels.find('name', 'announcements').sendMessage("It's been 24 hours since the raid has started. Everyone can attack like normal!");
         })
         console.log(message.author.username + ' has started the Rancor Raid timer') // update console
     }
