@@ -108,7 +108,7 @@ client.on('message', message => {
 
 	// ----- What's my name?
 	if (message.content.startsWith(prefix + 'name')) {
-		message.channel.sendTTSMessage("I love it when you call me big pop-pa!");
+		message.channel.sendMessage("I love it when you call me big pop-pa!", tts);
 		console.log("I told " + message.author.username + " what I like to be called"); //update console
 	}
 
