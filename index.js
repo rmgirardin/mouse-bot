@@ -27,7 +27,7 @@ var helpArray = [
 
 // ----- Connecting Mouse Bot ----- //
 client.on('ready', () => {
-    client.channels.get(env.discord.generalChannel).sendMessage("<Vrrrrrvd tkk tkkdtk>");
+    // client.channels.get(env.discord.generalChannel).sendMessage("<Vrrrrrvd tkk tkkdtk>");
 	console.log("%s is servering %s channel(s) over %s server(s)", client.user.username, client.channels.size, client.guilds.size);
 });
 
