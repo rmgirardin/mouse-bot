@@ -106,9 +106,9 @@ client.on('message', message => {
 		console.log(message.author.username + " asked me about the rules"); // update console
 	}
 
-	// ----- What's my name?
+    // ----- What's my name again?
 	if (message.content.startsWith(prefix + 'name')) {
-		message.channel.sendMessage("I love it when you call me big pop-pa!");
+		message.channel.sendFile('big_poppa.gif');
 		console.log("I told " + message.author.username + " what I like to be called"); //update console
 	}
 
