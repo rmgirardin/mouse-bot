@@ -31,8 +31,9 @@ The bot recognizes when new users are added to the server and greets then with a
 - /rules
     - tells you to visit the `#rules` channel
 - /convert
-    - Converts the percent amount to damage in raids
-    - Only works for all of the phases of Rancor Tier 7 right now.
+    - Can convert the percent amount to damage in raids (must include the word 'percent' or '%' to work)
+    - Can convert the amount of damage you need to do to a percent value
+    - Only works for all of the phases of Rancor Tier 7 right now
 
 ## To-Do
 

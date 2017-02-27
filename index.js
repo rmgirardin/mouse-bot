@@ -22,7 +22,8 @@ const p4PitDamage = 21230;
 var helpArray = [
     "/dailies",
     "/ch (character name)",
-    "/convert __% (raid and phase)",
+    "/convert __% (raid and phase) [converts percent to damage]",
+    "/convert __ (raid and phase) [converts damage to percent]",
     "/help (command)"];
 
 // ----- Connecting Mouse Bot ----- //
@@ -60,25 +61,59 @@ client.on('message', message => {
         extractNumber(message);
             if (message.content.includes('pit') || message.content.includes('rancor')) {
             var raid = "pit";
+
             if (message.content.includes('p1') || message.content.includes('phase1')) {
                 var phase = "1";
-                var damageInt = Math.round(p1PitDamage*percentFloat);
-                convertionMessage(message, percentFloat, damageInt, phase, raid);
-            } if (message.content.includes('p2') || message.content.includes('phase2')) {
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p1PitDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p1PitDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+            }
+
+            if (message.content.includes('p2') || message.content.includes('phase2')) {
                 var phase = "2";
-                var damageInt = Math.round(p2PitDamage*percentFloat);
-                convertionMessage(message, percentFloat, damageInt, phase, raid);
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p2PitDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p2PitDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+
             } if (message.content.includes('p3') || message.content.includes('phase3')) {
                 var phase = "3";
-                var damageInt = Math.round(p3PitDamage*percentFloat);
-                convertionMessage(message, percentFloat, damageInt, phase, raid);
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p3PitDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p3PitDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+
             } if (message.content.includes('p4') || message.content.includes('phase4')) {
                 var phase = "4";
-                var damageInt = Math.round(p4PitDamage*percentFloat);
-                convertionMessage(message, percentFloat, damageInt, phase, raid);
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p4PitDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p4PitDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
             }
-            break breakme;
-        } if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
+        }
+
+        if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
             message.channel.sendMessage("I don't have any information on the damage of the Tank Takedown Heroic raid yet.");
             console.log(message.author.username + ' asked me to convert percent to damage for the Tank Takedown raid'); // update console
             break breakme;
@@ -151,9 +186,14 @@ function characterLookup(message) {
 }
 
 // ----- Sends the convertion command message
-function convertionMessage(message, percentFloat, damageInt, phase, raid) {
-    message.channel.sendMessage(percentFloat + "% is about " + damageInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
-    console.log(message.author.username + ' asked me to convert percent to damage for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
+function convertionMessage(message, numFloat, numInt, phase, raid, toPercent) {
+    if (toPercent == true) {
+        message.channel.sendMessage(numFloat.toLocaleString() + " damage is about " + numInt + "% in Phase " + phase + " of the " + raid + " raid.");
+        console.log(message.author.username + ' asked me to convert damage to percent for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
+    } else {
+        message.channel.sendMessage(numFloat + "% is about " + numInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
+        console.log(message.author.username + ' asked me to convert percent to damage for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
+    }
 }
 
 // ----- Check day of the week and time against the guild reset time and guild activities
@@ -200,14 +240,14 @@ function dayCheck(message) {
 	}
 }
 
-// ----- Extracts the number from a string and assigns it to the variable "percentFloat"
+// ----- Extracts the number from a string and assigns it to the variable "numFloat"
 function extractNumber(message) {
     var messageArray = message.toString().split(' ');
     for (i = 0; i < messageArray.length; i++) {
-        j = parseFloat(messageArray[i]);
+        j = parseFloat(messageArray[i].replace(/,/g, ''));
         if (!isNaN(j)) {
-            percentFloat = j;
-            return percentFloat;
+            numFloat = j;
+            return numFloat;
         }
     }
 }
