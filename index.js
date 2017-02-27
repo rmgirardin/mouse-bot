@@ -13,9 +13,9 @@ const day3 = "**Galactic War Battles**";
 const day4 = "**Hard Mode Battles**";
 const day5 = "**Challenges**";
 const day6 = "**Dark Side Battles**";
-const p1PitDamage = 18725;
+const p1PitDamage = 18707;
 const p2PitDamage = 30063;
-const p3PitDamage = 32889;
+const p3PitDamage = 32884;
 const p4PitDamage = 21230;
 
 // Help Array for /help command
@@ -33,7 +33,7 @@ client.on('ready', () => {
 
 // When the Mouse Bot disconnects
 client.on('disconnected', () => {
-    client.channels.get(env.discord.generalChannel).sendMessage("<RRRRDDTT!!!! Wewewedt! Veeeeedt!>");
+    // client.channels.get(env.discord.generalChannel).sendMessage("<RRRRDDTT!!!! Wewewedt! Veeeeedt!>");
 	console.log("%s has powered down", client.user.username);
 	process.exit(1); //exit node.js with an error
 });
@@ -62,20 +62,20 @@ client.on('message', message => {
             var raid = "pit";
             if (message.content.includes('p1') || message.content.includes('phase1')) {
                 var phase = "1";
-                var damageInt = p1PitDamage*eNum;
-                convertionMessage(message, eNum, damageInt, phase, raid);
+                var damageInt = Math.round(p1PitDamage*percentFloat);
+                convertionMessage(message, percentFloat, damageInt, phase, raid);
             } if (message.content.includes('p2') || message.content.includes('phase2')) {
                 var phase = "2";
-                var damageInt = p2PitDamage*eNum;
-                convertionMessage(message, eNum, damageInt, phase, raid);
+                var damageInt = Math.round(p2PitDamage*percentFloat);
+                convertionMessage(message, percentFloat, damageInt, phase, raid);
             } if (message.content.includes('p3') || message.content.includes('phase3')) {
                 var phase = "3";
-                var damageInt = p3PitDamage*eNum;
-                convertionMessage(message, eNum, damageInt, phase, raid);
+                var damageInt = Math.round(p3PitDamage*percentFloat);
+                convertionMessage(message, percentFloat, damageInt, phase, raid);
             } if (message.content.includes('p4') || message.content.includes('phase4')) {
                 var phase = "4";
-                var damageInt = p4PitDamage*eNum;
-                convertionMessage(message, eNum, damageInt, phase, raid);
+                var damageInt = Math.round(p4PitDamage*percentFloat);
+                convertionMessage(message, percentFloat, damageInt, phase, raid);
             }
             break breakme;
         } if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
@@ -106,7 +106,7 @@ client.on('message', message => {
 		console.log(message.author.username + " asked me about the rules"); // update console
 	}
 
-    // ----- What's my name again?
+	// ----- What's my name again?
 	if (message.content.startsWith(prefix + 'name')) {
 		message.channel.sendFile('big_poppa.gif');
 		console.log("I told " + message.author.username + " what I like to be called"); //update console
@@ -151,8 +151,8 @@ function characterLookup(message) {
 }
 
 // ----- Sends the convertion command message
-function convertionMessage(message, eNum, damageInt, phase, raid) {
-    message.channel.sendMessage(eNum + "% is about " + damageInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
+function convertionMessage(message, percentFloat, damageInt, phase, raid) {
+    message.channel.sendMessage(percentFloat + "% is about " + damageInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
     console.log(message.author.username + ' asked me to convert percent to damage for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
 }
 
@@ -200,14 +200,14 @@ function dayCheck(message) {
 	}
 }
 
-// ----- Extracts the number from a string and assigns it to the variable "eNum"
+// ----- Extracts the number from a string and assigns it to the variable "percentFloat"
 function extractNumber(message) {
     var messageArray = message.toString().split(' ');
     for (i = 0; i < messageArray.length; i++) {
-        j = parseInt(messageArray[i]);
+        j = parseFloat(messageArray[i]);
         if (!isNaN(j)) {
-            eNum = j;
-            return eNum;
+            percentFloat = j;
+            return percentFloat;
         }
     }
 }
