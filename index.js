@@ -58,10 +58,13 @@ client.on('message', message => {
 
     // ----- Raid Percent Converter
     breakme: if (message.content.startsWith(prefix + 'convert')) {
-        extractNumber(message);
-            if (message.content.includes('pit') || message.content.includes('rancor')) {
-            var raid = "pit";
+        extractNumber(message); // Extracts the damage or percent from the user's command message
 
+        // The Pit Raid (if "pit" or "rancor" is in the message)
+            if (message.content.includes('pit') || message.content.includes('rancor')) {
+            var raid = "The Pit";
+
+            // The Pit - Phase 1
             if (message.content.includes('p1') || message.content.includes('phase1')) {
                 var phase = "1";
                 if (message.content.includes('%') || message.content.includes('percent')) {
@@ -75,6 +78,7 @@ client.on('message', message => {
                 } break breakme;
             }
 
+            // The Pit - Phase 2
             if (message.content.includes('p2') || message.content.includes('phase2')) {
                 var phase = "2";
                 if (message.content.includes('%') || message.content.includes('percent')) {
@@ -86,8 +90,10 @@ client.on('message', message => {
                     var percentInt = (numFloat/p2PitDamage).toFixed(2);
                     convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
                 } break breakme;
+            }
 
-            } if (message.content.includes('p3') || message.content.includes('phase3')) {
+            // The Pit - Phase 3
+            if (message.content.includes('p3') || message.content.includes('phase3')) {
                 var phase = "3";
                 if (message.content.includes('%') || message.content.includes('percent')) {
                     toPercent = false;
@@ -98,8 +104,10 @@ client.on('message', message => {
                     var percentInt = (numFloat/p3PitDamage).toFixed(2);
                     convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
                 } break breakme;
+            }
 
-            } if (message.content.includes('p4') || message.content.includes('phase4')) {
+            // The Pit - Phase 4
+            if (message.content.includes('p4') || message.content.includes('phase4')) {
                 var phase = "4";
                 if (message.content.includes('%') || message.content.includes('percent')) {
                     toPercent = false;
@@ -113,20 +121,27 @@ client.on('message', message => {
             }
         }
 
+        // Tank Takedown Raid (if "tank" or "aat" or "haat" is in the message)
         if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
+            var raid = "Tank Takedown";
+
+            // Currently lets the user know that data has not been collected for the HAAT raid
             message.channel.sendMessage("I don't have any information on the damage of the Tank Takedown Heroic raid yet.");
             console.log(message.author.username + ' asked me to convert percent to damage for the Tank Takedown raid'); // update console
             break breakme;
-        } else {
-            message.channel.sendMessage("I can help you convert raid percentage to damage. Use the following format: `/convert __%  pit  p1`");
-            console.log('I told ' + message.author.username + ' how to convert raid percentage to damage.') // update console
+        }
+
+        // If the user's command message does not include a number, the raid and the phase, Mouse Bot will remind the user of the command format
+        else {
+            message.channel.sendMessage("I can help you convert raid percentage to damage or damage to percent. Try using the following format: `/convert __%  pit  p1`");
+            console.log('I told ' + message.author.username + ' how to use the convert command.') // update console
         }
     }
 
 	// ----- Dailies
 	if (message.content.startsWith(prefix + 'dailies')) {
 		dayCheck(message);
-		console.log("Gave " + message.author.username + " the dailies update"); //update console
+		console.log('Gave ' + message.author.username + ' the dailies update'); //update console
 	}
 
 	// ----- Character Seach
@@ -138,13 +153,13 @@ client.on('message', message => {
 	// ----- Rules
 	if (message.content.startsWith(prefix + 'rules')) {
 		message.channel.sendMessage("The rules are located in the <#" + env.discord.rulesChannel + "> channel.");
-		console.log(message.author.username + " asked me about the rules"); // update console
+		console.log(message.author.username + ' asked me about the rules'); // update console
 	}
 
 	// ----- What's my name again?
 	if (message.content.startsWith(prefix + 'name')) {
 		message.channel.sendFile('big_poppa.gif');
-		console.log("I told " + message.author.username + " what I like to be called"); //update console
+		console.log('I told ' + message.author.username + ' what I like to be called'); //update console
 	}
 
 	// ----- Time
