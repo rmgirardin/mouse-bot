@@ -40,11 +40,11 @@ client.on('disconnected', () => {
 });
 
 // Welcome new members to the server
-client.on('guildMemberAdd', (member) => {
-    const guild = member.guild;
-    guild.channels.get(guild.id).sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
-    console.log(member.nickname + ' joined the server: ' + server); // update console when member joins
-});
+// client.on('guildMemberAdd', (member) => {
+//     const guild = member.guild;
+//     guild.channels.get(guild.id).sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
+//     console.log(member.nickname + ' joined the server: ' + server); // update console when member joins
+// });
 
 // ----- /COMMANDS ----- //
 
