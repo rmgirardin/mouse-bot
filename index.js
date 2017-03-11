@@ -17,6 +17,10 @@ const p1PitDamage = 18707;
 const p2PitDamage = 30063;
 const p3PitDamage = 32884;
 const p4PitDamage = 21230;
+const p1TankDamage = 4300000/100;
+const p2TankDamage = 19200000/100;
+const p3TankDamage = 12000000/100;
+const p4TankDamage = 12000000/100;
 
 // Help Array for /help command
 var helpArray = [
@@ -41,7 +45,7 @@ client.on('disconnected', () => {
 
 // Welcome new members to the server
 // client.on('guildMemberAdd', (member) => {
-//     const guild = member.guild;
+//     var guild = member.guild;
 //     guild.channels.get(guild.id).sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
 //     console.log(member.nickname + ' joined the server: ' + server); // update console when member joins
 // });
@@ -125,10 +129,61 @@ client.on('message', message => {
         if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
             var raid = "Tank Takedown";
 
-            // Currently lets the user know that data has not been collected for the HAAT raid
-            message.channel.sendMessage("I don't have any information on the damage of the Tank Takedown Heroic raid yet.");
-            console.log(message.author.username + ' asked me to convert percent to damage for the Tank Takedown raid'); // update console
-            break breakme;
+            // Tank Takedown - Phase 1
+            if (message.content.includes('p1') || message.content.includes('phase1')) {
+                var phase = "1";
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p1TankDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p1TankDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+            }
+
+            // Tank Takedown - Phase 2
+            if (message.content.includes('p2') || message.content.includes('phase2')) {
+                var phase = "2";
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p2TankDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p2TankDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+            }
+
+            // Tank Takedown - Phase 3
+            if (message.content.includes('p3') || message.content.includes('phase3')) {
+                var phase = "3";
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p3TankDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p3TankDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+            }
+
+            // Tank Takedown - Phase 4
+            if (message.content.includes('p4') || message.content.includes('phase4')) {
+                var phase = "4";
+                if (message.content.includes('%') || message.content.includes('percent')) {
+                    toPercent = false;
+                    var damageInt = Math.round(p4TankDamage*numFloat);
+                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
+                } else {
+                    toPercent = true;
+                    var percentInt = (numFloat/p4TankDamage).toFixed(2);
+                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
+                } break breakme;
+            }
         }
 
         // If the user's command message does not include a number, the raid and the phase, Mouse Bot will remind the user of the command format
