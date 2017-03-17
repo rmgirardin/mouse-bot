@@ -233,7 +233,7 @@ client.on('message', message => {
         var messageSubstring = message.content.substr(6);
         var str = messageSubstring.replace('/','');
         if (str.length < 1) {
-            message.channel.sendMessage("Try using some of the following commands:```" + '\n' + helpLoop() + "```");
+            message.channel.sendMessage("Try using some of the following commands: ```" + '\n' + helpLoop() + "```");
         } else if (env.help[str]) {
             message.channel.sendMessage(env.help[str]);
         } else {
