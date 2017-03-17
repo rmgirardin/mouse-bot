@@ -28,6 +28,9 @@ var helpArray = [
     "/ch (character name)",
     "/convert __% (raid and phase) [converts percent to damage]",
     "/convert __ (raid and phase) [converts damage to percent]",
+    "/rules",
+    "/no",
+    "/yes",
     "/help (command)"];
 
 // ----- Connecting Mouse Bot ----- //
@@ -217,6 +220,18 @@ client.on('message', message => {
 		console.log('I told ' + message.author.username + ' what I like to be called'); //update console
 	}
 
+    // ----- Send Noooooo! gif
+    if (message.content.startsWith(prefix + 'no')) {
+        message.channel.sendFile('vader_no.gif');
+        console.log('I sent the Nooooooo! gif for ' + message.author.username); //update console
+    }
+
+    // ----- Send Vader Dance gif
+    if (message.content.startsWith(prefix + 'yes') || message.content.startsWith(prefix + 'dance')) {
+        message.channel.sendFile('vader_dance.gif');
+        console.log('I sent the Vader Dance gif for ' + message.author.username); //update console
+    }
+
 	// ----- Time
 	if (message.content.startsWith(prefix + 'time')) {
 		var date = new Date();
@@ -233,7 +248,7 @@ client.on('message', message => {
         var messageSubstring = message.content.substr(6);
         var str = messageSubstring.replace('/','');
         if (str.length < 1) {
-            message.channel.sendMessage("Try using some of the following commands: ```" + '\n' + helpLoop() + "```");
+            message.channel.sendMessage("Try using some of the following commands:"  + '\n' + "```" + helpLoop() + "```");
         } else if (env.help[str]) {
             message.channel.sendMessage(env.help[str]);
         } else {
