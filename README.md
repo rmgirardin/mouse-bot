@@ -9,14 +9,14 @@ To run off of your computer, you'll first need [node 0.12+](https://www.npmjs.co
 
 Then install discord.js through the terminal: `npm install discord.js`<br>
 
-Open `config.json.example` and add keys to the blank fields. For `token` add you're bots token from the [Discord App](https://discordapp.com/developers/applications/me) page. Then add the announcements channel ID to `generalChannel` and do the same for `annChannel` and `officerChannel`. If you do not use an officer channel, you can just put the general channel's ID here. (If you don't know how to find the channel ID, follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-server-ID-)). Finally, rename `config.json.example` to `config.json`.
+Open `config.json.example` and add keys to the blank fields. For `token` add you're bots token from the [Discord App](https://discordapp.com/developers/applications/me) page. Then add the rules channel ID to `rulesChannel`. If you do not use a rules channel, you can just ignore this (just don't use the `/rules` command or comment out that command in the code). (If you don't know how to find the channel ID, follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-server-ID-)). Finally, rename `config.json.example` to `config.json`.
 
 Now you can use `node app.js` in the terminal in your mouse-bot directory folder. Alternatively you can use `node ` and drag the folder path into the terminal.
 
 ## Functionality
 
-#### New Members Added to Server
-The bot recognizes when new users are added to the server and greets then with a custom greeting. By default, Mouse Bot greets the user and tells them to review the `#rules` channel.
+#### ~~New Members Added to Server~~
+~~The bot recognizes when new users are added to the server and greets then with a custom greeting. By default, Mouse Bot greets the user and tells them to review the `#rules` channel.~~
 
 #### Commands
 
@@ -33,12 +33,19 @@ The bot recognizes when new users are added to the server and greets then with a
 - /convert
     - Can convert the percent amount to damage in raids (must include the word 'percent' or '%' to work)
     - Can convert the amount of damage you need to do to a percent value
-    - Only works for all of the phases of Rancor Tier 7 right now
+    - Works for both Tier 7 Rancor Raid and the Heroic Tank Takedown raid
+        - Heroic Tank Takedown raid values are estimates as of now
+- /no
+    - Mouse bot responds with a gif: `vader_no.gif`
+- /yes
+    - Mouse bot responds with a gif: `vader_dance.gif`
 
 ## To-Do
 
-- Add forum feed updater
+- Add forum feed updater (might go back to using twitter)
 - Clean and consolidate code
+- Reimplement welcome when new members join the server
+- ignore `/rules` command if there is no rules channel ID.
 
 ## Help
 If you need help, you can always ask me.

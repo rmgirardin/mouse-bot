@@ -26,14 +26,14 @@ const p4TankDamage = 12000000/100;
 var helpArray = [
     "/dailies",
     "/ch (character name)",
-    "/convert __% (raid and phase) [converts percent to damage]",
-    "/convert __ (raid and phase) [converts damage to percent]",
+    "/convert __% (raid and phase)",
+    "/convert __ (raid and phase)",
     "/rules",
     "/no",
     "/yes",
     "/help (command)"];
 
-// ----- Connecting Mouse Bot ----- //
+// ===== Connecting Mouse Bot ===== //
 client.on('ready', () => {
     // client.channels.get(env.discord.generalChannel).sendMessage("<Vrrrrrvd tkk tkkdtk>");
 	console.log("%s is servering %s channel(s) over %s server(s)", client.user.username, client.channels.size, client.guilds.size);
@@ -53,7 +53,7 @@ client.on('disconnected', () => {
 //     console.log(member.nickname + ' joined the server: ' + server); // update console when member joins
 // });
 
-// ----- /COMMANDS ----- //
+// ===== /COMMANDS ===== //
 
 client.on('message', message => {
 
@@ -258,7 +258,7 @@ client.on('message', message => {
     }
 });
 
-// ----- FUNCTIONS ----- //
+// ===== FUNCTIONS ===== //
 
 // ----- Edit the user's message to look up on swgoh.gg
 function characterLookup(message) {
@@ -272,10 +272,13 @@ function characterLookup(message) {
 
 // ----- Sends the convertion command message
 function convertionMessage(message, numFloat, numInt, phase, raid, toPercent) {
+    // Damage -> Percent
     if (toPercent == true) {
         message.channel.sendMessage(numFloat.toLocaleString() + " damage is about " + numInt + "% in Phase " + phase + " of the " + raid + " raid.");
         console.log(message.author.username + ' asked me to convert damage to percent for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
-    } else {
+    }
+    // Percent -> Damage
+    else {
         message.channel.sendMessage(numFloat + "% is about " + numInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
         console.log(message.author.username + ' asked me to convert percent to damage for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
     }
