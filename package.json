@@ -1,36 +1,30 @@
 {
   "name": "mouse-bot",
-  "version": "1.1.1",
-  "description": "A Discord bot for Star Wars: Galaxy of Heroes based on discord.js",
+  "version": "1.2.0",
+  "description": "A Discord bot for Star Wars: Galaxy of Heroes.",
   "main": "index.js",
-  "keywords": [
-    "Discord",
-    "Node.js",
-    "discord.js",
-    "bot",
-    "Star Wars",
-    "Galaxy of Heroes",
-    "SWGoH"
-  ],
-  "author": {
-    "name": "Richard Girardin",
-    "email": "rm@girard.in",
-    "url": "http://girard.in/"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "liscence": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rmgirardin/mouse-bot"
+    "url": "git+https://github.com/rmgirardin/mouse-bot.git"
   },
-  "engines": {
-    "node": ">= 0.6.0",
-    "npm": ">= 1.0.0"
+  "keywords": [
+    "Discord",
+    "Star",
+    "Wars",
+    "bot",
+    "SWGoH",
+    "discord.js"
+  ],
+  "author": "Richard Girardin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rmgirardin/mouse-bot/issues"
   },
+  "homepage": "https://github.com/rmgirardin/mouse-bot#readme",
   "dependencies": {
-    "discord.js": "^11.0.0"
-  },
-  "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node index.js"
+    "discord.js": "^11.1.0"
   }
 }
