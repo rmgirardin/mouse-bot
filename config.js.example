@@ -5,7 +5,7 @@ const config = {
     // Default Settings that every new server will begin with
     // These must be edited within Discord if the bot has already been invited
     "defaultSettings" : {
-        "prefix": "-",
+        "prefix": "/",
         "modLogChannel": "mod-log",
         "aChannel": "general",
         "modRole": "Moderator",
