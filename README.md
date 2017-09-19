@@ -28,7 +28,7 @@ Rename `config.js.example` to `config.js`
 
 With your code editor, open the config.js file:
 - Enter your bot’s token within the empty quotation marks after `"token":`
-- Enter your Discord ID within the empty quotation marks after `"ownerID":`
+- Enter your Discord ID within the empty quotation marks after `"admins":`
 - To get your Discord ID follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
 
 In the command prompt within the root project folder directory, you can run the bot with `node index.js`.
