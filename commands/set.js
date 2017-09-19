@@ -43,7 +43,7 @@ exports.run = async (client, message, cmd, [action, key, ...value], level) => {
         // admin role or it is a different name, an "Administrator" role must
         // first be created in order to change this setting.
         if (key === "adminRole") {
-            if (level > 3) return message.channel.send("You do not have permission to edit this setting.");
+            if (level < 3) return message.channel.send("You do not have permission to edit this setting.");
             client.addPoints(message, -1);
         }
 
