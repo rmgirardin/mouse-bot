@@ -1,352 +1,70 @@
-const Discord = require('discord.js');
+if (process.version.slice(1).split(".")[0] < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
+
+const Discord = require("discord.js");
+const {promisify} = require("util");
+const readdir = promisify(require("fs").readdir);
+const Enmap = require("enmap");
+
 const client = new Discord.Client();
-const env = require('./config.json');
 
-// Defining the variables for the dailies
-const guildReset = env.guildReset;
-const rnow = "Right now it's ";
-const greset = "Later will be ";
-const day0 = "**Squad Arena**";
-const day1 = "**Cantina Energy**";
-const day2 = "**Light Side Battles**";
-const day3 = "**Galactic War Battles**";
-const day4 = "**Hard Mode Battles**";
-const day5 = "**Challenges**";
-const day6 = "**Dark Side Battles**";
-const p1PitDamage = 18707;
-const p2PitDamage = 30063;
-const p3PitDamage = 32884;
-const p4PitDamage = 21230;
-const p1TankDamage = 4300000/100;
-const p2TankDamage = 19200000/100;
-const p3TankDamage = 12000000/100;
-const p4TankDamage = 12000000/100;
+// Here we load the config and functions files
+client.config = require("./config.js");
+require("./modules/functions.js")(client);
 
-// Help Array for /help command
-var helpArray = [
-    "/dailies",
-    "/ch (character name)",
-    "/convert __% (raid and phase)",
-    "/convert __ (raid and phase)",
-    "/rules",
-    "/no",
-    "/yes",
-    "/help (command)"];
+// Aliases and commands are put in collections where they can be read from,
+// catalogued, listed, etc.
+client.commands = new Enmap();
+client.aliases = new Enmap();
 
-// ===== Connecting Mouse Bot ===== //
-client.on('ready', () => {
-    // client.channels.get(env.discord.generalChannel).sendMessage("<Vrrrrrvd tkk tkkdtk>");
-	console.log("%s is servering %s channel(s) over %s server(s)", client.user.username, client.channels.size, client.guilds.size);
-});
+// Setting up the Enhanced Map module
+client.settings = new Enmap({name: "settings", persistent: true});
+client.pointsTable = new Enmap({name: "points", persistent: true});
+client.profileTable = new Enmap({name: "profiles", persistent: true});
 
-// When the Mouse Bot disconnects
-client.on('disconnected', () => {
-    // client.channels.get(env.discord.generalChannel).sendMessage("<RRRRDDTT!!!! Wewewedt! Veeeeedt!>");
-	console.log("%s has powered down", client.user.username);
-	process.exit(1); //exit node.js with an error
-});
+const init = async () => {
 
-// Welcome new members to the server
-// client.on('guildMemberAdd', (member) => {
-//     var guild = member.guild;
-//     guild.channels.get(guild.id).sendMessage("Welcome, " + member.nickname + ". Please make sure to read the <#" + env.discord.rulesChannel + ">. If you need help, use \"/help\" and I'll assist.");
-//     console.log(member.nickname + ' joined the server: ' + server); // update console when member joins
-// });
+    // Now we load **commands** into memory, as a collection
+    const cmdFiles = await readdir("./commands/");
+    client.log("log", `Loading ${cmdFiles.length} commands:`, "Loading");
+    cmdFiles.forEach(f => {
+        try {
+            const props = require(`./commands/${f}`);
+            if (f.split(".").slice(-1)[0] !== "js") return;
+            client.log("log", `Loading Command: ${props.help.name}...`, "Loading");
+            client.commands.set(props.help.name, props);
+            props.conf.aliases.forEach(alias => {
+                client.aliases.set(alias, props.help.name);
+            });
+        } catch (e) {
+            client.log("log", `Unable to load command ${f}: ${e}`, "Error!!");
+        }
+    });
 
-// ===== /COMMANDS ===== //
-
-client.on('message', message => {
-
-    // Setting and checking for prefix
-    const prefix = "/";
-    if(!message.content.startsWith(prefix)) return;
-
-    if(message.author.bot) return; //Prevent botception
-
-    // ----- Raid Percent Converter
-    breakme: if (message.content.startsWith(prefix + 'convert')) {
-        extractNumber(message); // Extracts the damage or percent from the user's command message
-
-        // The Pit Raid (if "pit" or "rancor" is in the message)
-            if (message.content.includes('pit') || message.content.includes('rancor')) {
-            var raid = "The Pit";
-
-            // The Pit - Phase 1
-            if (message.content.includes('p1') || message.content.includes('phase1')) {
-                var phase = "1";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p1PitDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p1PitDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // The Pit - Phase 2
-            if (message.content.includes('p2') || message.content.includes('phase2')) {
-                var phase = "2";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p2PitDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p2PitDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // The Pit - Phase 3
-            if (message.content.includes('p3') || message.content.includes('phase3')) {
-                var phase = "3";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p3PitDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p3PitDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // The Pit - Phase 4
-            if (message.content.includes('p4') || message.content.includes('phase4')) {
-                var phase = "4";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p4PitDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p4PitDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
+    // Then we load events, which will include our message and ready event.
+    const evtFiles = await readdir("./events/");
+    client.log("log", `Loading ${evtFiles.length} events:`, "Loading");
+    evtFiles.forEach(file => {
+        try {
+            const eventName = file.split(".")[0];
+            const event = require(`./events/${file}`);
+            client.log("log", `Loading Event: ${eventName}...`, "Loading");
+            client.on(eventName, event.bind(null, client));
+            delete require.cache[require.resolve(`./events/${file}`)];
+        } catch (err) {
+            client.log("log", `Unable to load event ${file}: ${err}`, "Error!!");
         }
 
-        // Tank Takedown Raid (if "tank" or "aat" or "haat" is in the message)
-        if (message.content.includes('tank') || message.content.includes('AAT') || message.content.includes('HAAT')) {
-            var raid = "Tank Takedown";
+    });
 
-            // Tank Takedown - Phase 1
-            if (message.content.includes('p1') || message.content.includes('phase1')) {
-                var phase = "1";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p1TankDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p1TankDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // Tank Takedown - Phase 2
-            if (message.content.includes('p2') || message.content.includes('phase2')) {
-                var phase = "2";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p2TankDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p2TankDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // Tank Takedown - Phase 3
-            if (message.content.includes('p3') || message.content.includes('phase3')) {
-                var phase = "3";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p3TankDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p3TankDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-
-            // Tank Takedown - Phase 4
-            if (message.content.includes('p4') || message.content.includes('phase4')) {
-                var phase = "4";
-                if (message.content.includes('%') || message.content.includes('percent')) {
-                    toPercent = false;
-                    var damageInt = Math.round(p4TankDamage*numFloat);
-                    convertionMessage(message, numFloat, damageInt, phase, raid, toPercent);
-                } else {
-                    toPercent = true;
-                    var percentInt = (numFloat/p4TankDamage).toFixed(2);
-                    convertionMessage(message, numFloat, percentInt, phase, raid, toPercent);
-                } break breakme;
-            }
-        }
-
-        // If the user's command message does not include a number, the raid and the phase, Mouse Bot will remind the user of the command format
-        else {
-            message.channel.sendMessage("I can help you convert raid percentage to damage or damage to percent. Try using the following format: `/convert __%  pit  p1`");
-            console.log('I told ' + message.author.username + ' how to use the convert command.') // update console
-        }
+    // Generate a cache of client permissions
+    client.levelCache = {};
+    for (let i = 0; i < client.config.permLevels.length; i++) {
+        const thisLevel = client.config.permLevels[i];
+        client.levelCache[thisLevel.name] = thisLevel.level;
     }
 
-	// ----- Dailies
-	if (message.content.startsWith(prefix + 'dailies')) {
-		dayCheck(message);
-		console.log('Gave ' + message.author.username + ' the dailies update'); //update console
-	}
+    client.login(client.config.token);
 
-	// ----- Character Seach
-	if (message.content.startsWith(prefix + 'ch')) {
-		characterLookup(message);
-		console.log(message.author.username + ' asked me to search for character information'); // update console
-	}
+};
 
-	// ----- Rules
-	if (message.content.startsWith(prefix + 'rules')) {
-		message.channel.sendMessage("The rules are located in the <#" + env.discord.rulesChannel + "> channel.");
-		console.log(message.author.username + ' asked me about the rules'); // update console
-	}
-
-	// ----- What's my name again?
-	if (message.content.startsWith(prefix + 'name')) {
-		message.channel.sendFile('big_poppa.gif');
-		console.log('I told ' + message.author.username + ' what I like to be called'); //update console
-	}
-
-    // ----- Send Noooooo! gif
-    if (message.content.startsWith(prefix + 'no')) {
-        message.channel.sendFile('vader_no.gif');
-        console.log('I sent the Nooooooo! gif for ' + message.author.username); //update console
-    }
-
-    // ----- Send Vader Dance gif
-    if (message.content.startsWith(prefix + 'yes') || message.content.startsWith(prefix + 'dance')) {
-        message.channel.sendFile('vader_dance.gif');
-        console.log('I sent the Vader Dance gif for ' + message.author.username); //update console
-    }
-
-	// ----- Time
-	if (message.content.startsWith(prefix + 'time')) {
-		var date = new Date();
-		var day = date.getDay();
-		var hour = date.getHours();
-		var minute = date.getMinutes();
-		var time = hour.toString() + minute.toString();
-		message.channel.sendMessage("The time is " + time + " and the day is " + day);
-        console.log(message.author.username + ' asked for the time'); //update console
-	}
-
-    // ----- Help
-    if (message.content.startsWith(prefix + 'help')) {
-        var messageSubstring = message.content.substr(6);
-        var str = messageSubstring.replace('/','');
-        if (str.length < 1) {
-            message.channel.sendMessage("Try using some of the following commands:"  + '\n' + "```" + helpLoop() + "```");
-        } else if (env.help[str]) {
-            message.channel.sendMessage(env.help[str]);
-        } else {
-            message.channel.sendMessage("I don't know that command. Make sure it's spelled correctly and try typing it again. For a list of commands, type \"/help\".");
-        }
-        console.log(message.author.username + ' asked for help on ' + str); //update console
-    }
-});
-
-// ===== FUNCTIONS ===== //
-
-// ----- Edit the user's message to look up on swgoh.gg
-function characterLookup(message) {
-	var messageSubstring = message.content.substr(3);
-	var messageTrimmed = messageSubstring.trim();
-	var messageReplaced = messageTrimmed.replace(" ","+");
-	message.channel.sendMessage("<http://www.google.com/webhp?#q=" + messageReplaced + "+swgoh.gg+feeling+lucky&btnI>"); // Uses Google's "I'm feeling lucky" to search on swgoh.gg
-// If the link above does not work, try using the link below
-//        message.channel.sendMessage("http://www.google.com/search?ie=UTF-8&oe=UTF-8&sourceid=navclient&gfns=1&q=" + messageReplaced + "+swgoh.gg");
-}
-
-// ----- Sends the convertion command message
-function convertionMessage(message, numFloat, numInt, phase, raid, toPercent) {
-    // Damage -> Percent
-    if (toPercent == true) {
-        message.channel.sendMessage(numFloat.toLocaleString() + " damage is about " + numInt + "% in Phase " + phase + " of the " + raid + " raid.");
-        console.log(message.author.username + ' asked me to convert damage to percent for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
-    }
-    // Percent -> Damage
-    else {
-        message.channel.sendMessage(numFloat + "% is about " + numInt.toLocaleString() + " damage in Phase " + phase + " of the " + raid + " raid.");
-        console.log(message.author.username + ' asked me to convert percent to damage for Phase ' + phase + ' of the ' + raid + ' raid.'); // update console
-    }
-}
-
-// ----- Check day of the week and time against the guild reset time and guild activities
-function dayCheck(message) {
-	var date = new Date();
-	var day = date.getDay();
-	var hour = date.getHours();
-	var minute = date.getMinutes();
-	var time = hour.toString() + minute.toString();
-
-	if (time > guildReset) {
-		if (day == 0) {
-			message.channel.sendMessage(rnow + day0 + '\n' + greset + day1);
-		} else if (day == 1) {
-			message.channel.sendMessage(rnow + day1 + '\n' + greset + day2);
-		} else if (day == 2) {
-			message.channel.sendMessage(rnow + day2 + '\n' + greset + day3);
-		} else if (day == 3) {
-			message.channel.sendMessage(rnow + day3 + '\n' + greset + day4);
-		} else if (day == 4) {
-			message.channel.sendMessage(rnow + day4 + '\n' + greset + day5);
-		} else if (day == 5) {
-			message.channel.sendMessage(rnow + day5 + '\n' + greset + day6);
-		} else if (day == 6) {
-			message.channel.sendMessage(rnow + day6 + '\n' + greset + day0);
-		}
-
-	} else {
-		if (day == 1) {
-			message.channel.sendMessage(rnow + day1 + '\n' + greset + day2);
-		} else if (day == 2) {
-			message.channel.sendMessage(rnow + day2 + '\n' + greset + day3);
-		} else if (day == 3) {
-			message.channel.sendMessage(rnow + day3 + '\n' + greset + day4);
-		} else if (day == 4) {
-			message.channel.sendMessage(rnow + day4 + '\n' + greset + day5);
-		} else if (day == 5) {
-			message.channel.sendMessage(rnow + day5 + '\n' + greset + day6);
-		} else if (day == 6) {
-			message.channel.sendMessage(rnow + day6 + '\n' + greset + day0);
-		}  else if (day == 0) {
-			message.channel.sendMessage(rnow + day0 + '\n' + greset + day1);
-		}
-	}
-}
-
-// ----- Extracts the number from a string and assigns it to the variable "numFloat"
-function extractNumber(message) {
-    var messageArray = message.toString().split(' ');
-    for (i = 0; i < messageArray.length; i++) {
-        j = parseFloat(messageArray[i].replace(/,/g, ''));
-        if (!isNaN(j)) {
-            numFloat = j;
-            return numFloat;
-        }
-    }
-}
-
-// ----- List helpArray and return as string with line breaks
-function helpLoop() {
-	var text = "";
-	for (i = 0; i < helpArray.length; i++) {
-		text += '\n' + helpArray[i];
-	}
-	return text;
-}
-
-client.login(env.discord.token);
+init();

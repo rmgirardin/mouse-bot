@@ -1,0 +1,91 @@
+const config = {
+    "ownerID": "",
+    "token"  : "",
+
+    // Default Settings that every new server will begin with
+    // These must be edited within Discord if the bot has already been invited
+    "defaultSettings" : {
+        "prefix": "-",
+        "modLogChannel": "mod-log",
+        "aChannel": "general",
+        "modRole": "Moderator",
+        "adminRole": "Administrator",
+        "welcomeEnabled": "true",
+        "pointsEnabled": "false",
+        "roleRewardsEnabled": "true",
+        "guildReset": 2030,
+        "hasCommand": "captain-han-solo, hoth-rebel-soldier, hoth-rebel-scout",
+        "welcomeMessage": "Welcome to {{server}}, {{user}}! We're glad to have you! Please take a second to enter your swgoh.gg username by typing `{{prefix}}profile <username>`. If you need any help, just type \`{{prefix}}help\` and I'll assist!"
+    },
+
+    // These are used for the roleRewards within the point system
+    roleRewards: [
+        { level: 0,   name: "Youngling" },
+        { level: 5,   name: "Padawan" },
+        { level: 10,  name: "Jedi Knight" },
+        { level: 20,  name: "Jedi Commander" },
+        { level: 35,  name: "Jedi Master" },
+        { level: 50,  name: "Jedi General" },
+        { level: 75,  name: "Grand Master" },
+        { level: 100, name: "Master of the Order" },
+    ],
+
+    permLevels: [{
+        level: 0,
+        name: "User",
+        check: () => true
+    },
+    {
+        level: 2,
+        name: "Moderator",
+        check: (message) => {
+            try {
+                const modRole = message.guild.roles.find(r => r.name.toLowerCase() === message.settings.modRole.toLowerCase());
+                if (modRole && message.member.roles.has(modRole.id)) return true;
+            } catch (e) {
+                return false;
+            }
+        }
+    },
+    {
+        level: 3,
+        name: "Administrator",
+        check: (message) => {
+            try {
+                const adminRole = message.guild.roles.find(r => r.name.toLowerCase() === message.settings.adminRole.toLowerCase());
+                return (adminRole && message.member.roles.has(adminRole.id));
+            } catch (e) {
+                return false;
+            }
+        }
+    },
+    {
+        level: 4,
+        name: "Server Owner",
+        check: (message) => message.channel.type === "text" ? (message.guild.owner.user.id === message.author.id ? true : false) : false
+    },
+    {
+        level: 9,
+        name: "Bot Admin",
+        check: (message) => {
+            try {
+                if (config.admins.includes(message.author.id)) return true;
+            } catch (e) {
+                return false;
+            }
+        }
+    },
+    {
+        level: 10,
+        name: "Bot Owner",
+        check: (message) => {
+            try {
+                if (message.client.config.ownerID === message.author.id) return true;
+            } catch (e) {
+                return false;
+            }
+        }
+    }]
+};
+
+module.exports = config;

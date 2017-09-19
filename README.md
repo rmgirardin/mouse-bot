@@ -1,53 +1,49 @@
-# Mouse Bot
+# Mouse Bot 2.0
+Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
-A helpful Discord bot for Star Wars: Galaxy of Heroes.<br>
-This bot uses [discord.js](https://github.com/hydrabolt/discord.js.git) API for node.js.
+I started Mouse Bot as a side project mostly for myself. It started off with just the dailies command. Then my guild began to use it more often when I created the convert command. Now I’m happy to say that Mouse Bot 2.0 has 21 different commands ranging from game to Discord server moderation commands. I am striving to make Mouse Bot the definitive bot for SW:GoH and I hope you enjoy using him as much as I do!
 
-## Installation
+I made Mouse Bot publicly available so that people can host him on their own servers if they want to. I also highly encourage people to modify and improve him. Create new commands that help players, guilds or the community in general. (If you do make any modifications or additions, please let me know so I can share them with everyone!)
 
-To run off of your computer, you'll first need [node 0.12+](https://www.npmjs.com/package/forever/tutorial).
+This readme will explain how to install and host Mouse Bot on your own home computer or Raspberry Pi server. This is not a guide on how to use the bot.
 
-Then install discord.js through the terminal: `npm install discord.js`<br>
+A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) created by Evie and York. Without their Guide Bot, I would still have a simple little one-file bot.
 
-Open `config.json.example` and add keys to the blank fields. For `token` add you're bots token from the [Discord App](https://discordapp.com/developers/applications/me) page. Then add the rules channel ID to `rulesChannel`. If you do not use a rules channel, you can just ignore this (just don't use the `/rules` command or comment out that command in the code). (If you don't know how to find the channel ID, follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-server-ID-)). Finally, rename `config.json.example` to `config.json`.
+## Requirements
+- Command Prompt or Terminal
+-  A code editor: [Atom](https://atom.io/), [VS Code](https://www.visualstudio.com/en-us/products/code-vs.aspx), or [Sublime Text](https://www.sublimetext.com/3)
+- Git ([Mac](https://git-scm.com/download/mac)|[Windows](https://git-scm.com/download/win)|[Linux](https://git-scm.com/download/linux))
+- Node.js [Version 8+](https://nodejs.org/)
+- Your bot’s [token](https://discordapp.com/developers/applications/me) ([This](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) is a good guide for getting your bot’s token)
 
-Now you can use `node app.js` in the terminal in your mouse-bot directory folder. Alternatively you can use `node ` and drag the folder path into the terminal.
+## Cloning and Installing
+Using the command prompt inside the directory you want to put the folder, type:
 
-## Functionality
+`git clone https://github.com/rmgirardin/mouse-bot.git`
 
-#### ~~New Members Added to Server~~
-~~The bot recognizes when new users are added to the server and greets then with a custom greeting. By default, Mouse Bot greets the user and tells them to review the `#rules` channel.~~
+Then go into the mouse-bot folder with `cd mouse-bot` and run `npm install`. This will install all the node modules you need to run the bot.
 
-#### Commands
+## Setting up and Running
+Rename `config.js.example` to `config.js`
 
-- /help
-    - lists /commands
-    - typing a command after '/help' gives a description of that command
-- /dailies
-    - tells you the current and upcoming guild activity
-- /ch *(character name)*
-    - this will look up the character information on swgoh.gg
-    - Mouse bot returns a link using Google's "I'm Feeling Lucky" feature
-- /rules
-    - tells you to visit the `#rules` channel
-- /convert
-    - Can convert the percent amount to damage in raids (must include the word 'percent' or '%' to work)
-    - Can convert the amount of damage you need to do to a percent value
-    - Works for both Tier 7 Rancor Raid and the Heroic Tank Takedown raid
-        - Heroic Tank Takedown raid values are estimates as of now
-- /no
-    - Mouse bot responds with a gif: `vader_no.gif`
-- /yes
-    - Mouse bot responds with a gif: `vader_dance.gif`
+With your code editor, open the config.js file:
+- Enter your bot’s token within the empty quotation marks after `"token":`
+- Enter your Discord ID within the empty quotation marks after `"ownerID":`
+- To get your Discord ID follow [these instructions](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
 
-## To-Do
+In the command prompt within the root project folder directory, you can run the bot with `node index.js`.
+Alternatively you can use `node ` and drag the folder path into the terminal.
 
-- Add forum feed updater (might go back to using twitter)
-- Clean and consolidate code
-- Reimplement welcome when new members join the server
-- ignore `/rules` command if there is no rules channel ID.
+Now you just need to invite your bot to your server. You can generate a full OAuth Link [here](https://finitereality.github.io/permissions-calculator/?v=2146958591). The Client ID can be found the same place you found your bot token.
 
-## Help
-If you need help, you can always ask me.
+## Adding Commands
+You can add commands by creating new files in the `commands` folder (new-command-name.js). To use new commands, you’ll need to restart the bot by hitting `ctrl+c` and retyping (or hitting the up arrow key) `node index.js`. If you are just editing already loaded commands while your bot is running, as the bot owner, you can use the `reload <command-name>` command within Discord to reload commands without restarting your bot.
 
-If you like this and want to help make it better, please fork this repo and let me know about it. I know that there are better ways to implement some of the functionality of the bot, so any help or pointers would be appreciated!
+## Support
+If you need help, you can always ask me. I’m available on Discord: Necavit#0540 or through email: support@girard.in
+
+If you find any bugs or typos, please let me know!
+I hope you enjoy this bot as much as I do!
+
+----
+The developer of this application does not have any affiliation with the EA, EA Capital Games, Disney, Lucasfilm LTD or swgoh.gg
