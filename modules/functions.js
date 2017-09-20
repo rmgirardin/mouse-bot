@@ -149,15 +149,13 @@ module.exports = (client) => {
         const newLevel = client.calcLevel(userPoints);
         if (newLevel > oldLevel && newLevel % 5 === 0) {
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
-            if (roleName && roleName != "undefined") roleName = roleName.name;
-            if (!roleName || settings.roleRewardsEnabled != "true") {
+            if (roleName && roleName != undefined) roleName = roleName.name;
+            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true") {
                 message.channel.send(`🎉 Congratualtions ${message.guild.member(message.author)}! You're now **level ${newLevel}**!`);
-            } else {
-                if (settings.roleRewardsEnabled === "true") {
-                    client.assignRole(message.member, roleName);
-                    client.removePointsRole(message.member, newLevel);
-                    message.channel.send(`🎉 Congratualtions ${message.guild.member(message.author)}! You're now **level ${newLevel}**!\nYou've been promoted to **${roleName}**!`);
-                }
+            } else if (settings.roleRewardsEnabled === "true") {
+                client.assignRole(message.member, roleName);
+                client.removePointsRole(message.member, newLevel);
+                message.channel.send(`🎉 Congratualtions ${message.guild.member(message.author)}! You're now **level ${newLevel}**!\nYou've been promoted to **${roleName}**!`);
             }
         }
     };
@@ -180,7 +178,7 @@ module.exports = (client) => {
     exists, if it doesn't create it and assign that role to the message.author
     */
     client.assignRole = async (member, roleName) => {
-        // if (!client.user.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let role = member.guild.roles.find(r => r.name === roleName);
         if (!role) {
@@ -207,7 +205,7 @@ module.exports = (client) => {
     */
     client.removePointsRole = async (member, curLevel) => {
         // If the bot cannot manage roles, then don't even try to
-        // if (!client.user.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let oldRole;
 
@@ -219,7 +217,7 @@ module.exports = (client) => {
 
         const role = member.guild.roles.find(r => r.name === oldRole.name);
 
-        if (member.roles.has(role)) await member.removeRole(role).catch(console.error);
+        await member.removeRole(role).catch(console.error);
         return;
     };
 
