@@ -44,7 +44,7 @@ exports.run = async (client, message, cmd, [action, key, ...value], level) => {
         // first be created in order to change this setting.
         if (key === "adminRole") {
             if (level < 3) return message.channel.send("You do not have permission to edit this setting.");
-            client.addPoints(message, -1);
+            client.addPoints(message, client.config.messagePoints*-1);
         }
 
         // `value` being an array, we need to join it first.

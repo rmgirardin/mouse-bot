@@ -48,7 +48,7 @@ module.exports = (client) => {
 
         // Let's remove a point from the user for using the command incorrectly
         // This makes the message worth only a regular message
-        client.addPoints(message, -1);
+        client.addPoints(message, client.config.messagePoints*-1);
     };
 
 

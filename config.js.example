@@ -2,6 +2,10 @@ const config = {
     "admins": "[]",
     "token": "",
 
+    // This is for the points systems, changing this dynamically changes how
+    // many points user receives
+    "messagePoints": 1,
+
     // Default Settings that every new server will begin with
     // These must be edited within Discord if the bot has already been invited
     "defaultSettings" : {

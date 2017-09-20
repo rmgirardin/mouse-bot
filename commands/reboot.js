@@ -16,7 +16,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["shutdown"],
+    aliases: ["restart", "shutdown"],
     permLevel: "Bot Admin"
 };
 
