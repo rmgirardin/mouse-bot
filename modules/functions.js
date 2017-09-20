@@ -218,7 +218,7 @@ module.exports = (client) => {
 
         const role = member.guild.roles.find(r => r.name === oldRole.name);
 
-        await member.removeRole(role).catch(console.error);
+        if (member.roles.has(role)) await member.removeRole(role).catch(console.error);
         return;
     };
 
