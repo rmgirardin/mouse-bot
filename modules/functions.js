@@ -179,7 +179,7 @@ module.exports = (client) => {
     exists, if it doesn't create it and assign that role to the message.author
     */
     client.assignRole = async (member, roleName) => {
-        if (!member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!client.user.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let role = member.guild.roles.find(r => r.name === roleName);
         if (!role) {
