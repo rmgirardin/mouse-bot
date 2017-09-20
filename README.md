@@ -17,7 +17,7 @@ A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) 
 - Your bot’s [token](https://discordapp.com/developers/applications/me) ([This](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) is a good guide for getting your bot’s token)
 
 ## Cloning and Installing
-Using the command prompt inside the directory you want to put the folder, type:
+Using the terminal inside the directory you want to put the folder, type:
 
 `git clone https://github.com/rmgirardin/mouse-bot.git`
 
@@ -35,6 +35,19 @@ In the command prompt within the root project folder directory, you can run the 
 Alternatively you can use `node ` and drag the folder path into the terminal.
 
 Now you just need to invite your bot to your server. You can generate a full OAuth Link [here](https://finitereality.github.io/permissions-calculator/?v=2146958591). The Client ID can be found the same place you found your bot token.
+
+## Using PM2
+Install PM2 with `npm i pm2 -g`
+
+To begin running your app with PM2, just type:
+```
+pm2 start index.js -n mousebot
+```
+All your PM2 commands might require you to use `sudo` before the command. We've given the app the name mousebot with `-n mousebot`. This will make it easier to call in the future.
+
+Now finish the setup with `pm2 startup` and follow the instructions.
+
+Mouse Bot should now run even when you close the terminal. You can restart the app with `pm2 restart mousebot`. You can also use `pm2 monit` to monitor the app and watch real-time log.
 
 ## Adding Commands
 You can add commands by creating new files in the `commands` folder (new-command-name.js). To use new commands, you’ll need to restart the bot by hitting `ctrl+c` and retyping (or hitting the up arrow key) `node index.js`. If you are just editing already loaded commands while your bot is running, as the bot owner, you can use the `reload <command-name>` command within Discord to reload commands without restarting your bot.
