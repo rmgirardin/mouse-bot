@@ -148,7 +148,8 @@ module.exports = (client) => {
         // When assigning a new reward role, check for old ones and remove them
         const newLevel = client.calcLevel(userPoints);
         if (newLevel > oldLevel && newLevel % 5 === 0) {
-            const roleName = client.config.roleRewards.find(l => l.level === newLevel).name;
+            let roleName = client.config.roleRewards.find(l => l.level === newLevel);
+            if (roleName && roleName != "undefined") roleName = roleName.name;
             if (!roleName || settings.roleRewardsEnabled != "true") {
                 message.channel.send(`🎉 Congratualtions ${message.guild.member(message.author)}! You're now **level ${newLevel}**!`);
             } else {
