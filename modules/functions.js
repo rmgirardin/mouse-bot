@@ -206,7 +206,7 @@ module.exports = (client) => {
     */
     client.removePointsRole = async (member, curLevel) => {
         // If the bot cannot manage roles, then don't even try to
-        if (!member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!client.user.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let oldRole;
 
