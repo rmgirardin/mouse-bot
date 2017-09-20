@@ -18,9 +18,9 @@ A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) 
 
 ## Cloning and Installing
 Using the terminal inside the directory you want to put the folder, type:
-
-`git clone https://github.com/rmgirardin/mouse-bot.git`
-
+```
+git clone https://github.com/rmgirardin/mouse-bot.git
+```
 Then go into the mouse-bot folder with `cd mouse-bot` and run `npm install`. This will install all the node modules you need to run the bot.
 
 ## Setting up and Running

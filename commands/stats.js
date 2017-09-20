@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const pjson = require("../package.json");
 const moment = require("moment");
 require("moment-duration-format");
 
@@ -9,7 +10,7 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
     const embed = new Discord.RichEmbed()
         .setTitle(`${client.user.username.toProperCase()} Statistics`)
         .setColor(0x268BD2)
-        .setDescription(`**Node** ${process.version}\n**Discord.js** v${Discord.version}`)
+        .setDescription(`**${pjson.name.toProperCase()}** v${pjson.version}  |  **Node** ${process.version}  |  **Discord.js** v${Discord.version}`)
         .addField("Servers:", client.guilds.size.toLocaleString(), true)
         .addField("Channels:", client.channels.size.toLocaleString(), true)
         .addField("Users:", client.users.size.toLocaleString(), true)
