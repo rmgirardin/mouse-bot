@@ -16,7 +16,7 @@ module.exports = (client, message) => {
     message.settings = settings;
 
     // Add a point for a regular message
-    client.addPoints(message, client.config.messagePoints);
+    client.addPoints(message, 1);
 
     if (message.content.indexOf(settings.prefix) !== 0) return; // Check for prefix
 
@@ -39,7 +39,7 @@ Your permission level is ${level} **(${client.config.permLevels.find(l => l.leve
 This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.conf.permLevel})**`);
 
     // Give an extra point if they are using a command!
-    client.addPoints(message, client.config.messagePoints);
+    client.addPoints(message, 1);
 
     // If the command exists **AND** the user has permission
     client.log("log", `${message.author.username} (${client.config.permLevels.find(l => l.level === level).name}, ${message.author.id}) ran ${cmd.help.name}`, "Command");
