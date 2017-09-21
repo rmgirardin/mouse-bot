@@ -33,7 +33,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const character = collection.find(c => c.code === characters[i].trim());
 
         if (character) {
-            const title = `${character.description.toProperCase()}`;
+            const title = `${character.description}`;
             const description = `・${character.star}\*\n・Level ${character.level}\n・Gear level ${character.gearLevel}`;
 
             embed.addField(title, description, true);
