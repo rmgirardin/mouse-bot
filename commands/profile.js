@@ -37,7 +37,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Some user's don't submit thier profile codes on swgoh.gg, if that's the
     // case, lets not display (undefined) next to their name
     let title = `${profile.username}'s Profile (${profile.allyCode})`;
-    if (profile.allycode === "undefined") title = profile.username;
+    if (profile.allycode === undefined) title = profile.username;
 
     const embed = new RichEmbed()
         .setTitle(title)

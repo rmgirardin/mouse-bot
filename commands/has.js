@@ -1,5 +1,5 @@
 // This command checks to see if a specified or mentioned user has characters
-// which are predifened in the config file through "hasCommand"
+// which are predefined in the config file through "hasCommand"
 // If no args is submitted, the command attempts to search for the author's
 // collection
 
