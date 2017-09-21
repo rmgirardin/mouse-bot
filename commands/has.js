@@ -26,8 +26,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     let embed = new RichEmbed() // eslint-disable-line prefer-const
         .setTitle(`Character Check For ${id.toProperCase()}:`)
         .setColor(0xEE7100)
-        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
-        .setFooter(`https://swgoh.gg/u/${id.toLowerCase()}/`);
+        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`);
 
     for (let i = 0; i < characters.length; i++) {
 
