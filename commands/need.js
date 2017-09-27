@@ -72,5 +72,5 @@ exports.help = {
     name: "need",
     category: "Game",
     description: "Let user know which characters they still need in certain shops",
-    usage: "need [username] <shop>"
+    usage: "need [swgoh.gg-username/mention] <shop>"
 };
