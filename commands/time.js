@@ -14,7 +14,7 @@ exports.conf = {
 
 exports.help = {
     name: "time",
-    category: "Miscelaneous",
+    category: "Miscellaneous",
     description: "Tells time (24-hour) and numbered day of the week",
     usage: "time"
 };

@@ -288,7 +288,7 @@ module.exports = (client) => {
     };
 
 
-    /* ===== MISCELANEOUS NON-CRITICAL FUNCTIONS ===== */
+    /* ===== MISCELLANEOUS NON-CRITICAL FUNCTIONS ===== */
 
 
     // Replaces clone names to be more aesthetically pleasing, also returns

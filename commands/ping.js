@@ -14,7 +14,7 @@ exports.conf = {
 
 exports.help = {
     name: "ping",
-    category: "Miscelaneous",
+    category: "Miscellaneous",
     description: "Latency information",
     usage: "ping"
 };

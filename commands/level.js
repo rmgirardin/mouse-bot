@@ -38,7 +38,7 @@ exports.conf = {
 
 exports.help = {
     name: "level",
-    category: "Miscelaneous",
+    category: "Miscellaneous",
 	description: "Reports the user's current points and level",
 	usage: "level"
 };

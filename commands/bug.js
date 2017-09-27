@@ -39,7 +39,7 @@ exports.conf = {
 
 exports.help = {
     name: "bug",
-    category: "Miscelaneous",
+    category: "Miscellaneous",
 	description: "Report bugs, typos or suggestions about this bot",
 	usage: "<bug/suggestion> <message>"
 };
