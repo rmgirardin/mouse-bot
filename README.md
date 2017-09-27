@@ -64,6 +64,17 @@ Mouse Bot should now run even when you close the terminal. You can restart the a
 You can add commands by creating new files in the `commands` folder (new-command-name.js). To use new commands, you’ll need to restart the bot by hitting `ctrl+c` and retyping (or hitting the up arrow key) `node index.js`. If you are using PM2, you can just type `pm2 restart mousebot`.
 If you are just editing already loaded commands while your bot is running, as the bot owner, you can use the `reload <command-name>` command within Discord to reload commands without restarting your bot.
 
+## Donate
+I hope you find this guide to be helpful. I know how lost I was when I started out. If you enjoy using Mouse Bot, please consider donating so that I can spend more time on updates and fixes.  
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="M2R6Q8AN4CW66">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+
 ## Support
 If you need help, you can always ask me. I’m available on Discord: Necavit#0540 or through email: support@girard.in
 
