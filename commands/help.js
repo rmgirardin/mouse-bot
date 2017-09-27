@@ -25,7 +25,7 @@ exports.run = (client, message, cmd, args, level) => {
                 output += `\n[ ${cat.toUpperCase()} ]\n`;
                 currentCategory = cat;
             }
-            output += `${settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} = ${c.help.description.replace(/'/g, "")}\n`;
+            output += `${c.help.name}${" ".repeat(longest - c.help.name.length)} = ${c.help.description.replace(/'/g, "")}\n`;
         });
 
         message.channel.send(output, {code:"ini"});
