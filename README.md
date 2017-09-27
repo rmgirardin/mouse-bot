@@ -9,16 +9,12 @@ I made Mouse Bot publicly available so that people can host him on their own ser
 
 This readme will explain how to install and host Mouse Bot on your own home computer or Raspberry Pi server. This is not a user manual for the bot. This is the [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/).
 
-A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) created by Evie and York. Without their Guide Bot, I would still have a simple little one-file bot.
-
 ## To Edit or To Install
 I have uploaded the code onto GitHub for anyone that is looking to edit code or add commands on their own. If you want to do that, the following instructions should help you get him up and running.
 
-If you do not want to go through the hassle of installing everything and hosting Mouse Bot on your own server, then you can simply use the link below to add him to your server.
+If you do not want to go through the hassle of installing everything and hosting Mouse Bot on your own server, then you can simply use the following link to add him to your server. [Add Mouse Bot to your server](https://discord.now.sh/213381103287926785?p2146958591).
 
-> *Please know though, this is still beta.* I am still working out the kinks and if he goes offline for some time and I don’t catch it, just let me know and I will get him back up.
-
-Add Mouse Bot from my server: [https://discord.now.sh/213381103287926785?p2146958591](https://discord.now.sh/213381103287926785?p2146958591)
+> *Please note, this is still beta.* I am still working out the kinks and if he goes offline for some time and I don’t catch it, just let me know and I will get him back up.
 
 ## Requirements
 - Command Prompt or Terminal
@@ -46,7 +42,7 @@ In the command prompt within the root project folder directory, you can run the 
 
 > If you decide to use PM2, you do not need to do this. See below for instruction on how to use PM2.
 
-Now you just need to invite your bot to your server. You can generate a full OAuth Link [here](#)(https://finitereality.github.io/permissions-calculator/?v=2146958591). The Client ID can be found the same place you found your bot token.
+Now you just need to invite your bot to your server. You can generate a full OAuth Link [here](https://finitereality.github.io/permissions-calculator/?v=2146958591). The Client ID can be found the same place you found your bot token.
 
 ## Using PM2
 Install PM2 with `npm i pm2 -g`
@@ -66,6 +62,7 @@ Mouse Bot should now run even when you close the terminal. You can restart the a
 You can add commands by creating new files in the `commands` folder (new-command-name.js). To use new commands, you’ll need to restart the bot by hitting `ctrl+c` and retyping (or hitting the up arrow key) `node index.js`. If you are using PM2, you can just type `pm2 restart mousebot`.
 If you are just editing already loaded commands while your bot is running, as the bot owner, you can use the `reload <command-name>` command within Discord to reload commands without restarting your bot.
 
+----
 ## Donate
 I hope you find this guide to be helpful. I know how lost I was when I started out. If you enjoy using Mouse Bot, please consider donating so that I can spend more time on updates and fixes.  
 
@@ -77,6 +74,10 @@ If you need help, you can always ask me. I’m available on Discord: Necavit#054
 
 If you find any bugs or typos, please let me know!
 I hope you enjoy this bot as much as I do!
+
+
+## Acknowledgements
+A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) created by Evie and York. Without their Guide Bot, I would still have a simple little one-file bot.
 
 ----
 The developer of this application does not have any affiliation with the EA, EA Capital Games, Disney, Lucasfilm LTD or swgoh.gg
