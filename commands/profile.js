@@ -67,5 +67,5 @@ exports.help = {
     name: "profile",
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
-    usage: "profile [member-name] OR <add/edit> <username>"
+    usage: "profile [mention] OR <add/edit> <swgoh.gg-username>"
 };
