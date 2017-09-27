@@ -2,7 +2,8 @@
 
 module.exports = async (client, guild) => {
 
-    client.log("log", `${guild.name} (${guild.id}) server was created`, "GCreate");
+    client.log("log", `${guild.name} (${guild.id}) server was added`, "GCreate");
+    client.botLogEmbed(client, `I was added to the server ${guild.name} (${guild.id})`, "Guild Create", 0x00FF00);
 
     // This creates guild settings from the defualt settings defined in the
     // config file

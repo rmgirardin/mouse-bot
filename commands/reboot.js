@@ -4,12 +4,12 @@ try {
     require.resolve("pm2");
     hasPM2 = "PM2 is installed, hopefully I will reboot!";
 } catch (e) {
-    hasPM2 = `I cannot find PM2, you must restart manually.
-*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`;
+    hasPM2 = "I cannot find PM2, you must restart manually.";
 }
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
-    await message.channel.send(`${message.author}, ${client.user.username} is shutting down. ${hasPM2}`);
+    await message.channel.send(`${message.author}, ${client.user.username} is shutting down. ${hasPM2}
+*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
     process.exit(1);
 };
 

@@ -268,7 +268,40 @@ module.exports = (client) => {
     };
 
 
+    /*
+    --- SENDS A RICH EMBED TO BOT-LOG ---
+    This is similar to the mod-log embed, but this is sent to the botLog channel
+    for events like guild creation and reconnecting. Useful so that the logs
+    don't have to be checked as frequently
+    */
+    client.botLogEmbed = async (client, description, events, color = 0xCACBCE) => {
+        const { RichEmbed } = require("discord.js");
+        const botLogChannel = client.channels.get(client.config.botLogChannel);
+        if (!botLogChannel) return;
+
+        const embed = new RichEmbed()
+            .setDescription(description)
+            .setColor(color)
+            .setTimestamp()
+            .setFooter(events);
+        return botLogChannel.send({embed});
+    };
+
+
     /* ===== MISCELANEOUS NON-CRITICAL FUNCTIONS ===== */
+
+
+    // Replaces clone names to be more aesthetically pleasing, also returns
+    // toProperCase
+    // **ONLY ACCEPTS STRINGS**
+    client.checkClones = (textSting) => {
+        let text = textSting.toLowerCase();
+        text = text.replace("cc 2224 cody", "cody").replace('cc-2224 "cody"', "cody") // eslint-disable-line quotes
+            .replace("ct 21 0408 echo", "echo").replace('ct-21-0408 "echo"', "echo") // eslint-disable-line quotes
+            .replace("ct 5555 fives", "fives").replace('ct-5555 "fives"', "fives") // eslint-disable-line quotes
+            .replace("ct 7567 rex", "rex").replace('ct-7567 "Rex"', "rex"); // eslint-disable-line quotes
+        return text.toProperCase();
+    };
 
 
     // Returns the time (24-hour) and the numbered day
@@ -284,6 +317,7 @@ module.exports = (client) => {
     String.prototype.toProperCase = function() {
         return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     };
+
 
     // `await client.wait(1000);` to "pause" for 1 second.
     client.wait = require("util").promisify(setTimeout);
