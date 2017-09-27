@@ -35,12 +35,12 @@ Here's a list of other important settings you should consider changing. The \`ke
 ・\`roleRewardsEnabled\`: **true** (will only work if \`pointsEnabled\` is **true**)
 ・\`guildReset\`: **2030** (based on EST, must be 24-hour time)
 
-Now that you have everything configured to your server, use the **\`help\`** command to read more about what I can do. You can also check out my user manual for more in-depth details of my functions: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/`;
+Now that you have everything configured to your server, use the **\`help\`** command to read more about what I can do. You can also check out my user manual for more in-depth details of my functions: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/`;
 
     guild.owner.user.send(guildOwnerWelcome).catch(console.error);
 
     const guildWelcome = `*Vrrrrrvd tkk tkkdtk*
-Hello! I am ${client.user.username}! I have a lot of commands you can use (or not use). Type \`${settings.prefix}help\` for all of my commands or check out my user manual to understand everything I can do: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/`;
+Hello! I am ${client.user.username}! I have a lot of commands you can use (or not use). Type \`${settings.prefix}help\` for all of my commands or check out my user manual to understand everything I can do: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/`;
 
     client.aMessage(guild, guildWelcome);
 

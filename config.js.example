@@ -19,7 +19,7 @@ const config = {
         "roleRewardsEnabled": "true",
         "guildReset": 2030,
         "hasCommand": "captain-han-solo, hoth-rebel-soldier, hoth-rebel-scout",
-        "welcomeMessage": "Welcome to {{server}}, {{user}}! We're glad to have you! Please take a second to enter your swgoh.gg username by typing `{{prefix}}profile <username>`. If you need any help, just type \`{{prefix}}help\` or check out my [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/)!"
+        "welcomeMessage": "Welcome to {{server}}, {{user}}! We're glad to have you! Please take a second to enter your swgoh.gg username by typing `{{prefix}}profile <username>`. If you need any help, just type \`{{prefix}}help\` or check out my [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/)!"
     },
 
     // These are used for the roleRewards within the point system

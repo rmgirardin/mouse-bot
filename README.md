@@ -5,7 +5,7 @@ I started Mouse Bot as a side project mostly for myself. It started off with jus
 
 I made Mouse Bot publicly available so that people can host him on their own servers if they want to. I also highly encourage people to modify and improve him. Create new commands that help players, guilds or the community in general. (If you do make any modifications or additions, please let me know so I can share them with everyone!)
 
-This readme will explain how to install and host Mouse Bot on your own home computer or Raspberry Pi server. This is not a user manual for the bot. This is the [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/swgoh.html).
+This readme will explain how to install and host Mouse Bot on your own home computer or Raspberry Pi server. This is not a user manual for the bot. This is the [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/).
 
 A big shout-out to the [Guide Bot](https://github.com/An-Idiots-Guide/guidebot) created by Evie and York. Without their Guide Bot, I would still have a simple little one-file bot.
 

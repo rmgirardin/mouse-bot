@@ -5,7 +5,7 @@ exports.run = (client, message, cmd, args, level) => {
     if (!args[0]) {
         const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
         let currentCategory = "";
-        let output = `__**COMMAND LIST**__\n(Use \`${settings.prefix}help <command-name>\` for details)\nCommand Structure: \`${settings.prefix}<command-name> <required-key> [optional-key]\`\n`;
+        let output = `__**COMMAND LIST**__\n(Use \`${settings.prefix}help <command-name>\` for details)\nCommand Structure: \`${settings.prefix}<command-name> <required-key> [optional-key]\`\nVisit the [User Guide](https://rmgirardin.gitbooks.io/mouse-bot-user-manual/) for more info\n`;
         const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category
             ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
         sorted.forEach( c => {
