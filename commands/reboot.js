@@ -8,7 +8,7 @@ try {
 }
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
-    await message.channel.send(`${message.author}, ${client.user.username} is shutting down. ${hasPM2}
+    await message.channel.send(`${message.author}, ${client.user.username} is shutting down and might restart if you're lucky!
 *<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
     process.exit(1);
 };
