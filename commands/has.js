@@ -61,5 +61,6 @@ exports.help = {
     name: "has",
     category: "Game",
     description: "Checks if the user has certain characters",
-    usage: "has [swgoh.gg-username/mention]"
+    usage: "has [swgoh.gg-username/mention]",
+    examples: ["has necavit", "has", "has @Necavit0540"]
 };

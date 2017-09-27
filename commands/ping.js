@@ -16,5 +16,6 @@ exports.help = {
     name: "ping",
     category: "Miscellaneous",
     description: "Latency information",
-    usage: "ping"
+    usage: "ping",
+    examples: ["ping"]
 };

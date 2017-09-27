@@ -51,5 +51,6 @@ exports.help = {
     name: "mute",
     category: "System",
 	description: "Mutes or unmutes the specified user",
-	usage: "(un)mute <member> [reason]"
+	usage: "(un)mute <member> [reason]",
+    examples: ["mute @Necavit0540 He talkes too much", "unmute @Necavit0540 I'll be nice", "mute @DarthSidious#0066"]
 };

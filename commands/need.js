@@ -72,5 +72,6 @@ exports.help = {
     name: "need",
     category: "Game",
     description: "Let user know which characters they need in shipments",
-    usage: "need [swgoh.gg-username/mention] <shop>"
+    usage: "need [swgoh.gg-username/mention] <shop>",
+    examples: ["need necavit gw", "shipments @Necavit0540 fleet shop", "need arena shipments"]
 };

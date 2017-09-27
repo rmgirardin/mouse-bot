@@ -41,5 +41,6 @@ exports.help = {
     name: "dailies",
     category: "Game",
     description: "Lists the current and next guild activity",
-    usage: "dailies"
+    usage: "dailies",
+    examples:["dailies", "daily"]
 };

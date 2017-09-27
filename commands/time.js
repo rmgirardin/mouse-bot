@@ -16,5 +16,6 @@ exports.help = {
     name: "time",
     category: "Miscellaneous",
     description: "Tells time (24-hour) and numbered day of the week",
-    usage: "time"
+    usage: "time",
+    examples: ["time"]
 };

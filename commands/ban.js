@@ -23,5 +23,6 @@ exports.help = {
     name: "ban",
     category: "System",
 	description: "Bring down the hammer and ban a user!",
-	usage: "ban <username> [reason]"
+	usage: "ban <username> [reason]",
+    examples: ["ban @Necavit0540", "ban @Necavit0540 We really don't like him"]
 };

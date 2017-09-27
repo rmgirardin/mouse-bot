@@ -40,5 +40,6 @@ exports.help = {
     name: "level",
     category: "Miscellaneous",
 	description: "Reports the user's current points and level",
-	usage: "level"
+	usage: "level",
+    examples: ["level", "lvl"]
 };

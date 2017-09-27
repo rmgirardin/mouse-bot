@@ -73,5 +73,6 @@ exports.help = {
     name: "ch",
     category: "Game",
     description: "Looks up characters on swgoh.gg",
-    usage: "ch <character-name>"
+    usage: "ch <character-name>",
+    examples: ["ch leia", "character sthan", "ch comander luke skywalker"]
 };

@@ -32,5 +32,6 @@ exports.help = {
     name: "stats",
     category: "Miscellaneous",
     description: "Gives useful bot statistics",
-    usage: "stats"
+    usage: "stats",
+    examples: ["stats"]
 };

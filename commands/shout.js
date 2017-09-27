@@ -42,5 +42,6 @@ exports.help = {
     name: "shout",
     category: "System",
     description: "Sends a message to the general channel on all servers",
-    usage: "shout <message>"
+    usage: "shout <message>",
+    examples: ["shout Hello World!"]
 };

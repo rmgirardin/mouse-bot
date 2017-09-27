@@ -32,15 +32,18 @@ exports.run = (client, message, cmd, args, level) => {
         message.channel.send("Visit the User Guide for more info: <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/>");
     }
 
-    // Iff command is specified, show the command details
+    // If command is specified, show the command details
     else {
         let command = args[0];
         if (client.commands.has(command) || client.commands.get(client.aliases.get(command))) {
             command = client.commands.get(command) || client.commands.get(client.aliases.get(command));
             if (level < client.levelCache[command.conf.permLevel]) return;
-            let output = `[ Command: ${command.help.name} ]`;
+            let output = `[ Command: ${command.help.name} ]\n
+Description\n=  ${command.help.description}\n
+Usage\n=  ${settings.prefix}${command.help.usage}`;
             if (command.conf.aliases.length >= 1) output += `\n\nAliases\n=  ${command.conf.aliases.join(", ")}`;
-            output += `\n\nDescription\n=  ${command.help.description}\n\nUsage\n=  ${settings.prefix}${command.help.usage}`;
+            output += `\n\nExamples\n=  ${settings.prefix}${command.help.examples.join(`\n=  ${settings.prefix}`)}\n
+Permission\n=  ${command.conf.permLevel.replace("User", "Everyone")}`;
 
             message.channel.send(output, {code:"ini"});
         }
@@ -60,5 +63,6 @@ exports.help = {
     name: "help",
     category: "System",
 	description: "Help command gives help",
-	usage: "help [command-name]"
+	usage: "help [command-name]",
+    examples: ["help", "help halp", "help convert"]
 };

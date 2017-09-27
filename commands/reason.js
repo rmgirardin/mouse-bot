@@ -46,5 +46,6 @@ exports.help = {
   name: "reason",
   category: "System",
   description: "Updates the reason of a mod action",
-  usage: "reason <case-number> <new-reason>"
+  usage: "reason <case-number> <new-reason>",
+  examples: ["reason 21 He was getting out of control", "reason 66 The Jedi had to be eliminated"]
 };

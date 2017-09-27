@@ -48,5 +48,6 @@ exports.help = {
     name: "lockdown",
     category: "System",
     description: "Lock a channel for a set duration (hr, min or sec)",
-    usage: "lockdown <duration> [reason]"
+    usage: "lockdown <duration> [reason]",
+    examples: ["lockdown 5 min", "ld 720 hrs I don't like fun", "lockdown 5 sec because I want to see what happens"]
 };

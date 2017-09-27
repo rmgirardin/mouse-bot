@@ -30,5 +30,6 @@ exports.help = {
   name: "purge",
   category: "System",
   description: "Purges specified number of messages from the channel",
-  usage: "purge [user] <number(2-100)> [reason]"
+  usage: "purge [user] <number(2-100)> [reason]",
+  examples: ["purge @Necavit 50 He was spamming", "purge 20 This channel is messy", "purge 2 @DarthSidious#0066"]
 };

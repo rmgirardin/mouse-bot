@@ -24,5 +24,6 @@ exports.help = {
     name: "reboot",
     category: "System",
     description: "Shuts down the bot and might restart",
-    usage: "reboot"
+    usage: "reboot",
+    examples: ["reboot", "restart"]
 };

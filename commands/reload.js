@@ -41,5 +41,6 @@ exports.help = {
     name: "reload",
     category: "System",
 	description: "Reloads a command that has been modified",
-	usage: "reload <command>"
+	usage: "reload <command>",
+    examples: ["reload help", "reload convert"]
 };
