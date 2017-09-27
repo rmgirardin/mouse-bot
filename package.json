@@ -34,7 +34,7 @@
     "ms": "^2.0.0",
     "querystring": "^0.2.0",
     "snekfetch": "^3.3.0",
-    "swgoh": "git+https://github.com/pikax/swgoh.git"
+    "swgoh": "^0.2.1"
   },
   "devDependencies": {}
 }
