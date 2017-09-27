@@ -20,7 +20,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (user) id = client.profileTable.get(user.id);
 
     let collection = await swgoh.collection(id);
-    if (collection.length < 1) {
+    if (collection.length < 1 || id === "gw"|"galactic war"|"cantina"|"arena"|"guild"|"fleet"|"shard") {
         id = client.profileTable.get(message.author.id);
         shop = args.join(" ");
         collection = await swgoh.collection(id);
