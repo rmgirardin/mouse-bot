@@ -60,6 +60,6 @@ exports.conf = {
 exports.help = {
     name: "has",
     category: "Game",
-    description: "Checks if the specified/mentioned user has certain characters",
+    description: "Checks if the user has certain characters",
     usage: "has [swgoh.gg-username/mention]"
 };

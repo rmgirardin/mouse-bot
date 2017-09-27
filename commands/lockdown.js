@@ -47,6 +47,6 @@ exports.conf = {
 exports.help = {
     name: "lockdown",
     category: "System",
-    description: "Lock a channel for a set duration in hours, minutes or seconds",
+    description: "Lock a channel for a set duration (hr, min or sec)",
     usage: "lockdown <duration> [reason]"
 };

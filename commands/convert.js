@@ -63,6 +63,6 @@ exports.conf = {
 exports.help = {
     name: "convert",
     category: "Game",
-	description: "Converts a damage amount to percentage (or vice versa) for raids",
+	description: "Converts a raid damage to percentage (or vice versa)",
 	usage: "convert <number> <raid> <p1/p2/p3/p4>"
 };

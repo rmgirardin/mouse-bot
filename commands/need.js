@@ -71,6 +71,6 @@ exports.conf = {
 exports.help = {
     name: "need",
     category: "Game",
-    description: "Let user know which characters they still need in certain shops",
+    description: "Let user know which characters they need in shipments",
     usage: "need [swgoh.gg-username/mention] <shop>"
 };
