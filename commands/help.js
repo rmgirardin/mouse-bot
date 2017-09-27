@@ -6,7 +6,7 @@ exports.run = (client, message, cmd, args, level) => {
         const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
         let currentCategory = "";
         let output = `__**COMMAND LIST**__\n(Use \`${settings.prefix}help <command-name>\` for details)\nCommand Structure: \`${settings.prefix}<command-name> <required-key> [optional-key]\`\n`;
-        const sorted = myCommands.sort((p, c) => p.help.category > c.help.category
+        const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category
             ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);
         sorted.forEach( c => {
             const cat = c.help.category.toProperCase();
