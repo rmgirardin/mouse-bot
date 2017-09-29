@@ -150,7 +150,7 @@ module.exports = (client) => {
         if (newLevel > oldLevel && newLevel % 1 === 0) {
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
             if (roleName && roleName != undefined) roleName = roleName.name;
-            const congratsMessage = `Congratualtions ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
+            const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
             if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true") {
                 message.channel.send(congratsMessage);
             } else if (settings.roleRewardsEnabled === "true") {
