@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const pjson = require("../package.json");
 const moment = require("moment");
 require("moment-duration-format");
+const os = require("os");
 
 exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
@@ -15,7 +16,7 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
         .addField("Channels:", client.channels.size.toLocaleString(), true)
         .addField("Users:", client.users.size.toLocaleString(), true)
         .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-        .addField("Ext Mem Usage:", `${(process.memoryUsage().external / 1024 / 1024).toFixed(2)} MB`, true)
+        .addField("CPU Load:", `${Math.round(require("os").loadavg()[0]*10000)/100}%`, true)
         .addField("Uptime:", duration, true);
 
     message.channel.send({embed});
