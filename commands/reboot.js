@@ -10,6 +10,9 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
     await message.channel.send(`${message.author}, ${client.user.username} is shutting down and might restart if you're lucky!
 *<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
+    client.commands.forEach( async cmd => {
+        if (cmd.shutdown) cmd.shutdown(client);
+    });
     process.exit(1);
 };
 

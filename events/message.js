@@ -24,8 +24,6 @@ module.exports = (client, message) => {
     if (message.content.indexOf(client.user) == 0) args = message.content.slice(client.user.toString().length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    console.log(`command: ${command}, args: ${args}`);
-
     const level = client.permlevel(message); // Gets the user's permission level
 
     // Check whether the command, or alias, exist in the collections defined in index.js.
@@ -40,6 +38,15 @@ module.exports = (client, message) => {
         return message.channel.send(`You do not have permission to use this command.
 Your permission level is ${level} **(${client.config.permLevels.find(l => l.level === level).name})**
 This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.conf.permLevel})**`);
+
+    // To simplify message arguments, the author's level is now put on level (not member so it is supported in DMs)
+    // The "level" command module argument will be deprecated in the future.
+    message.author.permLevel = level;
+
+    message.flags = [];
+    while (args[0] && args[0][0] === "-") {
+        message.flags.push(args.shift().slice(1));
+    }
 
     // Give an extra point if they are using a command!
     client.addPoints(message, client.config.messagePoints);

@@ -13,20 +13,28 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         command = client.commands.get(client.aliases.get(args[0]));
     }
     if (!command) return message.channel.send(`${message.author}, the command \`${args[0]}\` doesn't seem to exist, nor is it an alias. Try again!`);
-    command = command.help.name;
 
-    delete require.cache[require.resolve(`./${command}.js`)];
-    const cmds = require(`./${command}`);
-    client.commands.delete(command);
-    client.aliases.forEach((cmds, alias) => {
-        if (cmds === command) client.aliases.delete(alias);
+    if (command.shutdown) {
+        await command.shutdown(client);
+    }
+
+    const commandName = command.help.name;
+
+    delete require.cache[require.resolve(`./${commandName}.js`)];
+    const cmds = require(`./${commandName}`);
+    client.commands.delete(cmds.help.name);
+    client.aliases.forEach((cmdName, alias) => {
+        if (cmdName === cmds.help.name) client.aliases.delete(alias);
     });
-    client.commands.set(command, cmds);
+    client.commands.set(cmds.help.name, cmds);
+    if (cmds.init) {
+        cmds.init(client);
+    }
     cmds.conf.aliases.forEach(alias => {
         client.aliases.set(alias, cmds.help.name);
     });
 
-    message.channel.send(`${message.author}, the command \`${command}\` has been reloaded.`);
+    message.channel.send(`${message.author}, the command \`${cmds.help.name}\` has been reloaded.`);
 
 };
 

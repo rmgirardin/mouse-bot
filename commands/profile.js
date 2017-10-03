@@ -43,7 +43,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         .setTitle(title)
         .setColor(0x268BD2)
         .setThumbnail("https://swgoh.gg/static/img/swgohgg-nav-orange-2x.png")
-        .setURL(`https://swgoh.gg/u/${profile.username.toLowerCase()}/`)
+        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
         .setDescription(`**Galactic Power:** ${profile.galacticPower.toLocaleString()}
 **Characters Galactic Power:** ${profile.charactersGalacticPower.toLocaleString()}
 **Ships Galactic Power:** ${profile.shipsGalacticPower.toLocaleString()}
