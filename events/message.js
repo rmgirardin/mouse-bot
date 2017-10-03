@@ -18,10 +18,13 @@ module.exports = (client, message) => {
     // Add a point for a regular message
     client.addPoints(message, client.config.messagePoints);
 
-    if (message.content.indexOf(settings.prefix) !== 0) return; // Check for prefix
+    if (message.content.indexOf(settings.prefix) !== 0 && message.content.indexOf(client.user) !== 0) return; // Check for prefix or bot mention
 
-    const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+    let args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+    if (message.content.indexOf(client.user) == 0) args = message.content.slice(client.user.toString().length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+
+    console.log(`command: ${command}, args: ${args}`);
 
     const level = client.permlevel(message); // Gets the user's permission level
 

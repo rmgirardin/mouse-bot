@@ -1,5 +1,5 @@
 # Mouse Bot 2.0
-[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)]() [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)]() [![npm](https://img.shields.io/npm/l/express.svg)]() [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66)
+[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66)
 
 Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
@@ -12,7 +12,7 @@ This readme will explain how to install and host Mouse Bot on your own home comp
 ## To Edit or To Install
 I have uploaded the code onto GitHub for anyone that is looking to edit code or add commands on their own. If you want to do that, the following instructions should help you get him up and running.
 
-If you do not want to go through the hassle of installing everything and hosting Mouse Bot on your own server, then you can simply use the following link to add him to your server. [Add Mouse Bot to your server](https://discord.now.sh/213381103287926785?p2146958591).
+If you do not want to go through the hassle of installing everything and hosting Mouse Bot on your own server, then you can simply use the following link to add him to your server. [Add Mouse Bot to your server](https://discord.now.sh/213381103287926785?p1946545238).
 
 > *Please note, this is still beta.* I am still working out the kinks and if he goes offline for some time and I don’t catch it, just let me know and I will get him back up.
 
