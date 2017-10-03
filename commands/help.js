@@ -13,39 +13,39 @@ exports.run = (client, message, cmd, args, level) => {
         // Here we have to get the command names only, and we use that array to get the longest name.
         // This make the help commands "aligned" in the output.
         const commandNames = myCommands.keyArray();
-        const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
         let currentCategory = "";
-        let output = `[ COMMAND LIST ]\n\nUse \`${settings.prefix}help <command-name>\` for details\nCommand Structure: \`${settings.prefix}<command-name> <required-key> [optional-key]\`\n`;
+        let output = `**__COMMAND LIST__**\nUse \`${settings.prefix}help <command-name>\` for details\n`;
 
         const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
         sorted.forEach( c => {
             const cat = c.help.category.toProperCase();
             if (currentCategory !== cat) {
-                output += `\n[ ${cat.toUpperCase()} ]\n`;
+                output += `\n**${cat.toUpperCase()}:**\n`;
                 currentCategory = cat;
             }
-            output += `${c.help.name}${" ".repeat(longest - c.help.name.length)} = ${c.help.description.replace(/'/g, "")}\n`;
+            output += `**\`${settings.prefix}${c.help.name}\`** - ${c.help.description}\n`;
         });
 
-        message.channel.send(output, {code:"ini"});
+        message.channel.send(output);
         message.channel.send("Visit the User Guide for more info: <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/>");
     }
 
     // If command is specified, show the command details
     else {
-        let command = args[0];
-        if (client.commands.has(command) || client.commands.get(client.aliases.get(command))) {
-            command = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+        const commandName = args[0];
+        if (client.commands.has(commandName) || client.commands.get(client.aliases.get(commandName))) {
+            const command = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
             if (level < client.levelCache[command.conf.permLevel]) return;
-            let output = `[ Command: ${command.help.name} ]\n
-Description\n=  ${command.help.description}\n
-Usage\n=  ${settings.prefix}${command.help.usage}`;
-            if (command.conf.aliases.length >= 1) output += `\n\nAliases\n=  ${command.conf.aliases.join(", ")}`;
-            output += `\n\nExamples\n=  ${settings.prefix}${command.help.examples.join(`\n=  ${settings.prefix}`)}\n
-Permission\n=  ${command.conf.permLevel.replace("User", "Everyone")}`;
+            let output = `Command:  **__${command.help.name}__**
+Description:  **${command.help.description}**
+Permission:  **${command.conf.permLevel.replace("User", "Everyone")}**`;
+            if (command.conf.aliases.length >= 1) output += `\nAliases:  **${command.conf.aliases.join(", ")}**`;
+            output += `\nUsage:\`\`\`${settings.prefix}${command.help.usage}\n\`\`\`
+Examples:\`\`\`\n${settings.prefix}${command.help.examples.join(`\n${settings.prefix}`)}\n\`\`\`
+<https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/${command.help.name}.html>`;
 
-            message.channel.send(output, {code:"ini"});
+            message.channel.send(output);
         }
 
         else return message.channel.send(`${message.author}, I can't find that command.`);
