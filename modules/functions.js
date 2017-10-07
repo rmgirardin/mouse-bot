@@ -26,7 +26,11 @@ module.exports = (client) => {
 
 
     /*
+<<<<<<< HEAD
     --- LOADING COMMANDS ---
+=======
+    --- COMMAND LOADING ---
+>>>>>>> a7fda50c68efbf37e2d38a01dc1631a64430250a
     */
     client.loadCommand = (commandName) => {
         try {
@@ -47,7 +51,11 @@ module.exports = (client) => {
 
 
     /*
+<<<<<<< HEAD
     --- UNLOADING COMMANDS ---
+=======
+    --- COMMAND UNLOADING ---
+>>>>>>> a7fda50c68efbf37e2d38a01dc1631a64430250a
     */
     client.unloadCommand = async (commandName) => {
         let command;
