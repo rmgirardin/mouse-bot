@@ -20,7 +20,7 @@ module.exports = async (client, guild) => {
 
     const guildOwnerWelcome = `Hello! Thanks for adding me to your ${guild.name} server! In order to get started, please edit some of the settings in any channel on your server. To get this done, you'll use the following command structure:\`\`\`${settings.prefix}set edit <key-to-change> <new-value>\`\`\`You can see all of the current settings by just using \`${settings.prefix}set\`.
 
-First, feel free to change the **prefix** to anything you like. To do this type \`-set edit prefix <new-character>\`.
+First, change the **prefix** if you want to. To do this type \`-set edit prefix <new-character>\`.
 
 Use the same command structure *(but with your new prefix, if you changed it)* to allow your **moderators** and **administrators** to use my higher level functions. Right now you're the only one who can probably change these things and use my other system commands.
 ・\`moderatorRole <your-moderator-role-name>\`
