@@ -12,7 +12,13 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
             const filterBy = user ? user.id : client.user.id;
             messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
         }
-        message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+        message.channel.bulkDelete(messages)
+        .then(client.wait(1000))
+        .catch(error => {
+            console.log(error.stack);
+            message.channel.send(`${message.author}, I cannot do that.`);
+            return;
+        });
     });
 
     client.modlogEmbed(message, cmd.help.name, 0xFF8300, "", reason, "", amount);
@@ -20,7 +26,7 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
 };
 
 exports.conf = {
-  enabled: true,
+  enabled: false,
   guildOnly: true,
   aliases: [],
   permLevel: "Moderator"
