@@ -30,7 +30,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (!user && args[0]) id = args.join(" ");
 
     // Here we pull the profile data from swgoh.gg
-    const profile = await swgoh.profile(id);
+    const profile = await swgoh.profile(encodeURI(id));
 
     if (!profile.username) return profileMessage.edit("I can't find anything for this user.").then(client.cmdError(message, cmd));
 
@@ -43,7 +43,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         .setTitle(title)
         .setColor(0x268BD2)
         .setThumbnail("https://swgoh.gg/static/img/swgohgg-nav-orange-2x.png")
-        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
+        .setURL(`https://swgoh.gg/u/${encodeURI(id)}/`)
         .setDescription(`**Galactic Power:** ${profile.galacticPower.toLocaleString()}
 **Characters Galactic Power:** ${profile.charactersGalacticPower.toLocaleString()}
 **Ships Galactic Power:** ${profile.shipsGalacticPower.toLocaleString()}
@@ -67,6 +67,6 @@ exports.help = {
     name: "profile",
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
-    usage: "profile [mention/username] OR <add/edit> <swgoh.gg-username>",
-    examples: ["profile hansolo", "profile", "profile @Necavit0540", "profile add necavit", "profile edit hanshotfirst"]
+    usage: "profile [swgoh.gg-username]",
+    examples: ["profile hansolo", "profile", "profile @Necavit#0540", "profile add necavit", "profile edit hanshotfirst"]
 };
