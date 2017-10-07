@@ -22,6 +22,6 @@ exports.help = {
     name: "kick",
     category: "System",
 	description: "Gives specified user das boot!",
-	usage: "kick <username> [reason]",
-    examples: ["kick @Necavit0540", "kick @Necavit0540 We don't like him"]
+	usage: "kick <user-mention> [reason]",
+    examples: ["kick @Necavit#0540", "kick @Necavit#0540 We don't like him"]
 };

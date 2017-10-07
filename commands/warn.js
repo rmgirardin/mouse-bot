@@ -26,6 +26,6 @@ exports.help = {
     name: "warn",
     category: "System",
     description: "Issues a warning to the mentioned user",
-    usage: "warn <mention> [reason]",
-    examples: ["warn @Necavit0540", "warn @Necavit0540 You abused the rules", "warn @R2Z2#8512 He keeps stunning me!"]
+    usage: "warn <user-mention> [reason]",
+    examples: ["warn @Necavit#0540", "warn @Necavit#0540 You abused the rules", "warn @R2Z2#8512 He keeps stunning me!"]
 };

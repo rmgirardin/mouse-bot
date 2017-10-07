@@ -36,7 +36,7 @@ exports.run = async  (client, message, cmd, args, level) => { // eslint-disable-
 };
 
 exports.conf = {
-    enabled: true,
+    enabled: false,
     guildOnly: true,
     aliases: [],
     permLevel: "Moderator"

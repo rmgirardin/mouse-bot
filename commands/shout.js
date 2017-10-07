@@ -41,7 +41,7 @@ exports.conf = {
 exports.help = {
     name: "shout",
     category: "System",
-    description: "Sends a message to the general channel on all servers",
+    description: "Sends a message to all servers using the bot",
     usage: "shout <message>",
     examples: ["shout Hello World!"]
 };
