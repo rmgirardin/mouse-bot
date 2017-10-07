@@ -8,11 +8,7 @@ exports.run = (client, message, cmd, args, level) => {
         const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
 
         // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
-        const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
-
-        // Here we have to get the command names only, and we use that array to get the longest name.
-        // This make the help commands "aligned" in the output.
-        const commandNames = myCommands.keyArray();
+        const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.enabled) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true && cmd.conf.enabled);
 
         let currentCategory = "";
         let output = `**__COMMAND LIST__**\nUse \`${settings.prefix}help <command-name>\` for details\n`;
@@ -36,7 +32,8 @@ exports.run = (client, message, cmd, args, level) => {
         const commandName = args[0];
         if (client.commands.has(commandName) || client.commands.get(client.aliases.get(commandName))) {
             const command = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
-            if (level < client.levelCache[command.conf.permLevel]) return;
+            if (level < client.levelCache[command.conf.permLevel]) return message.channel.send(`${message.author}, you don't have the permissions to use that command.`);
+            if (!command.conf.enabled) return message.channel.send(`${message.author}, I can't find that command.`);
             let output = `Command:  **__${command.help.name}__**
 Description:  **${command.help.description}**
 Permission:  **${command.conf.permLevel.replace("User", "Everyone")}**`;

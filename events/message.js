@@ -29,6 +29,7 @@ module.exports = (client, message) => {
     // Check whether the command, or alias, exist in the collections defined in index.js.
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
     if (!cmd) return;
+    if (!cmd.conf.enabled) return;
 
     // Some commands may not be useable in DMs. This check prevents those commands from running
     if (cmd && !message.guild && cmd.conf.guildOnly)
