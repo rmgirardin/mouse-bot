@@ -27,20 +27,9 @@ const init = async () => {
     const cmdFiles = await readdir("./commands/");
     client.log("log", `Loading ${cmdFiles.length} commands:`, "Loading");
     cmdFiles.forEach(f => {
-        try {
-            const props = require(`./commands/${f}`);
-            if (f.split(".").slice(-1)[0] !== "js") return;
-            client.log("log", `Loading Command: ${props.help.name}...`, "Loading");
-            if (props.init) {
-                props.init(client);
-            }
-            client.commands.set(props.help.name, props);
-            props.conf.aliases.forEach(alias => {
-                client.aliases.set(alias, props.help.name);
-            });
-        } catch (e) {
-            client.log("log", `Unable to load command ${f}: ${e}`, "Error!!");
-        }
+        if (!f.endsWith(".js")) return;
+        const response = client.loadCommand(f);
+        if (response) console.log(response);
     });
 
     // Then we load events, which will include our message and ready event.

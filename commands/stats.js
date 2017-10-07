@@ -16,7 +16,7 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
         .addField("Channels:", client.channels.size.toLocaleString(), true)
         .addField("Users:", client.users.size.toLocaleString(), true)
         .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-        .addField("CPU Load:", `${Math.round(require("os").loadavg()[0]*10000)/100}%`, true)
+        .addField("CPU Load:", `${Math.round(os.loadavg()[0]*10000)/100}%`, true)
         .addField("Uptime:", duration, true);
 
     message.channel.send({embed});

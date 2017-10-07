@@ -11,7 +11,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     await message.channel.send(`${message.author}, ${client.user.username} is shutting down and might restart if you're lucky!
 *<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
     client.commands.forEach( async cmd => {
-        if (cmd.shutdown) cmd.shutdown(client);
+        await client.unloadCommand(cmd);
     });
     process.exit(1);
 };
@@ -19,14 +19,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["restart", "shutdown"],
+    aliases: ["reboot", "shutdown"],
     permLevel: "Bot Admin"
 };
 
 exports.help = {
-    name: "reboot",
+    name: "restart",
     category: "System",
     description: "Shuts down the bot and might restart",
-    usage: "reboot",
-    examples: ["reboot", "restart"]
+    usage: "restart",
+    examples: ["restart", "reboot"]
 };

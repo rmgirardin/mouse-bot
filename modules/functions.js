@@ -26,6 +26,47 @@ module.exports = (client) => {
 
 
     /*
+    --- LOADING COMMANDS ---
+    */
+    client.loadCommand = (commandName) => {
+        try {
+            const props = require(`../commands/${commandName}`);
+            if (commandName.split(".").slice(-1)[0] !== "js") return;
+            client.log("log", `Loading Command: ${props.help.name}...`, "Loading");
+            if (props.init) {
+                props.init(client);
+            }
+            client.commands.set(props.help.name, props);
+            props.conf.aliases.forEach(alias => {
+                client.aliases.set(alias, props.help.name);
+            });
+        } catch (e) {
+            client.log("log", `Unable to load command ${commandName}: ${e}`, "Error!!");
+        }
+    };
+
+
+    /*
+    --- UNLOADING COMMANDS ---
+    */
+    client.unloadCommand = async (commandName) => {
+        let command;
+        if (client.commands.has(commandName)) {
+            command = client.commands.get(commandName);
+        } else if (client.aliases.has(commandName)) {
+            command = client.commands.get(client.aliases.get(commandName));
+        }
+        if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
+
+        if (command.shutdown) {
+            await command.shutdown(client);
+        }
+        delete require.cache[require.resolve(`../commands/${commandName}.js`)];
+        return false;
+    };
+
+
+    /*
     --- LOGGING FUNTION ---
 
     Logs to console. Future patches may include time+colors
@@ -254,7 +295,8 @@ module.exports = (client) => {
         // Here we check for unused variables
         if (user) user = `\n**User:** ${user} (${user.id})`;
         if (!user) user = `\n**Channel**: <#${message.channel.id}> (${message.channel.id})`;
-        if (!reason) reason = `Awaiting moderator's input, use \`${settings.prefix}reason ${caseNumber} <reason>\``;
+     // if (!reason) reason = `Awaiting moderator's input, use \`${settings.prefix}reason ${caseNumber} <reason>\``;
+        if (reason) reason = `\n**Reason:** ${reason}`;
         if (duration) duration = `\n**Duration:** ${duration}`;
         if (amount) amount = `\n**Amount:** ${amount}`;
 
@@ -262,7 +304,7 @@ module.exports = (client) => {
         const embed = new RichEmbed()
             .setAuthor(message.author.tag, message.author.avatarURL)
             .setColor(color)
-            .setDescription(`**Action:** ${command.toProperCase()}${duration}${user}${amount}\n**Reason:** ${reason}`)
+            .setDescription(`**Action:** ${command.toProperCase()}${duration}${user}${amount}${reason}`)
             .setTimestamp()
             .setFooter(`Case ${caseNumber}`);
         return client.channels.get(modlog.id).send({embed});
