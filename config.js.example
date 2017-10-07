@@ -10,7 +10,7 @@ const config = {
     // These must be edited within Discord if the bot has already been invited
     "defaultSettings" : {
         "prefix": "/",
-        "modLogChannel": "mod-log",
+        "modLogChannel": "logs",
         "aChannel": "general",
         "modRole": "Moderator",
         "adminRole": "Administrator",

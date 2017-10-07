@@ -247,7 +247,8 @@ module.exports = (client) => {
             m.embeds[0].footer.text.startsWith("Case")
         ).first();
 
-        const lastCase = /Case\s(\d+)/.exec(log.embeds[0].footer.text);
+        let lastCase;
+        if (log) lastCase = /Case\s(\d+)/.exec(log.embeds[0].footer.text);
         const caseNumber = lastCase ? parseInt(lastCase[1]) + 1 : 1;
 
         // Here we check for unused variables
