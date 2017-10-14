@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const {promisify} = require("util");
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
+const EnmapLevel = require("enmap-level");
 
 const client = new Discord.Client();
 
@@ -17,9 +18,9 @@ client.commands = new Enmap();
 client.aliases = new Enmap();
 
 // Setting up the Enhanced Map module
-client.settings = new Enmap({name: "settings", persistent: true});
-client.pointsTable = new Enmap({name: "points", persistent: true});
-client.profileTable = new Enmap({name: "profiles", persistent: true});
+client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})});
+client.pointsTable = new Enmap({provider: new EnmapLevel({name: "points"})});
+client.profileTable = new Enmap({provider: new EnmapLevel({name: "profiles"})});
 
 const init = async () => {
 
