@@ -26,16 +26,12 @@ module.exports = (client) => {
 
 
     /*
-<<<<<<< HEAD
     --- LOADING COMMANDS ---
-=======
-    --- COMMAND LOADING ---
->>>>>>> a7fda50c68efbf37e2d38a01dc1631a64430250a
     */
+
     client.loadCommand = (commandName) => {
         try {
             const props = require(`../commands/${commandName}`);
-            if (commandName.split(".").slice(-1)[0] !== "js") return;
             client.log("log", `Loading Command: ${props.help.name}...`, "Loading");
             if (props.init) {
                 props.init(client);
@@ -44,18 +40,16 @@ module.exports = (client) => {
             props.conf.aliases.forEach(alias => {
                 client.aliases.set(alias, props.help.name);
             });
-        } catch (e) {
-            client.log("log", `Unable to load command ${commandName}: ${e}`, "Error!!");
+            return false;
+        } catch (error) {
+            client.log("log", `Unable to load command ${commandName}: ${error}`, "Error!!");
+            return error;
         }
     };
 
 
     /*
-<<<<<<< HEAD
     --- UNLOADING COMMANDS ---
-=======
-    --- COMMAND UNLOADING ---
->>>>>>> a7fda50c68efbf37e2d38a01dc1631a64430250a
     */
     client.unloadCommand = async (commandName) => {
         let command;
@@ -88,6 +82,7 @@ module.exports = (client) => {
 
     /*
     --- COMMMAND ERROR ---
+
     Used in most commands to responds with the commands usage if the user did
     not use the command correctly
     */
@@ -103,6 +98,7 @@ module.exports = (client) => {
 
     /*
     --- SINGLE-LINE AWAITMESSAGE ---
+
     A simple way to grab a single reply, from the user that initiated
     the command. Waits for response for a default of 60 seconds
     USAGE:
@@ -123,6 +119,7 @@ module.exports = (client) => {
 
     /*
     --- SEND aMESSAGE TO aCHANNEL ---
+
     Finds aChannel, defined in the config file, and sends aMessage
     */
     client.aMessage = async (guild, text) => {
@@ -137,7 +134,38 @@ module.exports = (client) => {
 
 
     /*
+    --- SWGOH.GG PROFILE CHECK ---
+
+    Checks to see which method a user is inputing the profile and arguments and
+    returns those
+    */
+    client.profileCheck = (message, args) => {
+
+        const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
+
+        let profile;
+        let text;
+        let error;
+
+        if (args[0] && args[0].startsWith("~")) {
+            profile = args[0].replace("~", "");
+            text = args.slice(1).join(" ");
+        } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
+            profile = client.profileTable.get(message.mentions.users.first().id);
+            text = args.slice(1).join(" ");
+        } else {
+            profile = client.profileTable.get(message.author.id);
+            text = args.join(" ");
+        }
+
+        if (profile === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
+        return [profile, text, error];
+    };
+
+
+    /*
     --- MESSAGE CLEAN FUNCTION ---
+
     "Clean" removes @everyone pings, as well as tokens, and makes code blocks
     escaped so they're shown more easily. As a bonus it resolves promises
     and stringifies objects!
@@ -160,6 +188,7 @@ module.exports = (client) => {
 
     /*
     --- ADD POINTS ---
+
     Give the sender 1 point if pointsEnabled
     Useful for things like giving users an extra point for using a command or
     for submitting a bug/suggestion
@@ -173,7 +202,7 @@ module.exports = (client) => {
         if (settings.pointsEnabled != "true") return;
 
         const guildUser = message.guild.id + message.author.id;
-        let userPoints = client.pointsTable.get(guildUser);
+        let userPoints = Number(client.pointsTable.get(guildUser));
 
         // If the user doesn't already have points, set it to 0
         // and assign the lowest roleReward
@@ -213,6 +242,7 @@ module.exports = (client) => {
 
     /*
     --- CALCULATE POINTS LEVEL ---
+
     Determine users current level from current user points. Levels are not
     stored in the pointsTable, only a user [key] and points [value]
     */
@@ -224,6 +254,7 @@ module.exports = (client) => {
 
     /*
     --- APPLY ROLE REWARD FROM POINTS ---
+
     Based on the role rewards in the config file (keys: 5-100). Checks if a role
     exists, if it doesn't create it and assign that role to the message.author
     */
@@ -250,6 +281,7 @@ module.exports = (client) => {
 
     /*
     --- REMOVE PREVIOUS REWARD ROLE ---
+
     Used in conjuction with the Apply Role Reward from Points. Uses user's level
     to determine which previous role to remove
     */
@@ -274,6 +306,7 @@ module.exports = (client) => {
 
     /*
     --- SENDS A RICH EMBED TO MOD-LOG ---
+
     Used to log System commands such as kick and ban. Responds with an embed
     including action, user (target), moderator, reason and timestamp
     */
@@ -321,6 +354,7 @@ module.exports = (client) => {
 
     /*
     --- SENDS A RICH EMBED TO BOT-LOG ---
+
     This is similar to the mod-log embed, but this is sent to the botLog channel
     for events like guild creation and reconnecting. Useful so that the logs
     don't have to be checked as frequently
@@ -350,7 +384,7 @@ module.exports = (client) => {
         text = text.replace("cc 2224 cody", "cody").replace('cc-2224 "cody"', "cody") // eslint-disable-line quotes
             .replace("ct 21 0408 echo", "echo").replace('ct-21-0408 "echo"', "echo") // eslint-disable-line quotes
             .replace("ct 5555 fives", "fives").replace('ct-5555 "fives"', "fives") // eslint-disable-line quotes
-            .replace("ct 7567 rex", "rex").replace('ct-7567 "Rex"', "rex"); // eslint-disable-line quotes
+            .replace("ct 7567 rex", "rex").replace('ct-7567 "rex"', "rex"); // eslint-disable-line quotes
         return text.toProperCase();
     };
 

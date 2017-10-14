@@ -65,14 +65,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["character", "characters"],
+    aliases: ["find", "search"],
     permLevel: "User"
 };
 
 exports.help = {
-    name: "ch",
+    name: "lookup",
     category: "Game",
     description: "Looks up characters on swgoh.gg",
-    usage: "ch <character-name>",
-    examples: ["ch leia", "character sthan", "ch comander luke skywalker"]
+    usage: "lookup <character-name>",
+    examples: ["lookup leia", "find sthan", "lookup comander luke skywalker"]
 };

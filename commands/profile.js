@@ -8,11 +8,10 @@ const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    let id = client.profileTable.get(message.author.id);
+    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
 
     if (args[0] === "add" || args[0] === "edit") {
-        const swName = args.slice(1).join(" ");
-
+        swName = swName.slice(4);
         if (!swName || swName.size < 1) return message.reply("You entered nothing for me to save.").then(client.cmdError(message, cmd));
 
         if (!id) {
@@ -24,15 +23,13 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
     }
 
+    // The courtious "checking" message while the user waits
     const profileMessage = await message.channel.send("Checking... One moment. 👀");
-    const user = message.mentions.users.first();
-    if (user) id = client.profileTable.get(user.id);
-    if (!user && args[0]) id = args.join(" ");
 
     // Here we pull the profile data from swgoh.gg
     const profile = await swgoh.profile(encodeURI(id));
 
-    if (!profile.username) return profileMessage.edit("I can't find anything for this user.").then(client.cmdError(message, cmd));
+    if (!profile.username || profile === undefined) return profileMessage.edit(error).then(client.cmdError(message, cmd));
 
     // Some user's don't submit thier profile codes on swgoh.gg, if that's the
     // case, lets not display (undefined) next to their name
@@ -47,10 +44,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         .setDescription(`**Galactic Power:** ${profile.galacticPower.toLocaleString()}
 **Characters Galactic Power:** ${profile.charactersGalacticPower.toLocaleString()}
 **Ships Galactic Power:** ${profile.shipsGalacticPower.toLocaleString()}
+**Arena Rank:** ${profile.arenaRank.toLocaleString()}
 **7\* Characters:** ${profile.characters7}
 **Gear 12 Characters:** ${profile.gearXII}
 **Gear 11 Characters:** ${profile.gearXI}`)
-        .setFooter(`https://swgoh.gg/u/${profile.username.toLowerCase()}/`);
+        .setFooter(`https://swgoh.gg/u/${profile.username.toLowerCase()}/`, "https://swgoh.gg/static/img/bb8.png");
 
     profileMessage.edit({embed});
 
@@ -67,6 +65,6 @@ exports.help = {
     name: "profile",
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
-    usage: "profile [swgoh.gg-username]",
-    examples: ["profile hansolo", "profile", "profile @Necavit#0540", "profile add necavit", "profile edit hanshotfirst"]
+    usage: "profile ~[swgoh.gg-username]",
+    examples: ["profile ~hansolo", "profile", "profile @Necavit#0540", "profile add necavit", "profile edit hanshotfirst"]
 };

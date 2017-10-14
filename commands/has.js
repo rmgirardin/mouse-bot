@@ -8,25 +8,24 @@ const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
+    const [profile, empty, error] = client.profileCheck(message, args); // eslint-disable-line no-unused-vars
+    if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
+
     const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
+    
+    // The courtious "checking" message while the user waits
     const hasMessage = await message.channel.send("Checking... One moment. 👀");
 
     const characters = settings.hasCommand.split(",");
 
-    // We need to find if there is a mentioned user to check if there a profile
-    // for them in the profileTable, otherwise, lookup the manual user input
-    const user = message.mentions.users.first();
-    let id = args.join(" ");
-    if (user) id = client.profileTable.get(user.id);
-    if (!args[0]) id = client.profileTable.get(message.author.id);
-
-    const collection = await swgoh.collection(id);
-    if (!id || collection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+    // Lookup the user's collection
+    const collection = await swgoh.collection(profile);
+    if (collection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
 
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setTitle(`Character Check For ${id.toProperCase()}:`)
+        .setTitle(`Character Check For ${profile.toProperCase()}:`)
         .setColor(0xEE7100)
-        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`);
+        .setURL(`https://swgoh.gg/u/${profile.toLowerCase()}/`);
 
     for (let i = 0; i < characters.length; i++) {
 
@@ -61,6 +60,6 @@ exports.help = {
     name: "has",
     category: "Game",
     description: "Checks if the user has certain characters",
-    usage: "has [swgoh.gg-username]",
-    examples: ["has necavit", "has", "has @Necavit#0540"]
+    usage: "has ~[swgoh.gg-username]",
+    examples: ["has ~necavit", "has", "has @Necavit#0540"]
 };
