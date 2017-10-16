@@ -113,8 +113,8 @@ Galactic Power: ${galacticPower[a].toLocaleString()} *(${Math.round(galacticPowe
         // through and display them with all the correct data
         if (modChName[0] != undefined) {
             for (var k = 0; k < description.length; k++) {
-                fieldTitle = `${slot[k]} (${description[k].slice(0, description[k].indexOf("-")+2)})`;
-                fieldText = `\nLevel ${modLevel[k]}\n**${primaryValue[k]}**\n${secondaryValue[k]}`;
+                fieldTitle = `${slot[k]} (Lv ${modLevel[k]})`;
+                fieldText = `__${description[k]}__\n**${primaryValue[k]}**\n${secondaryValue[k]}`;
                 embed.addField(fieldTitle, fieldText, true);
             }
         }
