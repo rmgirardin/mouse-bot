@@ -2,7 +2,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     if (!args[0]) return message.reply("You entered nothing for me to save.").then(client.cmdError(message, cmd));
 
-    const swName = args.join(" ");
+    let swName = args.join(" ");
+    if (swName.startsWith("~")) swName = swName.replace("~", "");
     const id = client.profileTable.get(message.author.id);
 
     if (!id) {
