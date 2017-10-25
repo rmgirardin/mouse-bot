@@ -21,6 +21,9 @@ const shipments = {
             "stormtrooper-han",
             "ugnaught"
         ],
+        "ships": [
+
+        ],
         "image": "https://swgoh.gg/static/img/assets/tex.icon_pvp_credit.png"
     },
 
@@ -162,12 +165,18 @@ const shipments = {
             "sun-fac",
             "zam-wesell"
         ],
+        "ships": [
+
+        ],
         "image": "https://swgoh.gg/static/img/assets/tex.guild_currency.png"
     },
 
     "shard": {
         "characters": [
             "general-grievous"
+        ],
+        "ships": [
+
         ],
         "image": "https://swgoh.gg/static/img/assets/tex.shard_currency.png"
     },

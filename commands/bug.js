@@ -24,6 +24,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
 
     client.users.get(client.config.ownerID).send({embed}).catch(console.error);
+    message.reply(`I just sent **Necavit#0540** the **${command}**! Thank you for your feedback!`);
 
     // Let's reward anyone who submits bugs or suggestions with double pionts
     client.addPoints(message, client.config.messagePoints*2);

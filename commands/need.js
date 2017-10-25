@@ -60,7 +60,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
     }
 
-    if (description === "__*Needed (current status)*__") description = `You currently have maxed all the characters/ships in **${shop}** shipments!`;
+    if (description === "__***Needed** (current status)*__") description = `You currently have maxed all the characters/ships in **${shop}** shipments!`;
     embed.setDescription(description);
 
     needMessage.edit({ embed });
