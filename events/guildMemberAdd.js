@@ -14,8 +14,9 @@ module.exports = (client, member) => {
     if (settings.pointsEnabled === "true") {
         const guildUser = member.guild.id + member.id;
         const points = 0;
+        const roleName = client.config.roleRewards.find(l => l.level === points).name;
         client.pointsTable.set(guildUser, points);
-        client.assignRole(member, settings[points]);
+        client.assignRole(member, roleName);
     }
 
     // If welcome is off, don't welcome the user
