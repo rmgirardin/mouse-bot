@@ -159,7 +159,7 @@ module.exports = (client) => {
         }
 
         if (profile === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
-        return [profile, text, error];
+        return [profile, text.toLowerCase(), error];
     };
 
 

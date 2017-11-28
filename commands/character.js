@@ -9,7 +9,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
     // The courtious "checking" message while the user waits
-    const chMessage = await message.channel.send("Checking... One moment. 👀");
+    const chMessage = await message.channel.send("Checking... This may take a minute. 👀");
 
     const collection = await swgoh.collection(profile);
     const mods = await swgoh.mods(profile);

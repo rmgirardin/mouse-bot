@@ -8,7 +8,7 @@ const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
+    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const no-unused-vars
 
     if (args[0] === "add" || args[0] === "edit") {
         swName = swName.slice(4);
@@ -29,7 +29,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Here we pull the profile data from swgoh.gg
     const profile = await swgoh.profile(encodeURI(id));
 
-    if (!profile.username || profile === undefined) return profileMessage.edit(error).then(client.cmdError(message, cmd));
+    if (!profile.username || profile === undefined) return profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
 
     // Some user's don't submit thier profile codes on swgoh.gg, if that's the
     // case, lets not display (undefined) next to their name
