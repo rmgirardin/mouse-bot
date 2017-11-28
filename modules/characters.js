@@ -55,7 +55,7 @@ const characters = [
     {
         name: "Baze Malbus",
         light: ["9-C"],
-        shops: ["guildevent"],
+        shops: ["guild events"],
         faction: ["Light Side","Tank","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_bazemalbus.png"
     },
@@ -70,14 +70,14 @@ const characters = [
         name: "Biggs Darklighter",
         dark: ["4-A"],
         cantina: ["3-G"],
-        shops: ["gw","fleet","guildevent"],
+        shops: ["gw","fleet","guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebelpilot_biggs.png"
     },
 
     {
         name: "Bistan",
-        shops: ["cantina","guildevent","fleet"],
+        shops: ["cantina","guild events","fleet"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_bistan.png"
     },
@@ -93,7 +93,7 @@ const characters = [
 
     {
         name: "Bodhi Rook",
-        shops: ["gw","guildevent"],
+        shops: ["gw","guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_bodhi.png"
     },
@@ -121,13 +121,13 @@ const characters = [
 
     {
         name: "Cassian Andor",
-        shops: ["arena","guildevent"],
+        shops: ["arena","guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_cassian.png"
     },
 
     {
-        name: 'CC-2224 "Cody"',
+        name: 'CC-2224 "Cody"', // eslint-disable-line quotes
         shops: ["guild","fleet"],
         faction: ["Light Side","Attacker","Clone Trooper","Galactic Republic","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperclone_cody.png"
@@ -149,14 +149,14 @@ const characters = [
 
     {
         name: "Chirrut Imwe",
-        shops: ["guildevent","fleet"],
+        shops: ["guild events","fleet"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_chirrut.png"
     },
 
     {
         name: "Chopper",
-        shops: ["cantina","guildevent"],
+        shops: ["cantina","guild events"],
         faction: ["Light Side","Support","Droid","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_chopper.png"
     },
@@ -201,14 +201,14 @@ const characters = [
     },
 
     {
-        name: 'CT-21-0408 "Echo"',
+        name: 'CT-21-0408 "Echo"', // eslint-disable-line quotes
         shops: ["guild","fleet"],
         faction: ["Light Side","Support","Clone Trooper","Galactic Republic","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperclone_echo.png"
     },
 
     {
-        name: 'CT-5555 "Fives"',
+        name: 'CT-5555 "Fives"', // eslint-disable-line quotes
         light: ["4-F"],
         dark: ["2-D"],
         shops: ["cantina"],
@@ -217,7 +217,7 @@ const characters = [
     },
 
     {
-        name: 'CT-7567 "Rex"',
+        name: 'CT-7567 "Rex"', // eslint-disable-line quotes
         shops: ["guild","fleet"],
         faction: ["Light Side","Support","Clone Trooper","Galactic Republic","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperclone_rex.png"
@@ -314,7 +314,7 @@ const characters = [
     {
         name: "Ezra Bridger",
         cantina: ["2-B"],
-        shops: ["guildevent","fleet"],
+        shops: ["guild events","fleet"],
         faction: ["Light Side","Attacker","Jedi","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_ezra_s3.png"
     },
@@ -366,8 +366,8 @@ const characters = [
     },
 
     {
-        name: 'Garazeb "Zeb" Orrelios',
-        shops: ["gw","guildevent"],
+        name: 'Garazeb "Zeb" Orrelios', // eslint-disable-line quotes
+        shops: ["gw","guild events"],
         faction: ["Light Side","Tank","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_zeb_s3.png"
     },
@@ -445,14 +445,14 @@ const characters = [
     {
         name: "Hera Syndulla",
         cantina: ["1-F"],
-        shops: ["guildevent"],
+        shops: ["guild events"],
         faction: ["Light Side","Support","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_hera_s3.png"
     },
 
     {
         name: "Hermit Yoda",
-        shops: ["guildevent"],
+        shops: ["guild events"],
         faction: ["Light Side","Support","Jedi"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_yodahermit.png"
     },
@@ -468,7 +468,7 @@ const characters = [
         name: "Hoth Rebel Scout",
         light: ["8-B"],
         dark: ["6-A"],
-        shops: ["cantina","guildevent"],
+        shops: ["cantina","guild events"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebelhothscout.png"
     },
@@ -476,7 +476,7 @@ const characters = [
     {
         name: "Hoth Rebel Soldier",
         dark: ["3-B"],
-        shops: ["guildevent"],
+        shops: ["guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebelhoth.png"
     },
@@ -576,21 +576,21 @@ const characters = [
 
     {
         name: "Jyn Erso",
-        shops: ["guild","guildevent"],
+        shops: ["guild","guild events"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_jyn.png"
     },
 
     {
         name: "K-2SO",
-        shops: ["gw","guildevent"],
+        shops: ["gw","guild events"],
         faction: ["Light Side","Tank","Droid","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_k2so.png"
     },
 
     {
         name: "Kanan Jarrus",
-        shops: ["arena","guildevent"],
+        shops: ["arena","guild events"],
         faction: ["Light Side","Tank","Jedi","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_kanan_s3.png"
     },
@@ -612,7 +612,7 @@ const characters = [
     {
         name: "Lando Calrissian",
         cantina: ["1-E","5-F"],
-        shops: ["guildevent"],
+        shops: ["guild events"],
         faction: ["Light Side","Attacker","Human","Rebel","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_landobespin.png"
     },
@@ -635,7 +635,7 @@ const characters = [
         name: "Luke Skywalker (Farmboy)",
         light: ["7-D"],
         cantina: ["1-B","5-A"],
-        shops: ["guild","guildevent"],
+        shops: ["guild","guild events"],
         faction: ["Light Side","Attacker","Human","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_luke_ep4.png"
     },
@@ -729,7 +729,7 @@ const characters = [
 
     {
         name: "Pao",
-        shops: ["cantina","guildevent"],
+        shops: ["cantina","guild events"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_pao.png"
     },
@@ -769,7 +769,7 @@ const characters = [
 
     {
         name: "Princess Leia",
-        shops: ["arena","guildevent"],
+        shops: ["arena","guild events"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_leia_princess.png"
     },
@@ -830,7 +830,7 @@ const characters = [
     {
         name: "Sabine Wren",
         dark: ["1-A"],
-        shops: ["guild","guildevent"],
+        shops: ["guild","guild events"],
         faction: ["Light Side","Attacker","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_sabine_s3.png"
     },
@@ -845,7 +845,7 @@ const characters = [
     {
         name: "Scarif Rebel Pathfinder",
         cantina: ["1-D"],
-        shops: ["guildevent","fleet"],
+        shops: ["guild events","fleet"],
         faction: ["Light Side","Tank","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebel_scarif.png"
     },
@@ -891,7 +891,7 @@ const characters = [
 
     {
         name: "Stormtrooper Han",
-        shops: ["arena","guildevent"],
+        shops: ["arena","guild events"],
         faction: ["Light Side","Tank","Human","Rebel","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperstorm_han.png"
     },
@@ -972,7 +972,7 @@ const characters = [
     {
         name: "Wedge Antilles",
         cantina: ["6-F"],
-        shops: ["guildevent","fleet"],
+        shops: ["guild events","fleet"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebelpilot_wedge.png"
     },
