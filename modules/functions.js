@@ -229,7 +229,7 @@ module.exports = (client) => {
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
             if (roleName && roleName != undefined) roleName = roleName.name;
             const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
-            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true") {
+            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
                 message.channel.send(congratsMessage);
             } else if (settings.roleRewardsEnabled === "true") {
                 client.assignRole(message.member, roleName);
@@ -259,6 +259,8 @@ module.exports = (client) => {
     exists, if it doesn't create it and assign that role to the message.author
     */
     client.assignRole = async (member, roleName) => {
+
+        // If the bot cannot manage roles, then don't even try to
         if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let role = member.guild.roles.find(r => r.name === roleName);
@@ -286,6 +288,7 @@ module.exports = (client) => {
     to determine which previous role to remove
     */
     client.removePointsRole = async (member, curLevel) => {
+
         // If the bot cannot manage roles, then don't even try to
         if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
