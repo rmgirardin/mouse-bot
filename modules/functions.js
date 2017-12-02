@@ -229,12 +229,16 @@ module.exports = (client) => {
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
             if (roleName && roleName != undefined) roleName = roleName.name;
             const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
-            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
-                message.channel.send(congratsMessage);
+            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
+                if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
+                    message.channel.send(congratsMessage);
+                }
             } else if (settings.roleRewardsEnabled === "true") {
                 client.assignRole(message.member, roleName);
                 client.removePointsRole(message.member, newLevel);
-                message.channel.send(`${congratsMessage}\nYou've been promoted to **${roleName}**!`);
+                if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
+                    message.channel.send(`${congratsMessage}\nYou've been promoted to **${roleName}**!`);
+                }
             }
         }
     };
@@ -261,7 +265,7 @@ module.exports = (client) => {
     client.assignRole = async (member, roleName) => {
 
         // If the bot cannot manage roles, then don't even try to
-        if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let role = member.guild.roles.find(r => r.name === roleName);
         if (!role) {
@@ -290,7 +294,7 @@ module.exports = (client) => {
     client.removePointsRole = async (member, curLevel) => {
 
         // If the bot cannot manage roles, then don't even try to
-        if (!member.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
         let oldRole;
 
@@ -314,6 +318,10 @@ module.exports = (client) => {
     including action, user (target), moderator, reason and timestamp
     */
     client.modlogEmbed = async (message, command, color = 0xCACBCE, user, reason, duration = "", amount = "") => {
+
+        // Make sure you can send a message
+        if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+        
         const { RichEmbed } = require("discord.js");
         const settings = client.settings.get(message.guild.id);
         const modlog = message.guild.channels.find("name", settings.modLogChannel);

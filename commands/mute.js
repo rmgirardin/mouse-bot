@@ -1,6 +1,6 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("I do not have permission to do that.");
+    if (!message.guild.member(client.user).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("I do not have permission to do that.");
 
     const user = message.mentions.users.first();
     if (!user) return client.cmdError(message, cmd);

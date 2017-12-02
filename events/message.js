@@ -18,6 +18,10 @@ module.exports = (client, message) => {
     // Add a point for a regular message
     client.addPoints(message, client.config.messagePoints);
 
+    // If the bot can't send messages in that channel, let's not even attempt to
+    // The user can still get a point, though ^
+    if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+
     if (message.content.indexOf(settings.prefix) !== 0 && message.content.indexOf(client.user) !== 0) return; // Check for prefix or bot mention
 
     let args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
