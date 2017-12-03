@@ -9,11 +9,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
     // The courtious "checking" message while the user waits
-    const chMessage = await message.channel.send("Checking... This may take a minute. 👀");
+    const chMessage = await message.channel.send("Checking... this may take a minute. 👀");
 
     const collection = await swgoh.collection(profile);
+    chMessage.edit("Seaching on swgoh.gg... 🔦");
     const mods = await swgoh.mods(profile);
     if (collection.length < 1) return chMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+    chMessage.edit("Looking up mods... 💾");
+
 
     // Start off my setting these variables so we can fill them when we do a
     // search for the character from the args
@@ -65,6 +68,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             secondaryValue.push(secondaryText);
         }
     }
+
+    chMessage.edit("Compiling... 🗑");
 
     // Because the search may turn up multiple different characters, lets sort
     // and filter the mods by character so we can display them neatly. We will
@@ -135,7 +140,7 @@ Galactic Power: ${galacticPower[a].toLocaleString()} *(${Math.round(galacticPowe
     }
 
     // This edits the "Checking... One moment" text
-    chMessage.edit("Here's what I found:");
+    await chMessage.edit("Here's what I found:");
 
 };
 
