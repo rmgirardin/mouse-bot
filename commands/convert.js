@@ -46,9 +46,9 @@ exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no
     if (isNaN(damage)) {
         client.cmdError(message, cmd);
     } else if (isPercent == true) {
-        message.channel.send(num + "% is about " + Math.round(damage).toLocaleString() + " in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
+        message.channel.send(num + "% is about **" + Math.round(damage).toLocaleString() + "** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
     } else {
-        message.channel.send(Number(num).toLocaleString() + " is about " + damage.toFixed(2) + "% in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
+        message.channel.send(Number(num).toLocaleString() + " is about **" + damage.toFixed(2) + "%** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
     }
 
 };
