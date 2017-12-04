@@ -3,6 +3,7 @@ const characters = [
     {
         name: "Aayla Secura",
         cantina: ["5-B"],
+        shops: ["guild"],
         faction: ["Light Side","Support","Galactic Republic","Jedi"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_aaylasecura.png"
     },
@@ -70,7 +71,7 @@ const characters = [
         name: "Biggs Darklighter",
         dark: ["4-A"],
         cantina: ["3-G"],
-        shops: ["gw","fleet","guild events"],
+        shops: ["galactic war","fleet","guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_rebelpilot_biggs.png"
     },
@@ -93,14 +94,14 @@ const characters = [
 
     {
         name: "Bodhi Rook",
-        shops: ["gw","guild events"],
+        shops: ["galactic war","guild events"],
         faction: ["Light Side","Support","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_bodhi.png"
     },
 
     {
         name: "Cad Bane",
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Support","Bounty Hunter","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_cadbane.png"
     },
@@ -114,7 +115,7 @@ const characters = [
 
     {
         name: "Captain Phasma",
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Support","First Order","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_phasma.png"
     },
@@ -148,7 +149,7 @@ const characters = [
     },
 
     {
-        name: "Chirrut Imwe",
+        name: "Chirrut Îmwe",
         shops: ["guild events","fleet"],
         faction: ["Light Side","Attacker","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_chirrut.png"
@@ -176,6 +177,13 @@ const characters = [
         cantina: ["1-C","5-G"],
         faction: ["Light Side","Tank","Galactic Republic","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_chewbacca.png"
+    },
+
+    {
+        name: "Colonel Starck",
+        shops: ["guild"],
+        faction: ["Dark Side","Empire","Imperial Trooper","Support"],
+        image: "https://swgoh.gg/static/img/assets/tex.charui_colonel_stark.png"
     },
 
     {
@@ -255,7 +263,7 @@ const characters = [
         name: "Dathcha",
         light: ["3-B","3-F"],
         cantina: ["2-G"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Light Side","Support","Jawa"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_jawa_dathcha.png"
     },
@@ -323,7 +331,7 @@ const characters = [
         name: "Finn",
         light: ["7-A"],
         cantina: ["3-E","5-C"],
-        shops: ["gw","cantina","arena","guild","fleet","shard"],
+        shops: ["galactic war","cantina","arena","guild","fleet","shard"],
         faction: ["Light Side","Tank","Human","Resistance"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_finnjakku.png"
     },
@@ -333,6 +341,12 @@ const characters = [
         shops: ["cantina"],
         faction: ["Dark Side","Support","First Order","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_firstorderofficer.png"
+    },
+
+    {
+        name: "First Order SF TIE Pilot",
+        faction: ["Attacker","Dark Side","First Order"],
+        image: "https://swgoh.gg/static/img/assets/tex.charui_firstorder_pilot.png"
     },
 
     {
@@ -361,13 +375,14 @@ const characters = [
     {
         name: "Gar Saxon",
         cantina: ["8-E"],
+        shops: ["guild events"],
         faction: ["Dark Side","Tank","Empire"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_gar_saxon.png"
     },
 
     {
         name: 'Garazeb "Zeb" Orrelios', // eslint-disable-line quotes
-        shops: ["gw","guild events"],
+        shops: ["galactic war","guild events"],
         faction: ["Light Side","Tank","Phoenix","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_zeb_s3.png"
     },
@@ -417,7 +432,7 @@ const characters = [
 
     {
         name: "Grand Master Yoda",
-        shops: ["gw","cantina","arena","guild","fleet","shard"],
+        shops: ["galactic war","cantina","arena","guild","fleet","shard"],
         faction: ["Light Side","Support","Galactic Republic","Jedi"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_yodagrandmaster.png"
     },
@@ -494,7 +509,7 @@ const characters = [
         light: ["4-D"],
         dark: ["2-F"],
         cantina: ["4-E"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Attacker","Droid"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_ig86.png"
     },
@@ -511,9 +526,15 @@ const characters = [
         light: ["7-C"],
         dark: ["5-A"],
         cantina: ["7-E"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Light Side","Support","Galactic Republic","Jedi"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_imagundi.png"
+    },
+
+    {
+        name: "Imperial Probe Droid",
+        faction: ["Dark Side","Droid","Empire","Support"],
+        image: "https://swgoh.gg/static/img/assets/tex.charui_probedroid.png"
     },
 
     {
@@ -528,7 +549,7 @@ const characters = [
         light: ["6-B"],
         dark: ["4-F"],
         cantina: ["2-D"],
-        shops: ["gw","cantina","arena","guild","fleet","shard"],
+        shops: ["galactic war","cantina","arena","guild","fleet","shard"],
         faction: ["Light Side","Attacker","Jawa"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_jawa_jawa.png"
     },
@@ -583,7 +604,7 @@ const characters = [
 
     {
         name: "K-2SO",
-        shops: ["gw","guild events"],
+        shops: ["galactic war","guild events"],
         faction: ["Light Side","Tank","Droid","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_k2so.png"
     },
@@ -607,6 +628,12 @@ const characters = [
         cantina: ["4-C","6-C"],
         faction: ["Dark Side","Attacker","First Order","Human"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_kyloren.png"
+    },
+
+    {
+        name: "Kylo Ren (Unmasked)",
+        faction: ["Dark Side","First Order","Human","Tank"],
+        image: "https://swgoh.gg/static/img/assets/tex.charui_kylo_unmasked.png"
     },
 
     {
@@ -644,7 +671,7 @@ const characters = [
         name: "Luminara Unduli",
         light: ["3-D","6-A"],
         dark: ["2-E"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Light Side","Attacker","Galactic Republic","Jedi"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_luminara.png"
     },
@@ -660,7 +687,7 @@ const characters = [
 
     {
         name: "Magmatrooper",
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Attacker","Empire","Human","Imperial Trooper"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperstorm_magma.png"
     },
@@ -687,7 +714,7 @@ const characters = [
 
     {
         name: "Nightsister Initiate",
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Attacker","Nightsister"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_nightsister_initiate.png"
     },
@@ -714,7 +741,7 @@ const characters = [
     {
         name: "Obi-Wan Kenobi (Old Ben)",
         cantina: ["2-F","6-B"],
-        shops: ["gw","cantina","arena","guild","fleet","shard"],
+        shops: ["galactic war","cantina","arena","guild","fleet","shard"],
         faction: ["Light Side","Tank","Human","Jedi","Rebel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_obiwanep4.png"
     },
@@ -737,6 +764,7 @@ const characters = [
     {
         name: "Paploo",
         cantina: ["3-D"],
+        shops: ["guild"],
         faction: ["Light Side","Tank","Ewok"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_ewok_paploo.png"
     },
@@ -762,7 +790,7 @@ const characters = [
     {
         name: "Poggle the Lesser",
         light: ["4-E","6-E"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Support","Geonosian","Separatist"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_geonosian_poggle.png"
     },
@@ -795,7 +823,7 @@ const characters = [
 
     {
         name: "Resistance Pilot",
-        shops: ["gw","fleet"],
+        shops: ["galactic war","fleet"],
         faction: ["Light Side","Attacker","Human","Resistance"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_resistancepilot.png"
     },
@@ -823,6 +851,7 @@ const characters = [
         light: ["1-D"],
         dark: ["5-F"],
         cantina: ["7-C"],
+        shops: ["guild events"],
         faction: ["Dark Side","Tank","Empire"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_royalguard.png"
     },
@@ -860,6 +889,7 @@ const characters = [
     {
         name: "Sith Assassin",
         cantina: ["8-C"],
+        shops: ["guild"],
         faction: ["Dark Side","Attacker","Sith"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_sithassassin.png"
     },
@@ -884,7 +914,7 @@ const characters = [
         name: "Stormtrooper",
         light: ["3-C","8-D"],
         dark: ["4-D"],
-        shops: ["cantina"],
+        shops: ["cantina","guild events"],
         faction: ["Dark Side","Tank","Empire","Imperial Trooper"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_trooperstorm.png"
     },
@@ -915,7 +945,7 @@ const characters = [
         name: "Teebo",
         light: ["4-A"],
         dark: ["3-D"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Light Side","Tank","Ewok"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_ewok_teebo.png"
     },
@@ -931,7 +961,7 @@ const characters = [
         name: "Tusken Raider",
         dark: ["6-C"],
         cantina: ["7-A"],
-        shops: ["gw"],
+        shops: ["galactic war"],
         faction: ["Dark Side","Attacker","Tusken"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_tuskenraider.png"
     },
@@ -959,14 +989,23 @@ const characters = [
 
     {
         name: "Veteran Smuggler Chewbacca",
+        cantina: ["8-F"],
         faction: ["Light Side","Attacker","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_tfa_chewbacca.png"
     },
 
     {
         name: "Veteran Smuggler Han Solo",
+        cantina: ["8-G"],
         faction: ["Light Side","Attacker","Scoundrel"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_tfa_han.png"
+    },
+
+    {
+        name: "Wampa",
+        shops: ["guild events"],
+        faction: ["Attacker","Dark Side"],
+        image: "https://swgoh.gg/static/img/assets/tex.charui_wampa.png"
     },
 
     {
