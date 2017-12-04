@@ -34,8 +34,7 @@ module.exports = (client, member) => {
     Send embed to mod-log channel that a new member has joined
     */
     const modlog = member.guild.channels.find("name", settings.modLogChannel);
-    if (!modlog) return;
-
+    if (!modlog || !client.channels.get(modlog.id).permissionsFor(client.user).has("SEND_MESSAGES")) return;
     const embed = new RichEmbed()
         .setAuthor(`${member.user.tag} (${member.user.id})`, member.user.avatarURL)
         .setColor(0x00FF00)

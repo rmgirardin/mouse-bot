@@ -129,6 +129,8 @@ module.exports = (client) => {
             guildChannel = await guild.channels.find(r => r.name === settings.aChannel);
         else return;
 
+        if (!guildChannel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+
         guildChannel.send(text).catch(console.error);
     };
 
@@ -321,7 +323,7 @@ module.exports = (client) => {
 
         // Make sure you can send a message
         if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
-        
+
         const { RichEmbed } = require("discord.js");
         const settings = client.settings.get(message.guild.id);
         const modlog = message.guild.channels.find("name", settings.modLogChannel);
@@ -381,6 +383,33 @@ module.exports = (client) => {
             .setTimestamp()
             .setFooter(events);
         return botLogChannel.send({embed});
+    };
+
+    /*
+    --- GET OBJECTS ---
+
+    Matches keys or values within an object and returns the parent value if
+    needed
+    */
+    client.getObjects = (obj, key, val, parentKey) => {
+        var objects = [];
+        for (var i in obj) {
+            if (!obj.hasOwnProperty(i)) continue;
+            if (obj[parentKey] != undefined) obj[i].parent = obj[parentKey];
+            if (typeof obj[i] == "object") {
+                objects = objects.concat(client.getObjects(obj[i], key, val));
+            } else
+            //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
+            if (i == key && obj[i].toLowerCase() == val || i == key && val == "") {
+                objects.push(obj);
+            } else if (obj[i].toLowerCase() == val && key == "") {
+                //only add if the object is not already in the array
+                if (objects.lastIndexOf(obj) == -1) {
+                    objects.push(obj);
+                }
+            }
+        }
+        return objects;
     };
 
 
