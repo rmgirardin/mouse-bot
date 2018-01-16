@@ -1,5 +1,6 @@
 # Mouse Bot 2.0
-[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66)
+[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![support](https://img.shields.io/badge/support-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66)
+[![discord](https://img.shields.io/badge/chat-Discord-7289DA.svg)](https://discord.gg/ZytN4aC)
 
 Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
