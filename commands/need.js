@@ -2,66 +2,111 @@
 // characters list in the shipments file. Any matching characters that are less
 // than 7* will be reported as still needed.
 
+function getObjects(obj, key, val) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (obj.name != undefined) obj[i].parent = obj.name;
+        if (typeof obj[i] == "object") {
+            objects = objects.concat(getObjects(obj[i], key, val));
+        } else
+        //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
+        if (i == key && obj[i].toLowerCase() == val || i == key && val == "") {
+            objects.push(obj);
+        } else if (obj[i].toLowerCase() == val && key == "") {
+            //only add if the object is not already in the array
+            if (objects.lastIndexOf(obj) == -1) {
+                objects.push(obj);
+            }
+        }
+    }
+    return objects;
+}
+
 const swgoh = require("swgoh").swgoh;
 const { RichEmbed } = require("discord.js");
 const shipments = require("../modules/shipments.js");
+const characters = require("../modules/characters.js");
+const ships = require("../modules/ships.js");
+
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     if (!args[0]) return client.cmdError(message, cmd);
 
-    let [profile, shop, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
+    let [profile, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
     if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
     // The courtious "checking" message while the user waits
     const needMessage = await message.channel.send("Checking... One moment. 👀");
 
-    const collection = await swgoh.collection(profile);
-    if (collection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+    const characterCollection = await swgoh.collection(profile);
+    if (characterCollection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = await swgoh.ship(profile);
 
-    shop = shop.toLowerCase().replace(/shop|shops|store|stores|shipment|shipments|squad|squads|battle|battles/g, "")
-        .replace(/gw/g, "galactic war").replace(/ship|ships|fleet arena/g, "fleet")
+    // Clean text
+    searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad/g, "")
+        .replace(/gw/g, "galactic war").replace(/ship|fleet arena/g, "fleet")
         .trim();
 
-    const shopCheck = shipments[shop];
-    if (!shopCheck || shopCheck === undefined) return needMessage.edit(`${message.author}, I can't find that shop. Try using gw | cantina | arena | guild | fleet | shard`).then(client.cmdError(message, cmd));
-    const shopCharacters = shipments[shop]["characters"];
-    const shopShips = shipments[shop]["ships"];
+    // Search for a shipments image, because it looks nice in the embed
+    const shopCheck = shipments[searchTerm];
+    let shopImage;
+    if (shopCheck || shopCheck != undefined) shopImage = shipments[searchTerm]["image"];
 
+    // Okay, lets finally do some searching
+    const searchCharacters = getObjects(characters, "", searchTerm);
+    const foundCharacters = [];
+    for (var j in searchCharacters) {
+        foundCharacters.push(searchCharacters[j].parent);
+    }
+
+    const searchShips = getObjects(ships, "", searchTerm);
+    const foundShips = [];
+    for (var k in searchShips) {
+        foundShips.push(searchShips[k].parent);
+    }
+
+    // Creating the embed
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setAuthor(`${profile.toProperCase()}'s Needs for ${shop.toProperCase()} Shop:`, shipments[shop]["image"])
+        .setAuthor(`${profile.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`, shopImage)
         .setColor(0xEE7100)
+        .setDescription("*Need Shards (current status)*")
         .setURL("https://swgoh.gg/db/shipments/");
 
-    let description = "__***Needed** (current status)*__";
+    let charDescription = "";
+    let shipDescription = "";
 
-    for (let i = 0; i < shopCharacters.length; i++) {
+    // Now we crosscheck with the swgoh.gg account and update the embeds
+    for (let i = 0; i < foundCharacters.length; i++) {
 
-        const character = collection.find(c => c.code === shopCharacters[i]);
+        const swgohggCharacter = characterCollection.find(c => c.description === foundCharacters[i]);
 
-        if (character) {
-            const rank = Number(character.star);
-            if (rank < 7) description = `${description}\n**${client.checkClones(character.description)}** (${rank} star)`;
+        if (swgohggCharacter) {
+            const rank = Number(swgohggCharacter.star);
+            if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(swgohggCharacter.description)} (${rank} star)`;
         } else {
-            description = `${description}\n**${client.checkClones(shopCharacters[i].replace(/-/g, " "))}** (locked)`;
+            charDescription = `${charDescription}\n**${foundCharacters[i]}** (not activated)`;
         }
     }
 
-    for (let i = 0; i < shopShips.length; i++) {
+    for (let i = 0; i < foundShips.length; i++) {
 
-        const ship = shipCollection.find(s => s.code === shopShips[i]);
+        const swgohggShip = shipCollection.find(s => s.description === foundShips[i]);
 
-        if (ship) {
-            const rank = Number(ship.star);
-            if (rank < 7 && rank != 0) description = `${description}\n**${ship.description.replace(/\\/g, "'")}** (${rank} star)`;
+        if (swgohggShip) {
+            const rank = Number(swgohggShip.star);
+            if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${swgohggShip.description.replace(/\\/g, "'")} (${rank} star)`;
         } else {
-            description = `${description}\n**${shopShips[i].replace(/-/g, " ").toProperCase().replace("Arc 170", "ARC-170").replace("Tie", "TIE").replace(" Ii", " II")}** (locked)`;
+            shipDescription = `${shipDescription}\n**${foundShips[i]}** (not activated)`;
         }
     }
 
-    if (description === "__***Needed** (current status)*__") description = `You currently have maxed all the characters/ships in **${shop}** shipments!`;
-    embed.setDescription(description);
+    if (charDescription === "" && shipDescription === "") embed.setDescription(`Nothing found!
+Either all characters/ships have been maxed out,
+or I cannot find anything for __${searchTerm}__.`);
+    if (charDescription != "") embed.addField("__Characters:__", charDescription);
+    if (shipDescription != "") embed.addField("__Ships:__", shipDescription);
 
     needMessage.edit({ embed });
 
@@ -79,5 +124,5 @@ exports.help = {
     category: "Game",
     description: "Let user know which characters they need in shipments",
     usage: "need ~[swgoh.gg-username] <shop>",
-    examples: ["need ~necavit gw", "shipments @Necavit#0540 fleet shop", "need arena shipments"]
+    examples: ["need ~necavit gw", "shipments @Necavit#0540 fleet", "need jedi"]
 };
