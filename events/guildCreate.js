@@ -18,24 +18,7 @@ module.exports = async (client, guild) => {
 
     const settings = client.settings.get(guild.id);
 
-    const guildOwnerWelcome = `Hello! Thanks for adding me to your ${guild.name} server! In order to get started, please edit some of the settings in any channel on your server. To get this done, you'll use the following command structure:\`\`\`${settings.prefix}set edit <key-to-change> <new-value>\`\`\`You can see all of the current settings by just using \`${settings.prefix}set\`.
-
-First, change the **prefix** if you want to. To do this type \`-set edit prefix <new-character>\`.
-
-Use the same command structure *(but with your new prefix, if you changed it)* to allow your **moderators** and **administrators** to use my higher level functions. Right now you're the only one who can probably change these things and use my other system commands.
-・\`moderatorRole <your-moderator-role-name>\`
-・\`admistratorRole <your-administrator-role-name>\`
-
-In order to get a **log** of the system commands other moderators use, change the mod-log channel to the channel name only your moderators use or a separate channel for logs: \`modLogChannel <channel-name>\`.
-
-Here's a list of other important settings you should consider changing. The \`key\` is listed with the system default **value**:
-・\`aChannel\`: **general**
-・\`welcomeEnabled\`: **true**
-・\`pointsEnabled\`: **false**
-・\`roleRewardsEnabled\`: **true** (will only work if \`pointsEnabled\` is **true**)
-・\`guildReset\`: **2030** (based on EST, must be 24-hour time)
-
-Now that you have everything configured to your server, use the **\`help\`** command to read more about what I can do. You can also check out my user manual for more in-depth details of my functions: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/`;
+    const guildOwnerWelcome = `Hello! Thanks for adding me to ${guild.name}! You can change the **prefix** by typing \`/set edit prefix <new-character>\`. If you want to modify some of my deeper function, check out the guide here: https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/server-config.html`;
 
     guild.owner.user.send(guildOwnerWelcome).catch(console.error);
 
