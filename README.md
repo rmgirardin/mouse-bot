@@ -1,6 +1,5 @@
 # Mouse Bot 2.0
-[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![support](https://img.shields.io/badge/support-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66)
-[![discord](https://img.shields.io/badge/chat-Discord-7289DA.svg)](https://discord.gg/ZytN4aC)
+[![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![support](https://img.shields.io/badge/support-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66) [![discord](https://img.shields.io/badge/chat-Discord-7289DA.svg)](https://discord.gg/ZytN4aC)
 
 Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
@@ -71,7 +70,9 @@ If you don't want to code, but you want to contribute, you can always [donate](h
 
 
 ## Support
-If you need help, you can always ask me. I’m available on Discord: Necavit#0540 or through email: support@girard.in
+If you enjoy using Mouse Bot, please consider supporting it so that Mouse Bot can continue to improve and get better either by contributing code and support or contributing monetarily. Help me [host Mouse Bot on a better server](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66).
+
+If you need help, you can always ask me or join the [Discord support server](https://discord.gg/ZytN4aC).
 
 If you find any bugs or typos, please let me know!
 I hope you enjoy this bot as much as I do!

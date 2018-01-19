@@ -4,7 +4,7 @@
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    if (!args.join() || args.join().size < 1) return client.cmdError(message, cmd);
+    if (!args.join() || args.join().length < 1) return client.cmdError(message, cmd);
 
     let response = await client.unloadCommand(args[0]);
     if (response) return message.reply(`Error Unloading: ${response}`);

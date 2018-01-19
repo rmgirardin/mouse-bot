@@ -106,7 +106,7 @@ module.exports = (client) => {
     msg.reply(`Oh, I really love ${response} too!`);
     */
     client.awaitReply = async (message, question, limit = 60000) => {
-        const filter = m => m.author.id = message.author.id;
+        const filter = m => m.author.id === message.author.id;
         await message.channel.send(question);
         try {
             const collected = await message.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
@@ -469,7 +469,7 @@ module.exports = (client) => {
     });
 
     process.on("unhandledRejection", err => {
-        console.error("Uncaught Promise Error: ", err);
+        console.error(`Unhandled rejection: ${err}`);
     });
 
 };
