@@ -1,6 +1,6 @@
 {
   "name": "mouse-bot",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "A Discord bot for Star Wars: Galaxy of Heroes",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "enmap": "^0.4.2",
     "enmap-level": "^1.0.0",
     "moment": "^2.20.1",
-    "moment-duration-format": "^2.2.0",
+    "moment-duration-format": "^2.2.1",
     "ms": "^2.1.1",
     "os": "^0.1.1",
     "querystring": "^0.2.0",
