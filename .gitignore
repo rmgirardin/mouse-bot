@@ -8,6 +8,7 @@ config.json
 config.js
 data/
 test.js
+test2.js
 
 # Runtime data
 pids
