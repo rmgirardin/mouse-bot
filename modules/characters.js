@@ -474,7 +474,7 @@ const characters = [
         light: [],
         dark: [],
         cantina: [],
-        shops: [],
+        shops: ["guild"],
         faction: ["Attacker", "Dark Side", "First Order"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_firstorder_pilot.png"
     },
@@ -852,7 +852,7 @@ const characters = [
         name: "Kylo Ren (Unmasked)",
         light: [],
         dark: [],
-        cantina: [],
+        cantina: ["3-F"],
         shops: [],
         faction: ["Dark Side", "First Order", "Human", "Tank"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_kylo_unmasked.png"

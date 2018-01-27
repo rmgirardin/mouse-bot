@@ -85,7 +85,7 @@ const ships = [
         light: [],
         dark: [],
         cantina: [],
-        shops: [],
+        shops: ["guild"],
         faction: ["Dark Side", "Attacker", "First Order"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_fosf_tie_fighter.png"
     },
@@ -294,7 +294,7 @@ const ships = [
         name: "TIE Silencer",
         light: [],
         dark: [],
-        cantina: [],
+        cantina: ["3-F"],
         shops: [],
         faction: ["Dark Side", "Attacker", "First Order"],
         image: "https://swgoh.gg/static/img/assets/tex.charui_tie_silencer.png"
