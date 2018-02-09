@@ -43,7 +43,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const characterCollection = await swgoh.collection(profile);
     if (characterCollection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = await swgoh.ship(profile);
-    console.log(shipCollection);
 
     // Clean text
     searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad/g, "")
