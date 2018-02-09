@@ -43,6 +43,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const characterCollection = await swgoh.collection(profile);
     if (characterCollection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = await swgoh.ship(profile);
+    console.log(shipCollection);
 
     // Clean text
     searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad/g, "")
@@ -97,6 +98,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (swgohggShip) {
             const rank = Number(swgohggShip.star);
             if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${swgohggShip.description.replace(/\\/g, "'")} (${rank} star)`;
+            if (rank === 0) shipDescription = `${shipDescription}\n**${foundShips[i]}** (not activated)`; // For some reason, 'else' wasn't working
         } else {
             shipDescription = `${shipDescription}\n**${foundShips[i]}** (not activated)`;
         }
