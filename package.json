@@ -37,7 +37,7 @@
     "os": "^0.1.1",
     "querystring": "^0.2.0",
     "snekfetch": "^3.6.4",
-    "swgoh": "^0.4.2",
+    "swgoh": "^0.4.5",
     "uws": "^9.14.0"
   },
   "devDependencies": {}
