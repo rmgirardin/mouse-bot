@@ -4,11 +4,12 @@
 // can easily access quick information
 
 const swgoh = require("swgoh").swgoh;
+const moment = require("moment");
 const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const no-unused-vars
+    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
 
     if (args[0] === "add" || args[0] === "edit") {
         swName = swName.slice(4);
@@ -34,6 +35,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Some user's don't submit thier profile codes on swgoh.gg, if that's the
     // case, lets not display (undefined) next to their name
     let title = `${profile.username}'s Profile (${profile.allyCode})`;
+    const lastUpdated = moment(profile.lastUpdatedUTC).fromNow();
     if (profile.allyCode === undefined) title = profile.username;
 
     const embed = new RichEmbed()
@@ -48,7 +50,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 **7\* Characters:** ${profile.characters7}
 **Gear 12 Characters:** ${profile.gearXII}
 **Gear 11 Characters:** ${profile.gearXI}`)
-        .setFooter(`https://swgoh.gg/u/${profile.username.toLowerCase()}/`, "https://swgoh.gg/static/img/bb8.png");
+        .setFooter(`https://swgoh.gg/u/${profile.username.toLowerCase()}/ (Last updated ${lastUpdated})`, "https://swgoh.gg/static/img/bb8.png");
 
     profileMessage.edit({embed});
 
