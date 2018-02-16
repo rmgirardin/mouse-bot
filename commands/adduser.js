@@ -6,16 +6,16 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     while (args.length > 0) {
 
         // user id in args has the form <@273421645828325377>, so strip of leading <@ and trailing >
-        let userId = args.shift().replace(/[<@>]/g, "");
+        const userId = args.shift().replace(/[<@>]/g, "");
 
-        let user = message.guild.members.get(userId);
+        const user = message.guild.members.get(userId);
         if (!user) return message.reply(`User ${userId} not found.`).then(client.cmdError(message,cmd));
         if (!args[0]) return message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd)); 
 
         let swName = args.shift();
         if (swName.startsWith("~")) swName = swName.replace("~", "");
 
-        let id = client.profileTable.get(user.id);
+        const id = client.profileTable.get(user.id);
 
         if (!id) {
             client.profileTable.set(user.id, swName);
