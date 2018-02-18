@@ -6,23 +6,30 @@
 const swgoh = require("swgoh").swgoh;
 const moment = require("moment");
 const { RichEmbed } = require("discord.js");
+const add = require("./add.js");
+const adduser = require("./adduser.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
-
+    // If they want to edit their stored swgoh.gg username, we'll let them here
     if (args[0] === "add" || args[0] === "edit") {
-        swName = swName.slice(4);
-        if (!swName || swName.size < 1) return message.reply("You entered nothing for me to save.").then(client.cmdError(message, cmd));
 
-        if (!id) {
-            client.profileTable.set(message.author.id, swName);
-            return message.reply(`I've added **${swName}** to your record.`);
-        } else {
-            client.profileTable.set(message.author.id, swName);
-            return message.reply(`I've changed your record from **${id}** to **${swName}**.`);
-        }
+        // Remove the "add" or "edit"
+        args = args.slice(1);
+
+        // Now either run add or adduser commands
+        if (args.length === 1) add.run(client, message, cmd, args, level);
+        else if (args.length > 1) adduser.run(client, message, cmd, args, level);
+        else client.cmdError(message, cmd);
+
+        return;
     }
+
+    //
+    // Now we actually execute the profile command
+    //
+
+    let [id, swName, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
 
     // The courtious "checking" message while the user waits
     const profileMessage = await message.channel.send("Checking... One moment. 👀");

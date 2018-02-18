@@ -23,7 +23,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // If more than one arg, offload to the adduser.js command
     // This command allows moderators to add other user's swgoh.gg usernames
-    else if (args.length === 2) {
+    else if (args.length > 1) {
 
         adduser.run(client, message, cmd, args, level);
 
