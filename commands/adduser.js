@@ -9,11 +9,12 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const userId = args.shift().replace(/[<@>]/g, "");
 
         const user = message.guild.members.get(userId);
-        if (!user) return message.reply(`User ${userId} not found.`).then(client.cmdError(message,cmd));
+        if (!user) return message.reply(`user ${userId} not found.`).then(client.cmdError(message,cmd));
         if (!args[0]) return message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd));
 
         let swName = args.shift();
         if (swName.startsWith("~")) swName = swName.replace("~", "");
+        if (swName.startsWith("--")) swName = swName.replace("--", "");
 
         const id = client.profileTable.get(user.id);
 
@@ -38,6 +39,6 @@ exports.help = {
     name: "adduser",
     category: "Moderator",
 	description: "Add the swgoh.gg username for one or more Discord users to the database",
-	usage: "adduser <discord-username> <swgoh.gg-username> [discord-username> <swgoh.gg-username>]",
+	usage: "adduser <discord-username> <swgoh.gg-username>",
     examples: ["adduser @necavit necavit", "adduser @kyloren sweetsaberdude @hoboyoda theGhost"]
 };
