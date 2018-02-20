@@ -1,18 +1,17 @@
-// let hasPM2;
-//
-// try {
-//     require.resolve("pm2");
-//     hasPM2 = "PM2 is installed, hopefully I will reboot!";
-// } catch (e) {
-//     hasPM2 = "I cannot find PM2, you must restart manually.";
-// }
-
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
-    await message.channel.send(`${message.author}, ${client.user.username} is shutting down and might restart if you're lucky!
-*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
+    const closeMessage = await message.channel.send("Strike me down, and I will become more powerful than you could possibly imagine!");
     client.commands.forEach( async cmd => {
         await client.unloadCommand(cmd);
     });
+
+    // Close the collections before shutting down
+    await client.settings.db.close();
+    await client.pointsTable.db.close();
+    await client.profileTable.db.close();
+    await client.cache.db.close();
+
+    await closeMessage.edit(`Only at the end do you realize the power of the Dark Side.
+*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
     process.exit(1);
 };
 
