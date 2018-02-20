@@ -37,7 +37,7 @@ exports.conf = {
 
 exports.help = {
     name: "adduser",
-    category: "Moderator",
+    category: "Game",
 	description: "Add the swgoh.gg username for one or more Discord users to the database",
 	usage: "adduser <discord-username> <swgoh.gg-username>",
     examples: ["adduser @necavit necavit", "adduser @kyloren sweetsaberdude @hoboyoda theGhost"]
