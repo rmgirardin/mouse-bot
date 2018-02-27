@@ -57,7 +57,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 **7\* Characters:** ${profile.characters7}
 **Gear 12 Characters:** ${profile.gearXII}
 **Gear 11 Characters:** ${profile.gearXI}`)
-        .setFooter(`https://swgoh.gg/u/${profile.username.toLowerCase()}/ (Last updated ${lastUpdated})`, "https://swgoh.gg/static/img/bb8.png");
+        .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
 
     profileMessage.edit({embed});
 
