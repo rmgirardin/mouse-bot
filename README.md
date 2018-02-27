@@ -11,6 +11,9 @@ You can visit the [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-ma
 
 ---
 ## Updates
+- Added emojis to `mods` command
+- Added `guild` command to search for guild characters
+- Added native caching
 - Updated `need` command and added new ways to search
 
 Come check out the [Discord server](https://discord.gg/ZytN4aC) for all updates and any notifications.
