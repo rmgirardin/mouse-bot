@@ -60,8 +60,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     const guildMessage = await message.channel.send("Checking... One moment. 👀");
 
-    const lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"]));
-    lookup.concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
+    const lookup = charactersData.filter(fuzzy(searchTerm));
+    lookup.concat(shipsData.filter(fuzzy(searchTerm)));
 
     // Error message if no characters are found
     if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters, ships or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
