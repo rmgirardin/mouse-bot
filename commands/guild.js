@@ -41,9 +41,12 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
     const splitSearchText = searchText.split(" ");
 
+    const guildMessage = await message.channel.send("Checking... One moment. 👀");
+
     // Break down the given variables from args
     const searchRarity = parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) ? parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) : 1;
     const searchTerm = splitSearchText.filter(arg => !Number.isInteger(parseFloat(arg))).join(" ");
+    if (searchTerm.length < 3) return guildMessage.edit(`${message.author}, please use 3 or more letters to search for characters, I don't want to spam your channel with every character.`);
 
     // Setting up guild id and url for swgoh.gg/api
     let profile = client.cache.get(id + "_profile");
@@ -57,8 +60,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
     const url = `https://swgoh.gg/api/guilds/${guildNum}/units/`;
     let guildData = {};
-
-    const guildMessage = await message.channel.send("Checking... One moment. 👀");
 
     const lookup = charactersData.filter(fuzzy(searchTerm));
     lookup.concat(shipsData.filter(fuzzy(searchTerm)));
