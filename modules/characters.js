@@ -2,6 +2,7 @@ const characters = [
 
     {
         name: "Aayla Secura",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["5-B"],
@@ -12,6 +13,7 @@ const characters = [
 
     {
         name: "Admiral Ackbar",
+        nickname: ["AA"],
         light: [],
         dark: [],
         cantina: [],
@@ -22,6 +24,7 @@ const characters = [
 
     {
         name: "Ahsoka Tano",
+        nickname: [],
         light: ["5-D"],
         dark: ["4-C"],
         cantina: [],
@@ -32,6 +35,7 @@ const characters = [
 
     {
         name: "Ahsoka Tano (Fulcrum)",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -42,6 +46,7 @@ const characters = [
 
     {
         name: "Asajj Ventress",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -52,6 +57,7 @@ const characters = [
 
     {
         name: "B2 Super Battle Droid",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["6-D"],
@@ -62,6 +68,7 @@ const characters = [
 
     {
         name: "Barriss Offee",
+        nickname: ["Zarriss"],
         light: [],
         dark: ["5-C", "5-E", "8-A"],
         cantina: ["6-A"],
@@ -72,6 +79,7 @@ const characters = [
 
     {
         name: "Baze Malbus",
+        nickname: ["Chaze"],
         light: ["9-C"],
         dark: [],
         cantina: [],
@@ -82,6 +90,7 @@ const characters = [
 
     {
         name: "BB-8",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -92,6 +101,7 @@ const characters = [
 
     {
         name: "Biggs Darklighter",
+        nickname: ["Wiggs"],
         light: [],
         dark: ["4-A"],
         cantina: ["3-G"],
@@ -102,6 +112,7 @@ const characters = [
 
     {
         name: "Bistan",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -112,6 +123,7 @@ const characters = [
 
     {
         name: "Boba Fett",
+        nickname: [],
         light: ["8-A"],
         dark: ["2-B", "4-E"],
         cantina: [],
@@ -122,6 +134,7 @@ const characters = [
 
     {
         name: "Bodhi Rook",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -132,6 +145,7 @@ const characters = [
 
     {
         name: "Cad Bane",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -142,6 +156,7 @@ const characters = [
 
     {
         name: "Captain Han Solo",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["7-D"],
@@ -152,6 +167,7 @@ const characters = [
 
     {
         name: "Captain Phasma",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -162,6 +178,7 @@ const characters = [
 
     {
         name: "Cassian Andor",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -172,6 +189,7 @@ const characters = [
 
     {
         name: 'CC-2224 "Cody"', // eslint-disable-line quotes
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -182,6 +200,7 @@ const characters = [
 
     {
         name: "Chief Chirpa",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["5-D"],
@@ -192,6 +211,7 @@ const characters = [
 
     {
         name: "Chief Nebit",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -202,6 +222,7 @@ const characters = [
 
     {
         name: "Chirrut Îmwe",
+        nickname: ["Chirrut Imwe", "Chaze"],
         light: [],
         dark: [],
         cantina: [],
@@ -212,6 +233,7 @@ const characters = [
 
     {
         name: "Chopper",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -222,6 +244,7 @@ const characters = [
 
     {
         name: "Clone Sergeant - Phase I",
+        nickname: [],
         light: ["5-E"],
         dark: ["1-B", "3-E"],
         cantina: [],
@@ -232,6 +255,7 @@ const characters = [
 
     {
         name: "Clone Wars Chewbacca",
+        nickname: ["Chewie"],
         light: ["3-E"],
         dark: ["2-C"],
         cantina: ["1-C", "5-G"],
@@ -242,6 +266,7 @@ const characters = [
 
     {
         name: "Colonel Starck",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -252,6 +277,7 @@ const characters = [
 
     {
         name: "Commander Luke Skywalker",
+        nickname: ["CLS"],
         light: [],
         dark: [],
         cantina: [],
@@ -262,6 +288,7 @@ const characters = [
 
     {
         name: "Coruscant Underworld Police",
+        nickname: ["CUP"],
         light: [],
         dark: [],
         cantina: [],
@@ -272,6 +299,7 @@ const characters = [
 
     {
         name: "Count Dooku",
+        nickname: [],
         light: ["1-C"],
         dark: ["1-C"],
         cantina: ["6-G"],
@@ -282,6 +310,7 @@ const characters = [
 
     {
         name: 'CT-21-0408 "Echo"', // eslint-disable-line quotes
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -292,6 +321,7 @@ const characters = [
 
     {
         name: 'CT-5555 "Fives"', // eslint-disable-line quotes
+        nickname: [],
         light: ["4-F"],
         dark: ["2-D"],
         cantina: [],
@@ -302,6 +332,7 @@ const characters = [
 
     {
         name: 'CT-7567 "Rex"', // eslint-disable-line quotes
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -312,6 +343,7 @@ const characters = [
 
     {
         name: "Darth Maul",
+        nickname: ["Zaul"],
         light: [],
         dark: [],
         cantina: [],
@@ -322,6 +354,7 @@ const characters = [
 
     {
         name: "Darth Nihilus",
+        nickname: ["DN"],
         light: [],
         dark: ["9-A"],
         cantina: [],
@@ -332,6 +365,7 @@ const characters = [
 
     {
         name: "Darth Sidious",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -342,6 +376,7 @@ const characters = [
 
     {
         name: "Darth Vader",
+        nickname: ["Zader"],
         light: [],
         dark: [],
         cantina: [],
@@ -352,6 +387,7 @@ const characters = [
 
     {
         name: "Dathcha",
+        nickname: [],
         light: ["3-B", "3-F"],
         dark: [],
         cantina: ["2-G"],
@@ -362,6 +398,7 @@ const characters = [
 
     {
         name: "Death Trooper",
+        nickname: ["DT"],
         light: [],
         dark: [],
         cantina: ["8-A"],
@@ -371,6 +408,7 @@ const characters = [
 
     {
         name: "Dengar",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -381,6 +419,7 @@ const characters = [
 
     {
         name: "Director Krennic",
+        nickname: [],
         light: ["9-D"],
         dark: [],
         cantina: [],
@@ -391,6 +430,7 @@ const characters = [
 
     {
         name: "Eeth Koth",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -401,6 +441,7 @@ const characters = [
 
     {
         name: "Emperor Palpatine",
+        nickname: ["EP"],
         light: [],
         dark: [],
         cantina: [],
@@ -411,6 +452,7 @@ const characters = [
 
     {
         name: "Ewok Elder",
+        nickname: [],
         light: ["2-C"],
         dark: ["8-C"],
         cantina: [],
@@ -421,6 +463,7 @@ const characters = [
 
     {
         name: "Ewok Scout",
+        nickname: [],
         light: ["1-A"],
         dark: ["8-D", "9-B"],
         cantina: [],
@@ -431,6 +474,7 @@ const characters = [
 
     {
         name: "Ezra Bridger",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["2-B"],
@@ -441,6 +485,7 @@ const characters = [
 
     {
         name: "Finn",
+        nickname: ["Zinn"],
         light: ["7-A"],
         dark: [],
         cantina: ["3-E", "5-C"],
@@ -451,6 +496,7 @@ const characters = [
 
     {
         name: "First Order Executioner",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -461,6 +507,7 @@ const characters = [
 
     {
         name: "First Order Officer",
+        nickname: ["FOO"],
         light: [],
         dark: [],
         cantina: [],
@@ -471,6 +518,7 @@ const characters = [
 
     {
         name: "First Order SF TIE Pilot",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -481,6 +529,7 @@ const characters = [
 
     {
         name: "First Order Stormtrooper",
+        nickname: ["FOS"],
         light: ["2-B", "9-A"],
         dark: ["2-A"],
         cantina: [],
@@ -491,6 +540,7 @@ const characters = [
 
     {
         name: "First Order TIE Pilot",
+        nickname: [],
         light: ["6-D"],
         dark: ["6-B"],
         cantina: [],
@@ -501,6 +551,7 @@ const characters = [
 
     {
         name: "Gamorrean Guard",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -511,6 +562,7 @@ const characters = [
 
     {
         name: "Gar Saxon",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["8-E"],
@@ -521,6 +573,7 @@ const characters = [
 
     {
         name: 'Garazeb "Zeb" Orrelios', // eslint-disable-line quotes
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -531,6 +584,7 @@ const characters = [
 
     {
         name: "General Grievous",
+        nickname: ["GG"],
         light: [],
         dark: [],
         cantina: [],
@@ -541,6 +595,7 @@ const characters = [
 
     {
         name: "General Kenobi",
+        nickname: ["GK"],
         light: [],
         dark: [],
         cantina: [],
@@ -551,6 +606,7 @@ const characters = [
 
     {
         name: "General Veers",
+        nickname: [],
         light: ["4-C", "6-C"],
         dark: ["6-D"],
         cantina: [],
@@ -561,6 +617,7 @@ const characters = [
 
     {
         name: "Geonosian Soldier",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["1-A"],
@@ -571,6 +628,7 @@ const characters = [
 
     {
         name: "Geonosian Spy",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["4-D"],
@@ -581,6 +639,7 @@ const characters = [
 
     {
         name: "Grand Admiral Thrawn",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -591,6 +650,7 @@ const characters = [
 
     {
         name: "Grand Master Yoda",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -601,6 +661,7 @@ const characters = [
 
     {
         name: "Grand Moff Tarkin",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -611,6 +672,7 @@ const characters = [
 
     {
         name: "Greedo",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -621,6 +683,7 @@ const characters = [
 
     {
         name: "Han Solo",
+        nickname: ["Raid Han", "raidhan", "rh", "oghan", "Original Han"],
         light: [],
         dark: [],
         cantina: [],
@@ -631,6 +694,7 @@ const characters = [
 
     {
         name: "Hera Syndulla",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["1-F"],
@@ -641,6 +705,7 @@ const characters = [
 
     {
         name: "Hermit Yoda",
+        nickname: ["hoda"],
         light: [],
         dark: [],
         cantina: [],
@@ -651,6 +716,7 @@ const characters = [
 
     {
         name: "HK-47",
+        nickname: ["hk47"],
         light: [],
         dark: [],
         cantina: [],
@@ -661,6 +727,7 @@ const characters = [
 
     {
         name: "Hoth Rebel Scout",
+        nickname: [],
         light: ["8-B"],
         dark: ["6-A"],
         cantina: [],
@@ -671,6 +738,7 @@ const characters = [
 
     {
         name: "Hoth Rebel Soldier",
+        nickname: [],
         light: [],
         dark: ["3-B"],
         cantina: [],
@@ -681,6 +749,7 @@ const characters = [
 
     {
         name: "IG-100 MagnaGuard",
+        nickname: [],
         light: [],
         dark: ["6-E"],
         cantina: ["3-C"],
@@ -691,6 +760,7 @@ const characters = [
 
     {
         name: "IG-86 Sentinel Droid",
+        nickname: ["ig86"],
         light: ["4-D"],
         dark: ["2-F"],
         cantina: ["4-E"],
@@ -701,6 +771,7 @@ const characters = [
 
     {
         name: "IG-88",
+        nickname: ["ig88"],
         light: [],
         dark: [],
         cantina: [],
@@ -711,6 +782,7 @@ const characters = [
 
     {
         name: "Ima-Gun Di",
+        nickname: ["IGD"],
         light: ["7-C"],
         dark: ["5-A"],
         cantina: ["7-E"],
@@ -721,6 +793,7 @@ const characters = [
 
     {
         name: "Imperial Probe Droid",
+        nickname: ["IPD"],
         light: [],
         dark: [],
         cantina: [],
@@ -731,6 +804,7 @@ const characters = [
 
     {
         name: "Imperial Super Commando",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["8-D"],
@@ -741,6 +815,7 @@ const characters = [
 
     {
         name: "Jawa",
+        nickname: [],
         light: ["6-B"],
         dark: ["4-F"],
         cantina: ["2-D"],
@@ -751,6 +826,7 @@ const characters = [
 
     {
         name: "Jawa Engineer",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -761,6 +837,7 @@ const characters = [
 
     {
         name: "Jawa Scavenger",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -771,6 +848,7 @@ const characters = [
 
     {
         name: "Jedi Consular",
+        nickname: [],
         light: ["1-B"],
         dark: ["1-D", "3-C"],
         cantina: ["3-A", "6-E"],
@@ -781,6 +859,7 @@ const characters = [
 
     {
         name: "Jedi Knight Anakin",
+        nickname: ["Ani", "JKA"],
         light: ["5-C"],
         dark: ["5-B", "7-D"],
         cantina: ["7-G"],
@@ -790,6 +869,7 @@ const characters = [
 
     {
         name: "Jedi Knight Guardian",
+        nickname: [],
         light: [],
         dark: ["3-F"],
         cantina: [],
@@ -800,6 +880,7 @@ const characters = [
 
     {
         name: "Jyn Erso",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -810,6 +891,7 @@ const characters = [
 
     {
         name: "K-2SO",
+        nickname: ["k2s0"],
         light: [],
         dark: [],
         cantina: [],
@@ -820,6 +902,7 @@ const characters = [
 
     {
         name: "Kanan Jarrus",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -830,6 +913,7 @@ const characters = [
 
     {
         name: "Kit Fisto",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["4-F"],
@@ -840,6 +924,7 @@ const characters = [
 
     {
         name: "Kylo Ren",
+        nickname: ["Zylo"],
         light: [],
         dark: [],
         cantina: ["4-C", "6-C"],
@@ -850,6 +935,7 @@ const characters = [
 
     {
         name: "Kylo Ren (Unmasked)",
+        nickname: ["KRU"],
         light: [],
         dark: [],
         cantina: ["3-F"],
@@ -860,6 +946,7 @@ const characters = [
 
     {
         name: "Lando Calrissian",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["1-E", "5-F"],
@@ -870,6 +957,7 @@ const characters = [
 
     {
         name: "Lobot",
+        nickname: [],
         light: ["4-B", "5-B"],
         dark: [],
         cantina: [],
@@ -880,6 +968,7 @@ const characters = [
 
     {
         name: "Logray",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -890,6 +979,7 @@ const characters = [
 
     {
         name: "Luke Skywalker (Farmboy)",
+        nickname: [],
         light: ["7-D"],
         dark: [],
         cantina: ["1-B", "5-A"],
@@ -900,6 +990,7 @@ const characters = [
 
     {
         name: "Luminara Unduli",
+        nickname: [],
         light: ["3-D", "6-A"],
         dark: ["2-E"],
         cantina: [],
@@ -910,6 +1001,7 @@ const characters = [
 
     {
         name: "Mace Windu",
+        nickname: [],
         light: ["2-E"],
         dark: [],
         cantina: ["4-A"],
@@ -920,6 +1012,7 @@ const characters = [
 
     {
         name: "Magmatrooper",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -930,6 +1023,7 @@ const characters = [
 
     {
         name: "Mob Enforcer",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -940,6 +1034,7 @@ const characters = [
 
     {
         name: "Mother Talzin",
+        nickname: ["MT"],
         light: [],
         dark: [],
         cantina: [],
@@ -950,6 +1045,7 @@ const characters = [
 
     {
         name: "Nightsister Acolyte",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["2-A"],
@@ -960,6 +1056,7 @@ const characters = [
 
     {
         name: "Nightsister Initiate",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -970,6 +1067,7 @@ const characters = [
 
     {
         name: "Nightsister Spirit",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -980,6 +1078,7 @@ const characters = [
 
     {
         name: "Nightsister Zombie",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -990,6 +1089,7 @@ const characters = [
 
     {
         name: "Nute Gunray",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1000,6 +1100,7 @@ const characters = [
 
     {
         name: "Obi-Wan Kenobi (Old Ben)",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["2-F", "6-B"],
@@ -1010,6 +1111,7 @@ const characters = [
 
     {
         name: "Old Daka",
+        nickname: [],
         light: [],
         dark: ["4-B"],
         cantina: [],
@@ -1020,6 +1122,7 @@ const characters = [
 
     {
         name: "Pao",
+        nickname: [],
         light: [],
         dark: [],
         shops: ["cantina"],
@@ -1029,6 +1132,7 @@ const characters = [
 
     {
         name: "Paploo",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["3-D"],
@@ -1039,6 +1143,7 @@ const characters = [
 
     {
         name: "Plo Koon",
+        nickname: [],
         light: [],
         dark: ["7-C"],
         cantina: ["4-G"],
@@ -1049,6 +1154,7 @@ const characters = [
 
     {
         name: "Poe Dameron",
+        nickname: [],
         light: ["7-B"],
         dark: ["7-A"],
         cantina: [],
@@ -1059,6 +1165,7 @@ const characters = [
 
     {
         name: "Poggle the Lesser",
+        nickname: [],
         light: ["4-E", "6-E"],
         dark: [],
         cantina: [],
@@ -1069,6 +1176,7 @@ const characters = [
 
     {
         name: "Princess Leia",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1079,6 +1187,7 @@ const characters = [
 
     {
         name: "Qui-Gon Jinn",
+        nickname: ["QGJ"],
         light: [],
         dark: [],
         cantina: [],
@@ -1089,6 +1198,7 @@ const characters = [
 
     {
         name: "R2-D2",
+        nickname: ["r2", "r2d2"],
         light: [],
         dark: [],
         cantina: [],
@@ -1099,6 +1209,7 @@ const characters = [
 
     {
         name: "Rebel Officer Leia Organa",
+        nickname: ["ROLO"],
         light: [],
         dark: [],
         cantina: [],
@@ -1109,6 +1220,7 @@ const characters = [
 
     {
         name: "Resistance Pilot",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1119,6 +1231,7 @@ const characters = [
 
     {
         name: "Resistance Trooper",
+        nickname: [],
         light: ["3-A"],
         dark: ["3-A"],
         cantina: [],
@@ -1129,6 +1242,7 @@ const characters = [
 
     {
         name: "Rey (Jedi Training)",
+        nickname: ["RJT", "JTR"],
         light: [],
         dark: [],
         cantina: [],
@@ -1139,6 +1253,7 @@ const characters = [
 
     {
         name: "Rey (Scavenger)",
+        nickname: [],
         light: ["2-A"],
         dark: ["5-D", "7-B"],
         cantina: "",
@@ -1149,6 +1264,7 @@ const characters = [
 
     {
         name: "Royal Guard",
+        nickname: ["RG"],
         light: ["1-D"],
         dark: ["5-F"],
         cantina: ["7-C"],
@@ -1159,6 +1275,7 @@ const characters = [
 
     {
         name: "Sabine Wren",
+        nickname: [],
         light: [],
         dark: ["1-A"],
         cantina: [],
@@ -1169,6 +1286,7 @@ const characters = [
 
     {
         name: "Savage Opress",
+        nickname: ["Zavage"],
         light: [],
         dark: [],
         cantina: [],
@@ -1179,6 +1297,7 @@ const characters = [
 
     {
         name: "Scarif Rebel Pathfinder",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["1-D"],
@@ -1189,6 +1308,7 @@ const characters = [
 
     {
         name: "Shoretrooper",
+        nickname: [],
         light: ["9-B"],
         dark: [],
         cantina: [],
@@ -1199,6 +1319,7 @@ const characters = [
 
     {
         name: "Sith Assassin",
+        nickname: ["SA"],
         light: [],
         dark: [],
         cantina: ["8-C"],
@@ -1209,6 +1330,7 @@ const characters = [
 
     {
         name: "Sith Trooper",
+        nickname: ["ST"],
         light: [],
         dark: [],
         cantina: ["8-B"],
@@ -1219,6 +1341,7 @@ const characters = [
 
     {
         name: "Snowtrooper",
+        nickname: [],
         light: ["8-C"],
         dark: [],
         cantina: ["7-B"],
@@ -1229,6 +1352,7 @@ const characters = [
 
     {
         name: "Stormtrooper",
+        nickname: [],
         light: ["3-C", "8-D"],
         dark: ["4-D"],
         cantina: [],
@@ -1239,6 +1363,7 @@ const characters = [
 
     {
         name: "Stormtrooper Han",
+        nickname: ["sthan"],
         light: [],
         dark: [],
         cantina: [],
@@ -1249,6 +1374,7 @@ const characters = [
 
     {
         name: "Sun Fac",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1259,6 +1385,7 @@ const characters = [
 
     {
         name: "Talia",
+        nickname: [],
         light: ["2-D", "2-F"],
         dark: [],
         cantina: ["1-G", "5-E"],
@@ -1269,6 +1396,7 @@ const characters = [
 
     {
         name: "Teebo",
+        nickname: [],
         light: ["4-A"],
         dark: ["3-D"],
         cantina: [],
@@ -1279,6 +1407,7 @@ const characters = [
 
     {
         name: "TIE Fighter Pilot",
+        nickname: [],
         light: [],
         dark: [],
         cantina: ["4-B"],
@@ -1289,6 +1418,7 @@ const characters = [
 
     {
         name: "Tusken Raider",
+        nickname: [],
         light: [],
         dark: ["6-C"],
         cantina: ["7-A"],
@@ -1299,6 +1429,7 @@ const characters = [
 
     {
         name: "Tusken Shaman",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1309,6 +1440,7 @@ const characters = [
 
     {
         name: "Ugnaught",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1319,6 +1451,7 @@ const characters = [
 
     {
         name: "URoRRuR'R'R",
+        nickname: ["UR"],
         light: ["5-A", "5-F"],
         dark: [],
         cantina: [],
@@ -1329,6 +1462,7 @@ const characters = [
 
     {
         name: "Veteran Smuggler Chewbacca",
+        nickname: ["vets", "vewie"],
         light: [],
         dark: [],
         cantina: ["8-F"],
@@ -1339,6 +1473,7 @@ const characters = [
 
     {
         name: "Veteran Smuggler Han Solo",
+        nickname: ["vets", "van"],
         light: [],
         dark: [],
         cantina: ["8-G"],
@@ -1349,6 +1484,7 @@ const characters = [
 
     {
         name: "Wampa",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1359,6 +1495,7 @@ const characters = [
 
     {
         name: "Wedge Antilles",
+        nickname: ["Wiggs"],
         light: [],
         dark: [],
         cantina: ["6-F"],
@@ -1369,6 +1506,7 @@ const characters = [
 
     {
         name: "Wicket",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],
@@ -1378,6 +1516,7 @@ const characters = [
 
     {
         name: "Zam Wesell",
+        nickname: [],
         light: [],
         dark: [],
         cantina: [],

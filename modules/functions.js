@@ -149,8 +149,8 @@ module.exports = (client) => {
         let text;
         let error;
 
-        if (args[0] && args[0].startsWith("~")) {
-            profile = args[0].replace("~", "");
+        if (args[0] && args[0].startsWith("~") || args[0] && args[0].startsWith("--")) {
+            profile = args[0].replace("~", "").replace("--", "");
             text = args.slice(1).join(" ");
         } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
             profile = client.profileTable.get(message.mentions.users.first().id);
@@ -161,7 +161,55 @@ module.exports = (client) => {
         }
 
         if (profile === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
-        return [profile, text.toLowerCase(), error];
+        return [encodeURI(profile), text, error];
+    };
+
+    /*
+    --- CHARACTER CACHING ---
+
+    Addes profile, character and ships from swgoh.gg for quicker access.
+    First checks for last update and if updated, replace all data for that user.
+
+    The variable input throttles the speed of the cache. By making input = "csm",
+    all caching is done then; by making input = "", caching is done while the rest of
+    the command is being executed.
+
+    Profile is always updated in order to check lastUpdatedUTC.
+    */
+    client.cacheCheck = async (message, id, input = "") => {
+        const swgoh = require("swgoh").swgoh;
+
+        if (!id) id = client.profileTable.get(message.author.id);
+        const pastProfile = client.cache.get(id + "_profile");
+        const currentProfile = await swgoh.profile(id);
+
+        const pastUpdatedUTC = pastProfile ? pastProfile.lastUpdatedUTC : -1;
+
+        // We need to compare when the cache profile was last updated
+        // with when the new profile was last updated
+        if (pastUpdatedUTC != currentProfile.lastUpdatedUTC) {
+
+            // If true, reload all the cached data
+            // Profile, no need to pull it again
+            client.cache.set(id + "_profile", currentProfile);
+            // Character Collection
+            if (input.includes("c")) {
+                const cachedCollection = await swgoh.collection(id);
+                client.cache.set(id + "_collection", cachedCollection);
+            } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
+            // Ship Collection
+            if (input.includes("s")) {
+                const cachedShips = await swgoh.ship(id);
+                client.cache.set(id + "_ships", cachedShips);
+            } else client.cache.defer.then(async () => { client.cache.set(id + "_ship", await swgoh.ship(id)); });
+            // Mods
+            if (input.includes("m")) {
+                const cachedMods = await swgoh.mods(id);
+                client.cache.set(id + "_mods", cachedMods);
+            } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
+
+        }
+
     };
 
 

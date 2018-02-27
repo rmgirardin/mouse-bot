@@ -8,7 +8,7 @@ module.exports = async client => {
     // We check for any guilds added while the bot was offline, if any were, they get a default configuration.
     client.guilds.filter(g => !client.settings.has(g.id)).forEach(g => client.settings.set(g.id, client.config.defaultSettings));
 
-    client.user.setGame("SWGoH");
+    client.user.setActivity("SWGoH");
 
     // Create an invite link. Turned off so it doesn't go off every time a ready
     // even is triggered. If you need it, you can turn it on
