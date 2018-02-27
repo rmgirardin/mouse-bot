@@ -35,7 +35,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // Pull in our swgoh databases
     const charactersData = client.swgohData.get("charactersData");
-    const shipsData = client.swgohData.get("shipsData");
 
     const [id, searchText, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
@@ -62,7 +61,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     let guildData = {};
 
     const lookup = charactersData.filter(fuzzy(searchTerm));
-    lookup.concat(shipsData.filter(fuzzy(searchTerm)));
 
     // Error message if no characters are found
     if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters, ships or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
@@ -103,11 +101,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         let count = 0;
         const playerArray = [];
 
-        // Here we're just getting an array of everyone in the guild
-        guildData["CLONEWARSCHEWBACCA"].forEach(d => {
-            playerArray.push(d.player);
-        });
-
         // Creating the embed
         const embed = new RichEmbed()
             .setAuthor(`${guildName}`)
@@ -116,10 +109,31 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             .setThumbnail(`https:${lookup[k].image}`)
             .setURL(`https://swgoh.gg/g/1044/lightsaber-order/unit-search/#${lookup[k].base_id}`);
 
+        // Here we're just getting an array of everyone in the guild to use for
+        // the "Not Activated" section
+        guildData["CLONEWARSCHEWBACCA"].forEach(d => {
+            playerArray.push(d.player);
+        });
+        sortedCharacterData.forEach(a => {
+            const removePlayer = playerArray.indexOf(a.player);
+            playerArray.splice(removePlayer, 1);
+        });
+
+        // Add the "Not Activated" field to the embed
+        if (playerArray.length > 0 && searchRarity == 1) {
+            const playerArraySJ = playerArray.sort().join("\n");
+            const iStarString = `${inactiveStarEmoji}`.repeat(7);
+            // If there's more than five names, split it into two columns
+            if (playerArray.length > 3) {
+                const half = Math.round(playerArray.length / 2);
+                embed.addField(`Not Activated (x${playerArray.length})`, playerArray.sort().slice(0, half).join("\n"), true);
+                embed.addField("-", playerArray.sort().slice(half).join("\n"), true);
+            }
+            else embed.addField(`${iStarString}(x${playerArray.length})`, playerArraySJ, false);
+        }
+
         sortedCharacterData.forEach(c => {
             const characterStar = c.rarity;
-            const removePlayer = playerArray.indexOf(c.player);
-            playerArray.splice(removePlayer, 1);
             if (characterStar >= searchRarity) {
 
                 if (loopStar !== characterStar) {
@@ -146,19 +160,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         else if (fieldText == undefined && searchRarity > 1 && searchRarity == 7) return guildMessage.edit(`${message.author}, no one in ${guildName} has ${searchTerm} at ${searchRarity}${starEmoji}.`);
         else if (fieldText.length > 950) splitText(fieldTitle, fieldText, embed);
         else embed.addField(fieldTitle, fieldText, false);
-
-        // Add the "Not Activated" field to the embed
-        if (playerArray.length > 0 && searchRarity == 1) {
-            const playerArraySJ = playerArray.sort().join("\n");
-            const iStarString = `${inactiveStarEmoji}`.repeat(7);
-            // If there's more than five names, split it into two columns
-            if (playerArray.length > 3) {
-                const half = Math.round(playerArray.length / 2);
-                embed.addField(`Not Activated (x${playerArray.length})`, playerArray.sort().slice(0, half).join("\n"), true);
-                embed.addField("-", playerArray.sort().slice(half).join("\n"), true);
-            }
-            else embed.addField(`${iStarString}(x${playerArray.length})`, playerArraySJ, false);
-        }
 
         guildMessage.edit("Here's what I found:");
         message.channel.send({ embed });
