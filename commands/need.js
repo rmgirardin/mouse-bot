@@ -2,47 +2,28 @@
 // characters list in the shipments file. Any matching characters that are less
 // than 7* will be reported as still needed.
 
-function getObjects(obj, key, val) {
-    var objects = [];
-    for (var i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (obj.name != undefined) obj[i].parent = obj.name;
-        if (typeof obj[i] == "object") {
-            objects = objects.concat(getObjects(obj[i], key, val));
-        } else
-        //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
-        if (i == key && obj[i].toLowerCase() == val || i == key && val == "") {
-            objects.push(obj);
-        } else if (obj[i].toLowerCase() == val && key == "") {
-            //only add if the object is not already in the array
-            if (objects.lastIndexOf(obj) == -1) {
-                objects.push(obj);
-            }
-        }
-    }
-    return objects;
-}
-
-const swgoh = require("swgoh").swgoh;
 const { RichEmbed } = require("discord.js");
 const shipments = require("../modules/shipments.js");
-const characters = require("../modules/characters.js");
-const ships = require("../modules/ships.js");
-
+const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     if (!args[0]) return client.cmdError(message, cmd);
 
-    let [profile, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
-    if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
+    let [id, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line prefer-const
+    if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
-    // The courtious "checking" message while the user waits
-    const needMessage = await message.channel.send("Checking... One moment. 👀");
+    // Pull in our swgoh databases
+    const charactersData = client.swgohData.get("charactersData");
+    const shipsData = client.swgohData.get("shipsData");
 
-    const characterCollection = await swgoh.collection(profile);
+    const needMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
+
+    // Cache check and pull the user's data
+    const updated = await client.cacheCheck(message, id, "cs");
+    const characterCollection = client.cache.get(id + "_collection");
     if (characterCollection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
-    const shipCollection = await swgoh.ship(profile);
+    const shipCollection = client.cache.get(id + "_ships");
 
     // Clean text
     searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad/g, "")
@@ -55,57 +36,50 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (shopCheck || shopCheck != undefined) shopImage = shipments[searchTerm]["image"];
 
     // Okay, lets finally do some searching
-    const searchCharacters = getObjects(characters, "", searchTerm);
-    const foundCharacters = [];
-    for (var j in searchCharacters) {
-        foundCharacters.push(searchCharacters[j].parent);
-    }
-
-    const searchShips = getObjects(ships, "", searchTerm);
-    const foundShips = [];
-    for (var k in searchShips) {
-        foundShips.push(searchShips[k].parent);
-    }
+    const chLookup = charactersData.filter(fuzzy(searchTerm, ["faction", "shops"]));
+    const sLookup = shipsData.filter(fuzzy(searchTerm, ["faction", "shops"]));
 
     // Creating the embed
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setAuthor(`${profile.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`, shopImage)
+        .setAuthor(`${id.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`)
+        .setThumbnail(shopImage)
         .setColor(0xEE7100)
         .setDescription("*Need Shards (current status)*")
-        .setURL("https://swgoh.gg/db/shipments/");
+        .setURL("https://swgoh.gg/db/shipments/")
+        .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
     let charDescription = "";
     let shipDescription = "";
 
     // Now we crosscheck with the swgoh.gg account and update the embeds
-    for (let i = 0; i < foundCharacters.length; i++) {
+    for (let i = 0; i < chLookup.length; i++) {
 
-        const swgohggCharacter = characterCollection.find(c => c.description === foundCharacters[i]);
+        const foundCharacter = characterCollection.find(c => c.description === chLookup[i].name);
 
-        if (swgohggCharacter) {
-            const rank = Number(swgohggCharacter.star);
-            if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(swgohggCharacter.description)} (${rank} star)`;
+        if (foundCharacter) {
+            const rank = Number(foundCharacter.star);
+            if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(chLookup[i].name)} (${rank} star)`;
         } else {
-            charDescription = `${charDescription}\n**${foundCharacters[i]}** (not activated)`;
+            charDescription = `${charDescription}\n**${chLookup[i].name}** (not activated)`;
         }
     }
 
-    for (let i = 0; i < foundShips.length; i++) {
+    for (let j = 0; j < sLookup.length; j++) {
 
-        const swgohggShip = shipCollection.find(s => s.description === foundShips[i]);
+        const foundShip = shipCollection.find(s => s.description === sLookup[j].name);
 
-        if (swgohggShip) {
-            const rank = Number(swgohggShip.star);
-            if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${swgohggShip.description.replace(/\\/g, "'")} (${rank} star)`;
-            if (rank === 0) shipDescription = `${shipDescription}\n**${foundShips[i]}** (not activated)`; // For some reason, 'else' wasn't working
+        if (foundShip) {
+            const rank = Number(foundShip.star);
+            if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${foundShip.description.replace(/\\/g, "'")} (${rank} star)`;
+            if (rank === 0) shipDescription = `${shipDescription}\n**${sLookup[j].name}** (not activated)`; // Pulls up data with rank 0 as well
         } else {
-            shipDescription = `${shipDescription}\n**${foundShips[i]}** (not activated)`;
+            shipDescription = `${shipDescription}\n**${sLookup[j].name}** (not activated)`;
         }
     }
 
     if (charDescription === "" && shipDescription === "") embed.setDescription(`Nothing found!
 Either all characters/ships have been maxed out,
-or I cannot find anything for __${searchTerm}__.`);
+or I cannot find a shop or faction for __${searchTerm}__.`);
     if (charDescription != "") embed.addField("__Characters:__", charDescription);
     if (shipDescription != "") embed.addField("__Ships:__", shipDescription);
 
