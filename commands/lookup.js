@@ -1,65 +1,60 @@
-// This command looks up characters on SWGoH.gg and filters out links that
-// aren't characters.
+// shard location keys and text names
+const shardLocation = [
+    { key : "dark",     text : "DS Hard Nodes" },
+    { key : "light",    text : "LS Hard Nodes" },
+    { key : "cantina",  text : "Cantina" },
+    { key : "shops",    text : "Stores" }
+];
 
-// The modules we are using are cheerio, snekfetch, and querystring.
-const cheerio = require("cheerio"),
-      snekfetch = require("snekfetch"),
-      querystring = require("querystring");
+const fuzzy = require("fuzzy-predicate");
+const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    // If there are no args, send cmdError message because we don't know what to
-    // search for!
+    const charactersData = client.swgohData.get("charactersData");
+    const shipsData = client.swgohData.get("shipsData");
+    const searchKeys = ["name", "faction", "nickname", "shops"];
+
+    // If there are no args, send cmdError message because we don't know what to search for!
     if (!args[0]) return client.cmdError(message, cmd);
 
-    // These are our two variables. One of them creates a message while we
-    // preform a search, the other generates a URL for our crawler.
-    const searchMessage = await message.reply("Searching... One moment. 👀");
-    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(args.join(" "))}&as_sitesearch=swgoh.gg&btnI=Search`;
+    // filter character and ship data into one result array
+    const result = charactersData.filter(fuzzy(args.join(" "), searchKeys))
+        .concat(shipsData.filter(fuzzy(args.join(" "), searchKeys)));
+    
+    message.channel.send((result.length > 0 ? result.length : "No") + " matches found");
 
-    // We will now use snekfetch to crawl Google.com. Snekfetch uses promises so
-    // we will utilize that for our try/catch block.
-    return snekfetch.get(searchUrl).then((result) => {
+    for (var c = 0, len = result.length; c < len; c++) {
+        let locationText = "";
+        const unit = result[c];
 
-        // Cheerio lets us parse the HTML on our google result to grab the URL.
-        const $ = cheerio.load(result.text);
+        let embed = new RichEmbed() // eslint-disable-line prefer-const
+            .setTitle(`${unit["name"]}`)
+            .setDescription(`${unit.description}`)
+            .setColor(0xEE7100)
+            .setThumbnail(`https:${unit.image}`)
+            .setURL(`${unit.url}`)
+            .setFooter(`${"Result " + (c+1) + " of " + len}`)
+            .addField("__Max Galactic Power__",`${new Intl.NumberFormat("en-US", { useGrouping: "true" }).format(unit.power)}`);
 
-        // This is allowing us to grab the URL from within the instance of the
-        // page (HTML)
-        let googleData = $(".r").first().find("a").first().attr("href");
-        googleData = querystring.parse(googleData.replace("/url?", ""));
+        if (unit.faction.length > 0) {
+            embed.addField("__Factions__", `${unit.faction.join(", ")}`);
+        }
 
-        // Now that we found something, check to see if it's the url we actually
-        // want. "gear/" is often found when searching, so if it is returned
-        // just trim that part off.
-        if (googleData.q.search("characters") != -1) {
-            if (googleData.q.search("gear")) googleData.q = googleData.q.replace("gear/", "");
-            return searchMessage.edit(`This is what I found: ${googleData.q}`);
-        } else searchMessage.edit("I couldn't find that character.");
+        for (var i = 0, sLen = shardLocation.length; i < sLen; i++) {
+            if ((shardLocation[i].key in unit) && (unit[shardLocation[i].key].length > 0)) {
+                locationText += (locationText.length > 0 ? "\n" : "") + 
+                    shardLocation[i].text + ": " + 
+                    unit[shardLocation[i].key].join(", ").toProperCase(); 
+            }
+        }
 
-    // If no results are found, we catch it and return "No results are found!"
-    }).catch(() => {
-        searchMessage.edit("No results found!");
-    });
+        if (locationText.length > 0) {
+            embed.addField("__Shard Locations__",`${locationText}`);
+        }
 
-    /*
-    This is just old code that can be completely ignored. This simply joins
-    args and inserts it into a template URL that simulates Google's "I'm feeling
-    lucky" button.
-
-    This is a quicker, dirtier way to look up characters, but it doesn't filter
-    any links that aren't what we're looking for and it returns a www.google.com
-    link which could be a security concern for some.
-    */
-
-    // // Edit the user's message to look up on swgoh.gg
-    // const character = args.join("+");
-    //
-	// message.channel.send("<http://www.google.com/webhp?#q=" + character + "+swgoh.gg&btnI>");
-    //
-    // // If the link above does not work, try using the link below
-    // // message.channel.send("http://www.google.com/search?ie=UTF-8&oe=UTF-8&sourceid=navclient&gfns=1&q=" + character + "+swgoh.gg");
-
+        message.channel.send({ embed });
+    }
 };
 
 exports.conf = {
@@ -73,6 +68,6 @@ exports.help = {
     name: "lookup",
     category: "Game",
     description: "Looks up characters on swgoh.gg",
-    usage: "lookup <character-name>",
-    examples: ["lookup leia", "find sthan", "lookup comander luke skywalker"]
+    usage: "lookup <name|faction|store>",
+    examples: ["lookup leia", "find jedi", "lookup galactic war"]
 };
