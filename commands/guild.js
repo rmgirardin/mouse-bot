@@ -1,28 +1,3 @@
-function splitText(title, text, embed) {
-
-    let bool = true;
-    while (bool) {
-
-        // Find where to split the text without cutting anything off
-        const index = text.lastIndexOf("\n", 950);
-
-        const first = text.substr(0, index);
-        const second = text.substr(index + 1);
-
-        embed.addField(title, first, false);
-
-        // Test if the second part of the text is still too long
-        if (second.length > 950) {
-            text = second;
-            title = "-";
-        } else {
-            embed.addField("-", second, false);
-            bool = false;
-        }
-
-    }
-}
-
 const { RichEmbed } = require("discord.js");
 const request = require("request-promise-native");
 const fuzzy = require("fuzzy-predicate");
@@ -142,7 +117,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 if (loopStar !== characterStar) {
 
                     if (fieldText != undefined) {
-                        if (fieldText.length > 950) splitText(fieldTitle, fieldText, embed);
+                        if (fieldText.length > 950) client.splitText(fieldTitle, fieldText, embed);
                         else embed.addField(fieldTitle, fieldText, false);
                     }
 
@@ -161,7 +136,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Can't forget to add the last loop
         if (fieldText == undefined && searchRarity > 1 && searchRarity != 7) return guildMessage.edit(`${message.author}, no one in ${guildName} has ${searchTerm} at ${searchRarity}${starEmoji} or higher.`);
         else if (fieldText == undefined && searchRarity > 1 && searchRarity == 7) return guildMessage.edit(`${message.author}, no one in ${guildName} has ${searchTerm} at ${searchRarity}${starEmoji}.`);
-        else if (fieldText.length > 950) splitText(fieldTitle, fieldText, embed);
+        else if (fieldText.length > 950) client.splitText(fieldTitle, fieldText, embed);
         else embed.addField(fieldTitle, fieldText, false);
 
         guildMessage.edit("Here's what I found:");

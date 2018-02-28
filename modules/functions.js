@@ -465,6 +465,37 @@ module.exports = (client) => {
     };
 
 
+    /*
+    --- SPLIT TEXT ---
+
+    Splits text for embed fields
+    */
+    client.splitText = (title, text, embed) => {
+
+        let bool = true;
+        while (bool) {
+
+            // Find where to split the text without cutting anything off
+            const index = text.lastIndexOf("\n", 950);
+
+            const first = text.substr(0, index);
+            const second = text.substr(index + 1);
+
+            embed.addField(title, first, false);
+
+            // Test if the second part of the text is still too long
+            if (second.length > 950) {
+                text = second;
+                title = "-";
+            } else {
+                embed.addField("-", second, false);
+                bool = false;
+            }
+
+        }
+    };
+
+
     /* ===== MISCELLANEOUS NON-CRITICAL FUNCTIONS ===== */
 
 

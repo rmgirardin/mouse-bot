@@ -26,7 +26,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const shipCollection = client.cache.get(id + "_ships");
 
     // Clean text
-    searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad/g, "")
+    searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad|all/g, "")
         .replace(/gw/g, "galactic war").replace(/ship|fleet arena/g, "fleet")
         .trim();
 
@@ -34,19 +34,29 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const shopCheck = shipments[searchTerm];
     let shopImage;
     if (shopCheck || shopCheck != undefined) shopImage = shipments[searchTerm]["image"];
+    let chLookup; let sLookup;
 
     // Okay, lets finally do some searching
-    const chLookup = charactersData.filter(fuzzy(searchTerm, ["faction", "shops"]));
-    const sLookup = shipsData.filter(fuzzy(searchTerm, ["faction", "shops"]));
+    if (searchTerm.toLowerCase() == "battles") {
+        chLookup = charactersData.filter(fuzzy("-", ["light", "dark"]));
+        sLookup = shipsData.filter(fuzzy("-", ["light", "dark"]));
+    } else if (searchTerm.toLowerCase() == "cantina battles") {
+        chLookup = charactersData.filter(fuzzy("-", ["cantina"]));
+        sLookup = shipsData.filter(fuzzy("-", ["cantina"]));
+    } else {
+        chLookup = charactersData.filter(fuzzy(searchTerm, ["faction", "shops"]));
+        sLookup = shipsData.filter(fuzzy(searchTerm, ["faction", "shops"]));
+    }
 
     // Creating the embed
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setAuthor(`${id.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`)
-        .setThumbnail(shopImage)
+        .setAuthor(`${id.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`, shopImage)
         .setColor(0xEE7100)
-        .setDescription("*Need Shards (current status)*")
+        .setDescription("*Need Shards (current rank)*")
         .setURL("https://swgoh.gg/db/shipments/")
         .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
+    if (searchTerm == "") embed.setAuthor(`${id.toProperCase()}'s Needs`);
+    if (searchTerm.toLowerCase() == "battles") embed.setAuthor(`${id.toProperCase()}'s Needs for Light & Dark Side Battles`);
 
     let charDescription = "";
     let shipDescription = "";
@@ -58,9 +68,9 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         if (foundCharacter) {
             const rank = Number(foundCharacter.star);
-            if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(chLookup[i].name)} (${rank} star)`;
+            if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(chLookup[i].name)} (${rank})`;
         } else {
-            charDescription = `${charDescription}\n**${chLookup[i].name}** (not activated)`;
+            charDescription = `${charDescription}\n**${chLookup[i].name}** (n/a)`;
         }
     }
 
@@ -70,18 +80,26 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         if (foundShip) {
             const rank = Number(foundShip.star);
-            if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${foundShip.description.replace(/\\/g, "'")} (${rank} star)`;
-            if (rank === 0) shipDescription = `${shipDescription}\n**${sLookup[j].name}** (not activated)`; // Pulls up data with rank 0 as well
+            if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${foundShip.description.replace(/\\/g, "'")} (${rank})`;
+            if (rank === 0) shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n/a)`; // Pulls up data with rank 0 as well
         } else {
-            shipDescription = `${shipDescription}\n**${sLookup[j].name}** (not activated)`;
+            shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n/a)`;
         }
     }
 
     if (charDescription === "" && shipDescription === "") embed.setDescription(`Nothing found!
 Either all characters/ships have been maxed out,
 or I cannot find a shop or faction for __${searchTerm}__.`);
-    if (charDescription != "") embed.addField("__Characters:__", charDescription);
-    if (shipDescription != "") embed.addField("__Ships:__", shipDescription);
+
+    // Check if fields are too long before sending
+    if (charDescription != "") {
+        if (charDescription.length > 950) client.splitText("__Characters:__", charDescription, embed);
+        else embed.addField("__Characters:__", charDescription);
+    }
+    if (shipDescription != "") {
+        if (shipDescription.length > 950) client.splitText("__Ships:__", shipDescription, embed);
+        else embed.addField("__Ships:__", shipDescription);
+    }
 
     needMessage.edit({ embed });
 
