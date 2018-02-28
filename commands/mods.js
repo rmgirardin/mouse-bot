@@ -47,7 +47,6 @@ function getObjects(obj, key, val) {
 
 const { RichEmbed } = require("discord.js");
 const fuzzy = require("fuzzy-predicate");
-const moment = require("moment");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
@@ -60,20 +59,16 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Check for a username
     const [id, searchTerm, error] = client.profileCheck(message, args);
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
-    if (searchTerm.length < 3) return message.reply("please use 3 or more letters to search for characters, I don't want to spam your channel with every character.");
+    if (searchTerm.length < 2) return message.reply("please use 2 or more letters to search for characters, I don't want to spam your channel with every character.");
 
-
-    // The courtious "checking" message while the user waits
-    const chMessage = await message.channel.send("Checking... this may take a minute. 👀");
+    const chMessage = await message.channel.send("Checking... this may take a minute. 👀"); // wait message
 
     // Cache collection and mods ("cm") if needed
-    await client.cacheCheck(message, id, "cm");
-    const profile = client.cache.get(id + "_profile");
-    const lastUpdated = moment(profile.lastUpdatedUTC).fromNow();
+    const updated = await client.cacheCheck(message, id, "cm");
     const collection = client.cache.get(id + "_collection");
     const mods = client.cache.get(id + "_mods");
 
-    const lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm));
+    const lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, ["name", "nickname"]));
 
     if (collection.length < 1) return chMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
 
@@ -97,7 +92,7 @@ Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(looku
             .setColor(0xEE7100)
             .setThumbnail(`https://${lookup[i].imageSrc}`)
             .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
-            .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
+            .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
             // Iterate to get each mod
             for (var j = 0; j < modsLookup[i].length; j++) {

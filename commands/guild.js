@@ -29,6 +29,8 @@ const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
+    if (!args[0]) return client.cmdError(message, cmd);
+
     // Cool star emojis! Just like in the game!
     const starEmoji = client.emojis.get("416420499078512650");
     const inactiveStarEmoji = client.emojis.get("416422867606044683");
@@ -46,7 +48,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Break down the given variables from args
     const searchRarity = parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) ? parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) : 1;
     const searchTerm = splitSearchText.filter(arg => !Number.isInteger(parseFloat(arg))).join(" ");
-    if (searchTerm.length < 3) return guildMessage.edit(`${message.author}, please use 3 or more letters to search for characters, ships, I don't want to spam your channel with every character.`);
+    if (searchTerm.length < 2) return guildMessage.edit(`${message.author}, please use 2 or more letters to search for characters, ships, I don't want to spam your channel with every character.`);
 
     // Setting up guild id and url for swgoh.gg/api
     let profile = client.cache.get(id + "_profile");
@@ -61,7 +63,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const url = `https://swgoh.gg/api/guilds/${guildNum}/units/`;
     let guildData = {};
 
-    const lookup = charactersData.filter(fuzzy(searchTerm)).concat(shipsData.filter(fuzzy(searchTerm)));
+    const lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
 
     // Error message if no characters are found
     if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
@@ -108,7 +110,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             .setColor(0xEE7100)
             .setTitle(lookup[k].name)
             .setThumbnail(`https:${lookup[k].image}`)
-            .setURL(`https://swgoh.gg/g/1044/lightsaber-order/unit-search/#${lookup[k].base_id}`);
+            .setURL(`https://swgoh.gg/g/${guildNum}/${guildInfo[3]}/unit-search/#${lookup[k].base_id}`);
 
         // Here we're just getting an array of everyone in the guild to use for
         // the "Not Activated" section

@@ -178,10 +178,12 @@ module.exports = (client) => {
     */
     client.cacheCheck = async (message, id, input = "") => {
         const swgoh = require("swgoh").swgoh;
+        const moment = require("moment");
 
         if (!id) id = client.profileTable.get(message.author.id);
         const pastProfile = client.cache.get(id + "_profile");
         const currentProfile = await swgoh.profile(id);
+        const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
 
         const pastUpdatedUTC = pastProfile ? pastProfile.lastUpdatedUTC : -1;
 
@@ -201,7 +203,7 @@ module.exports = (client) => {
             if (input.includes("s")) {
                 const cachedShips = await swgoh.ship(id);
                 client.cache.set(id + "_ships", cachedShips);
-            } else client.cache.defer.then(async () => { client.cache.set(id + "_ship", await swgoh.ship(id)); });
+            } else client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.ship(id)); });
             // Mods
             if (input.includes("m")) {
                 const cachedMods = await swgoh.mods(id);
@@ -209,6 +211,8 @@ module.exports = (client) => {
             } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
 
         }
+
+        return updated;
 
     };
 
@@ -467,13 +471,12 @@ module.exports = (client) => {
     // Replaces clone names to be more aesthetically pleasing, also returns
     // toProperCase
     // **ONLY ACCEPTS STRINGS**
-    client.checkClones = (textSting) => {
-        let text = textSting.toLowerCase();
-        text = text.replace("cc 2224 cody", "cody").replace('cc-2224 "cody"', "cody") // eslint-disable-line quotes
-            .replace("ct 21 0408 echo", "echo").replace('ct-21-0408 "echo"', "echo") // eslint-disable-line quotes
-            .replace("ct 5555 fives", "fives").replace('ct-5555 "fives"', "fives") // eslint-disable-line quotes
-            .replace("ct 7567 rex", "rex").replace('ct-7567 "rex"', "rex"); // eslint-disable-line quotes
-        return text.toProperCase();
+    client.checkClones = (text) => {
+        text = text.replace('CC-2224 "Cody"', "Cody") // eslint-disable-line quotes
+            .replace('CT-21-0408 "Echo"', "Echo") // eslint-disable-line quotes
+            .replace('CT-5555 "Fives"', "Fives") // eslint-disable-line quotes
+            .replace('CT-7567 "Rex"', "Rex"); // eslint-disable-line quotes
+        return text;
     };
 
 

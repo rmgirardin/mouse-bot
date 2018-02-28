@@ -98,6 +98,6 @@ exports.help = {
     name: "need",
     category: "Game",
     description: "Let user know which characters they need in shipments",
-    usage: "need ~[swgoh.gg-username] <shop>",
+    usage: "need ~[swgoh.gg-username] <shop/faction>",
     examples: ["need ~necavit gw", "shipments @Necavit#0540 fleet", "need jedi"]
 };

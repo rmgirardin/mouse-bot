@@ -119,8 +119,6 @@ const init = async () => {
             client.log = ("log", `Ships Request Failure: ${err}`, "Error");
         });
 
-    console.log(shipsData);
-
     client.swgohData.set("charactersData", charactersData);
     client.swgohData.set("shipsData", shipsData);
 
