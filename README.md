@@ -1,6 +1,8 @@
 # Mouse Bot
 [![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![support](https://img.shields.io/badge/support-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66) [![discord](https://img.shields.io/badge/chat-Discord-7289DA.svg)](https://discord.gg/ZytN4aC)
 
+Add Mouse Bot to your server! [Regular Permissions](https://discord.now.sh/213381103287926785?p354368) | [Moderator Permissions](https://discord.now.sh/213381103287926785?p1879403606)
+
 Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
 I started Mouse Bot as a side project mostly for myself. It started off with just the dailies command. Then my guild began to use it more often when I created the convert command. Now I’m happy to say that Mouse Bot has 22 different commands ranging from game to Discord server moderation commands. I am striving to make Mouse Bot the definitive bot for SW:GoH and I hope you enjoy using him as much as I do!

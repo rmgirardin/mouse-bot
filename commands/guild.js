@@ -35,6 +35,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // Pull in our swgoh databases
     const charactersData = client.swgohData.get("charactersData");
+    const shipsData = client.swgohData.get("shipsData");
 
     const [id, searchText, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
@@ -45,7 +46,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Break down the given variables from args
     const searchRarity = parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) ? parseFloat(splitSearchText.filter(arg => Number.isInteger(parseFloat(arg)))) : 1;
     const searchTerm = splitSearchText.filter(arg => !Number.isInteger(parseFloat(arg))).join(" ");
-    if (searchTerm.length < 3) return guildMessage.edit(`${message.author}, please use 3 or more letters to search for characters, I don't want to spam your channel with every character.`);
+    if (searchTerm.length < 3) return guildMessage.edit(`${message.author}, please use 3 or more letters to search for characters, ships, I don't want to spam your channel with every character.`);
 
     // Setting up guild id and url for swgoh.gg/api
     let profile = client.cache.get(id + "_profile");
@@ -60,10 +61,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const url = `https://swgoh.gg/api/guilds/${guildNum}/units/`;
     let guildData = {};
 
-    const lookup = charactersData.filter(fuzzy(searchTerm));
+    const lookup = charactersData.filter(fuzzy(searchTerm)).concat(shipsData.filter(fuzzy(searchTerm)));
 
     // Error message if no characters are found
-    if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters, ships or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
+    if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
 
     // Request options for swgoh.gg API
     const options = {
@@ -124,7 +125,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             const playerArraySJ = playerArray.sort().join("\n");
             const iStarString = `${inactiveStarEmoji}`.repeat(7);
             // If there's more than five names, split it into two columns
-            if (playerArray.length > 3) {
+            if (playerArray.length > 5) {
                 const half = Math.round(playerArray.length / 2);
                 embed.addField(`Not Activated (x${playerArray.length})`, playerArray.sort().slice(0, half).join("\n"), true);
                 embed.addField("-", playerArray.sort().slice(half).join("\n"), true);
