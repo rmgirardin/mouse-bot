@@ -5,12 +5,21 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (args.length === 1) {
 
         let swName = args.join(" ");
+        if (swName.startsWith("http")) {
+            const start = swName.indexOf("/u/");
+            if (start == -1) client.cmdError(message, cmd);
+            const end = swName.lastIndexOf("/");
+            swName = swName.slice(start + 3, end);
+        }
         if (swName.startsWith("~")) swName = swName.replace("~", "");
         if (swName.startsWith("--")) swName = swName.replace("--", "");
         const id = client.profileTable.get(message.author.id);
 
         // Save the username
         client.profileTable.set(message.author.id, swName);
+
+        // Cache it!
+        client.cacheCheck(message, id, "");
 
         // Notify the user
         if (!id) {
