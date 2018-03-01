@@ -11,17 +11,24 @@ const { RichEmbed } = require("discord.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    const charactersData = client.swgohData.get("charactersData");
-    const shipsData = client.swgohData.get("shipsData");
-    const searchKeys = ["name", "faction", "nickname", "shops"];
-
     // If there are no args, send cmdError message because we don't know what to search for!
     if (!args[0]) return client.cmdError(message, cmd);
 
+    const charactersData = client.swgohData.get("charactersData");
+    const shipsData = client.swgohData.get("shipsData");
+    const searchTerm = args.join(" ");
+    const searchKeys = ["name", "faction", "nickname", "shops"];
+    let result;
+
     // filter character and ship data into one result array
-    const result = charactersData.filter(fuzzy(args.join(" "), searchKeys))
-        .concat(shipsData.filter(fuzzy(args.join(" "), searchKeys)));
-    
+    if (searchTerm.length > 2) return client.cmdError(message, cmd);
+    if (searchTerm.length == 2) result = charactersData.filter(fuzzy(searchTerm, "nickname"))
+        .concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
+    else if (searchTerm.length == 3) result = charactersData.filter(fuzzy(searchTerm, ["nickname", "name"]))
+        .concat(shipsData.filter(fuzzy(searchTerm, ["nickname", "name"])));
+    else result = charactersData.filter(fuzzy(searchTerm, searchKeys))
+        .concat(shipsData.filter(fuzzy(searchTerm, searchKeys)));
+
     message.channel.send((result.length > 0 ? result.length : "No") + " matches found");
 
     for (var c = 0, len = result.length; c < len; c++) {
@@ -43,9 +50,9 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         for (var i = 0, sLen = shardLocation.length; i < sLen; i++) {
             if ((shardLocation[i].key in unit) && (unit[shardLocation[i].key].length > 0)) {
-                locationText += (locationText.length > 0 ? "\n" : "") + 
-                    shardLocation[i].text + ": " + 
-                    unit[shardLocation[i].key].join(", ").toProperCase(); 
+                locationText += (locationText.length > 0 ? "\n" : "") +
+                    shardLocation[i].text + ": " +
+                    unit[shardLocation[i].key].join(", ").toProperCase();
             }
         }
 

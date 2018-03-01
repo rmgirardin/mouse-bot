@@ -19,8 +19,8 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 const request = require("request-promise-native");
-const charactersData = require("./modules/characters.js");
-const shipsData = require("./modules/ships.js");
+const charactersJS = require("./modules/characters.js");
+const shipsJS = require("./modules/ships.js");
 
 
 const client = new Discord.Client();
@@ -78,19 +78,21 @@ const init = async () => {
     // GET and merge character databases
     const charactersURL = "https://swgoh.gg/api/characters/";
     const charactersOptions = { uri: charactersURL, json: true };
+    let characters;
 
     await request(charactersOptions)
         .then(function(body) {
-            const charactersAPI = body;
+            characters = body;
 
             // Loop through our character array, find the matching characters in the swgoh.gg api
             // and merge its data into ours.
-            for (var i = 0; i < charactersData.length; i++) {
+            for (var i = 0; i < characters.length; i++) {
 
-                const chData = getObjects(charactersAPI, "name", charactersData[i].name);
+                const chData = getObjects(charactersJS, "name", characters[i].name);
 
-                if (chData.length == 1) Object.assign(charactersData[i], chData[0]);
-                else console.log("Multiple results found for character: ", charactersData[i].name);
+                if (chData.length == 1) Object.assign(characters[i], chData[0]);
+                else if (chData.length == 0) console.log("No JS results found for character: ", characters[i].name);
+                else console.log("Multiple results found for character: ", characters[i].name);
             }
         })
         .catch(function(err) {
@@ -100,27 +102,29 @@ const init = async () => {
     // GET and merge ship databases
     const shipsURL = "https://swgoh.gg/api/ships/";
     const shipsOptions = { uri: shipsURL, json: true };
+    let ships;
 
     await request(shipsOptions)
         .then(function(body) {
-            const shipsAPI = body;
+            ships = body;
 
             // Loop through our ships array, find the matching ships in the swgoh.gg api
             // and merge its data into ours.
-            for (var j = 0; j < shipsData.length; j++) {
+            for (var j = 0; j < ships.length; j++) {
 
-                const sData = getObjects(shipsAPI, "name", shipsData[j].name);
+                const sData = getObjects(shipsJS, "name", ships[j].name);
 
-                if (sData.length == 1) Object.assign(shipsData[j], sData[0]);
-                else console.log("Multiple results found for ship: ", shipsData[j].name);
+                if (sData.length == 1) Object.assign(ships[j], sData[0]);
+                else if (sData.length == 0) console.log("No JS results found for ship: ", ships[j].name);
+                else console.log("Multiple results found for ship: ", ships[j].name);
             }
         })
         .catch(function(err) {
             client.log = ("log", `Ships Request Failure: ${err}`, "Error");
         });
 
-    client.swgohData.set("charactersData", charactersData);
-    client.swgohData.set("shipsData", shipsData);
+    client.swgohData.set("charactersData", characters);
+    client.swgohData.set("shipsData", ships);
 
     client.login(client.config.token);
 

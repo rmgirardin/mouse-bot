@@ -7,7 +7,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Attacker", "Galactic Republic", "Jedi"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_ahsoka.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_ahsoka.png"
     },
 
     {
@@ -17,7 +17,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet"],
         "faction": ["Light Side", "Tank", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_xwing_red3.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_red3.png"
     },
 
     {
@@ -27,7 +27,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Support", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_uwing.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_uwing.png"
     },
 
     {
@@ -37,7 +37,7 @@ const ships = [
         "cantina": [],
         "shops": ["cantina", "guild events"],
         "faction": ["Light Side", "Support", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_uwing_hero.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_uwing_hero.png"
     },
 
     {
@@ -47,7 +47,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Capital Ship", "Empire"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_chimaera.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_chimaera.png"
     },
 
     {
@@ -57,7 +57,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Tank", "Clone Trooper", "Galactic Republic"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_arc170.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_arc170.png"
     },
 
     {
@@ -67,7 +67,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Capital Ship", "Galactic Republic", "Jedi"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_venator.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_venator.png"
     },
 
     {
@@ -77,7 +77,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Capital Ship", "Empire"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_stardestroyer.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_stardestroyer.png"
     },
 
     {
@@ -87,7 +87,7 @@ const ships = [
         "cantina": [],
         "shops": ["guild"],
         "faction": ["Dark Side", "Attacker", "First Order"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_fosf_tie_fighter.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_fosf_tie_fighter.png"
     },
 
     {
@@ -97,7 +97,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Attacker", "First Order"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_firstorder_tiefighter.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_firstorder_tiefighter.png"
     },
 
     {
@@ -107,7 +107,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Dark Side", "Support", "Empire"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_gauntlet.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_gauntlet.png"
     },
 
     {
@@ -117,7 +117,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Attacker", "Geonosian", "Separatist"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_soldier.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_soldier.png"
     },
 
     {
@@ -127,7 +127,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Attacker", "Geonosian", "Separatist"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_spy.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_spy.png"
     },
 
     {
@@ -137,7 +137,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Attacker", "Phoenix", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_ghost.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_ghost.png"
     },
 
     {
@@ -147,7 +147,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Capital Ship", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_moncalamarilibertycruiser.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_moncalamarilibertycruiser.png"
     },
 
     {
@@ -157,7 +157,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Attacker", "Empire"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_tiefighter.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tiefighter.png"
     },
 
     {
@@ -167,7 +167,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Support", "Galactic Republic", "Jedi"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter.png"
     },
 
     {
@@ -177,7 +177,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Support", "First Order"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_upsilon_shuttle_kylo.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_upsilon_shuttle_kylo.png"
     },
 
     {
@@ -187,7 +187,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Attacker", "Resistance"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
     },
 
     {
@@ -197,7 +197,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Attacker", "Phoenix", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_phantom2.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_phantom2.png"
     },
 
     {
@@ -207,7 +207,7 @@ const ships = [
         "cantina": ["7-F"],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Support", "Galactic Republic", "Jedi"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_bladeofdorin.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_bladeofdorin.png"
     },
 
     {
@@ -217,7 +217,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Attacker", "Resistance"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_xwing_blackone.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_blackone.png"
     },
 
     {
@@ -227,7 +227,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Support", "Resistance"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_xwing_resistance.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_resistance.png"
     },
 
     {
@@ -237,7 +237,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Tank", "Clone Trooper", "Galactic Republic"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_arc170_02.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_arc170_02.png"
     },
 
     {
@@ -247,7 +247,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "guild events"],
         "faction": ["Dark Side", "Support", "Sith"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_sithinfiltrator.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_sithinfiltrator.png"
     },
 
     {
@@ -257,7 +257,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet"],
         "faction": ["Dark Side", "Attacker", "Scoundrel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_slave1.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_slave1.png"
     },
 
     {
@@ -267,7 +267,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Tank", "Geonosian", "Separatist"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_sunfac.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_sunfac.png"
     },
 
     {
@@ -277,7 +277,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet"],
         "faction": ["Dark Side", "Attacker", "Empire", "Sith"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_tieadvanced.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tieadvanced.png"
     },
 
     {
@@ -287,7 +287,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Support", "Empire"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_tiereaper.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tiereaper.png"
     },
 
     {
@@ -297,7 +297,7 @@ const ships = [
         "cantina": ["3-F"],
         "shops": [],
         "faction": ["Dark Side", "Attacker", "First Order"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_tie_silencer.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tie_silencer.png"
     },
 
     {
@@ -307,7 +307,7 @@ const ships = [
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Tank", "Clone Trooper", "Galactic Republic"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_umbaran_star_fighter.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_umbaran_star_fighter.png"
     },
 
     {
@@ -317,7 +317,7 @@ const ships = [
         "cantina": [],
         "shops": ["fleet", "galactic war", "guild events"],
         "faction": ["Light Side", "Attacker", "Rebel"],
-        "image": "https://swgoh.gg/static/img/assets/tex.charui_xwing_red2.png"
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_red2.png"
     },
 
 ];
