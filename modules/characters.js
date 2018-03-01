@@ -57,7 +57,7 @@ const characters = [
 
     {
         name: "B2 Super Battle Droid",
-        nickname: [],
+        nickname: ["b2"],
         light: [],
         dark: [],
         cantina: ["6-D"],
@@ -90,7 +90,7 @@ const characters = [
 
     {
         name: "BB-8",
-        nickname: [],
+        nickname: ["bb8", "BB"],
         light: [],
         dark: [],
         cantina: [],
@@ -156,7 +156,7 @@ const characters = [
 
     {
         name: "Captain Han Solo",
-        nickname: [],
+        nickname: ["Han"],
         light: [],
         dark: [],
         cantina: ["7-D"],
@@ -419,7 +419,7 @@ const characters = [
 
     {
         name: "Director Krennic",
-        nickname: [],
+        nickname: ["DK"],
         light: ["9-D"],
         dark: [],
         cantina: [],
@@ -452,7 +452,7 @@ const characters = [
 
     {
         name: "Ewok Elder",
-        nickname: [],
+        nickname: ["EE"],
         light: ["2-C"],
         dark: ["8-C"],
         cantina: [],
@@ -496,7 +496,7 @@ const characters = [
 
     {
         name: "First Order Executioner",
-        nickname: [],
+        nickname: ["FOE"],
         light: [],
         dark: [],
         cantina: [],
@@ -573,7 +573,7 @@ const characters = [
 
     {
         name: 'Garazeb "Zeb" Orrelios', // eslint-disable-line quotes
-        nickname: [],
+        nickname: ["zeb"],
         light: [],
         dark: [],
         cantina: [],

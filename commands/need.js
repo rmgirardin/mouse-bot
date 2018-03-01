@@ -70,7 +70,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             const rank = Number(foundCharacter.star);
             if (rank < 7) charDescription = `${charDescription}\n${client.checkClones(chLookup[i].name)} (${rank})`;
         } else {
-            charDescription = `${charDescription}\n**${chLookup[i].name}** (n/a)`;
+            charDescription = `${charDescription}\n**${chLookup[i].name}** (n.a.)`;
         }
     }
 
@@ -81,9 +81,9 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (foundShip) {
             const rank = Number(foundShip.star);
             if (rank < 7 && rank != 0) shipDescription = `${shipDescription}\n${foundShip.description.replace(/\\/g, "'")} (${rank})`;
-            if (rank === 0) shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n/a)`; // Pulls up data with rank 0 as well
+            if (rank === 0) shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n.a.)`; // Pulls up data with rank 0 as well
         } else {
-            shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n/a)`;
+            shipDescription = `${shipDescription}\n**${sLookup[j].name}** (n.a.)`;
         }
     }
 

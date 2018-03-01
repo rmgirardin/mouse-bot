@@ -67,8 +67,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const updated = await client.cacheCheck(message, id, "cm");
     const collection = client.cache.get(id + "_collection");
     const mods = client.cache.get(id + "_mods");
+    let lookup;
 
-    const lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, ["name", "nickname"]));
+    if (searchTerm.length == 2) lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, "nickname"));
+    else lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, ["name", "nickname"]));
 
     if (collection.length < 1) return chMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
 

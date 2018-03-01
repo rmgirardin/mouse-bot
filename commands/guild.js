@@ -37,8 +37,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
     const url = `https://swgoh.gg/api/guilds/${guildNum}/units/`;
     let guildData = {};
+    let lookup;
 
-    const lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
+    if (searchTerm.length == 2) lookup = charactersData.filter(fuzzy(searchTerm, "nickname")).concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
+    else if (searchTerm.length == 3) lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname"])));
+    else lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
 
     // Error message if no characters are found
     if (lookup.length == 0) return guildMessage.edit(`${message.author}, I can't find any characters or factions with __${searchTerm}__ in it.`).then(client.cmdError(message, cmd));
