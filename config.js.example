@@ -19,7 +19,6 @@ const config = {
         "roleRewardsEnabled": "true",
         "logsEnabled": "false",
         "guildReset": 2030,
-        "hasCommand": "captain-han-solo, hoth-rebel-soldier, hoth-rebel-scout",
         "welcomeMessage": "Welcome to {{server}}, {{user}}! Please take a second to enter your swgoh.gg username by typing `{{prefix}}add <swgoh.gg-username>`. If you need any help, just type \`{{prefix}}help\`!"
     },
 
