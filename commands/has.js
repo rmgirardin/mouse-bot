@@ -3,48 +3,61 @@
 // If no args is submitted, the command attempts to search for the author's
 // collection
 
-const swgoh = require("swgoh").swgoh;
 const { RichEmbed } = require("discord.js");
+const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    const [profile, empty, error] = client.profileCheck(message, args); // eslint-disable-line no-unused-vars
-    if (profile === undefined) return message.reply(error).then(client.cmdError(message, cmd));
+    const [id, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line no-unused-vars
+    if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
-    const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-    
-    // The courtious "checking" message while the user waits
-    const hasMessage = await message.channel.send("Checking... One moment. 👀");
+    // Cache check and pull the user's data
+    const updated = await client.cacheCheck(message, id, "cs");
+    const characterCollection = client.cache.get(id + "_collection");
+    if (characterCollection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+    const shipCollection = client.cache.get(id + "_ships");
 
-    const characters = settings.hasCommand.split(",");
+    const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
+    const charactersData = client.swgohData.get("charactersData");
+    const shipsData = client.swgohData.get("shipsData");
+    let lookup;
+    let has = "";
+    let notHas = "";
 
-    // Lookup the user's collection
-    const collection = await swgoh.collection(profile);
-    if (collection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+    if (searchTerm.length == 2) lookup = charactersData.filter(fuzzy(searchTerm, "nickname")).concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
+    else if (searchTerm.length == 3) lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname"])));
+    else lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
+    lookup = lookup.sort( (p, c) => p.combat_type > c.combat_type ? 1 : p.name > c.name && p.combat_type == c.combat_type ? 1 : -1 );
 
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setTitle(`Character Check For ${profile.toProperCase()}:`)
+        .setTitle(`${id.toProperCase()}'s Collection:`)
         .setColor(0xEE7100)
-        .setURL(`https://swgoh.gg/u/${profile.toLowerCase()}/`);
+        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
+        .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
-    for (let i = 0; i < characters.length; i++) {
+    for (let i = 0; i < lookup.length; i++) {
 
-        const character = collection.find(c => c.code === characters[i].trim());
+        let found = characterCollection.find(c => c.description === lookup[i].name);
+        if (!found) found = shipCollection.find(s => s.description == lookup[i].name);
+        const urlFlip = lookup[i].combat_type == 1 ? "collection" : "ships";
+        const isShip = lookup[i].combat_type == 2 ? "ⓢ " : "";
 
-        if (character) {
-            const title = `${client.checkClones(character.description)}`;
-            const description = `・${character.star}\*\n・Level ${character.level}\n・Gear level ${character.gearLevel}`;
-
-            embed.addField(title, description, true);
+        if (found) {
+            const url = `https://swgoh.gg/u/${id}/${urlFlip}/${found.code}/`;
+            has += `${isShip}[${client.checkClones(lookup[i].name)}](${url}) (${found.star})\n`;
         } else {
-            const title = `${client.checkClones(characters[i].replace(/-/g, " "))}`;
-            const description = ":x:";
-
-            embed.addField(title, description, true);
+            notHas += `${isShip}${client.checkClones(lookup[i].name)}\n`;
         }
-
     }
 
+    if (has != "") {
+        if (has.length > 950) client.splitText("✅ ✅ ✅", has, embed);
+        else embed.addField("✅ ✅ ✅", has, false);
+    }
+    if (notHas != "") {
+        if (notHas.length > 950) client.splitText("❌ ❌ ❌", notHas, embed);
+        else embed.addField("❌ ❌ ❌", notHas, false);
+    }
     hasMessage.edit({ embed });
 
 };
