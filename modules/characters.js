@@ -45,6 +45,12 @@ const characters = [
     },
 
     {
+        "name": "Amilyn Holdo",
+        "nickname": [],
+        "faction": ["Light Side", "Resistance", "Tank"]
+    },
+
+    {
         "name": "Asajj Ventress",
         "nickname": [],
         "light": [],
@@ -372,6 +378,18 @@ const characters = [
         "shops": ["arena"],
         "faction": ["Dark Side", "Attacker", "Sith"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sidious.png"
+    },
+
+    {
+        "name": "Darth Sion",
+        "nickname": [],
+        "faction": ["Dark Side", "Sith", "Tank"]
+    },
+
+    {
+        "name": "Darth Traya",
+        "nickname": [],
+        "faction": ["Dark Side", "Sith", "Support"]
     },
 
     {
@@ -995,7 +1013,7 @@ const characters = [
         "dark": ["2-E"],
         "cantina": [],
         "shops": ["galactic war"],
-        "faction": ["Light Side", "Attacker", "Galactic Republic", "Jedi"],
+        "faction": ["Light Side", "Healer", "Galactic Republic", "Jedi"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_luminara.png"
     },
 
@@ -1263,6 +1281,12 @@ const characters = [
     },
 
     {
+        "name": "Rose Tico",
+        "nickname": [],
+        "faction": ["Light Side", "Attacker", "Resistance"]
+    },
+
+    {
         "name": "Royal Guard",
         "nickname": ["RG"],
         "light": ["1-D"],
@@ -1326,6 +1350,12 @@ const characters = [
         "shops": ["guild shop"],
         "faction": ["Dark Side", "Attacker", "Sith"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sithassassin.png"
+    },
+
+    {
+        "name": "Sith Marauder",
+        "nickname": [],
+        "faction": ["Dark Side", "Sith", "Attacker"]
     },
 
     {
@@ -1480,6 +1510,12 @@ const characters = [
         "shops": [],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_tfa_han.png"
+    },
+
+    {
+        "name": "Visas Marr",
+        "nickname": [],
+        "faction": ["Light Side", "Healer"]
     },
 
     {
