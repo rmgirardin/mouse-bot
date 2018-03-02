@@ -16,7 +16,7 @@ const shipments = {
         "image": "https://swgoh.gg/static/img/assets/tex.icon_galactic_currency.png"
     },
 
-    "guild": {
+    "guild shop": {
         "image": "https://swgoh.gg/static/img/assets/tex.guild_currency.png"
     },
 

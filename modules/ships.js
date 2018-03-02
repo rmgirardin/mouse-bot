@@ -85,7 +85,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
-        "shops": ["guild"],
+        "shops": ["guild shop"],
         "faction": ["Dark Side", "Attacker", "First Order"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_fosf_tie_fighter.png"
     },

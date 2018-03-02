@@ -29,6 +29,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     searchTerm = searchTerm.toLowerCase().replace(/shop|store|shipment|squad|all/g, "")
         .replace(/gw/g, "galactic war").replace(/ship|fleet arena/g, "fleet")
         .trim();
+    if (searchTerm == "guild") searchTerm = "guild shop";
 
     // Search for a shipments image, because it looks nice in the embed
     const shopCheck = shipments[searchTerm];
