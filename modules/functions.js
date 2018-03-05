@@ -88,7 +88,8 @@ module.exports = (client) => {
     */
     client.cmdError = (message, cmd) => {
         const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-        message.channel.send(`To use this command, use the following command structure: \`\`\`${settings.prefix}${cmd.help.usage}\`\`\``);
+        message.channel.send(`To use this command, use the following command structure: \`\`\`${settings.prefix}${cmd.help.usage}\`\`\`
+Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`)}\`\`\``);
 
         // Let's remove a point from the user for using the command incorrectly
         // This makes the message worth only a regular message
