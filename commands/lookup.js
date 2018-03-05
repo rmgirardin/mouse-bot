@@ -21,7 +21,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     let result;
 
     // filter character and ship data into one result array
-    if (searchTerm.length > 2) return client.cmdError(message, cmd);
+    if (searchTerm.length < 2) return client.cmdError(message, cmd);
     if (searchTerm.length == 2) result = charactersData.filter(fuzzy(searchTerm, "nickname"))
         .concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
     else if (searchTerm.length == 3) result = charactersData.filter(fuzzy(searchTerm, ["nickname", "name"]))
