@@ -129,7 +129,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                     count = 0;
                 }
 
-                fieldText += `${c.level}-g${c.gear_level} (${c.power.toLocaleString()}) - ${c.player}\n`;
+                if (c.gear_level == undefined) fieldText += `${c.level} (${c.power.toLocaleString()}) - ${c.player}\n`;
+                else fieldText += `${c.level}-g${c.gear_level} (${c.power.toLocaleString()}) - ${c.player}\n`;
                 count++;
                 const starString = `${starEmoji}`.repeat(characterStar) + `${inactiveStarEmoji}`.repeat(7 - characterStar);
                 fieldTitle = `${starString} (x${count})`;
