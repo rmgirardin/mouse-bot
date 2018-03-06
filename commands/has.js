@@ -42,7 +42,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const urlFlip = lookup[i].combat_type == 1 ? "collection" : "ships";
         const isShip = lookup[i].combat_type == 2 ? "ⓢ " : "";
 
-        if (found) {
+        if (found && found.star != 0) {
             const url = `https://swgoh.gg/u/${id}/${urlFlip}/${found.code}/`;
             has += `${isShip}[${client.checkClones(lookup[i].name)}](${url}) (${found.star})\n`;
         } else {
@@ -58,6 +58,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (notHas.length > 950) client.splitText("❌ ❌ ❌", notHas, embed);
         else embed.addField("❌ ❌ ❌", notHas, false);
     }
+    if (has == "" && notHas == "") return hasMessage.edit(`${message.author}, I couldn't find any characters/ships or factions with __${searchTerm}__ in it.`);
     hasMessage.edit({ embed });
 
 };
