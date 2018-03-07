@@ -77,5 +77,5 @@ exports.help = {
     category: "Game",
     description: "Checks if the user has certain characters",
     usage: "has ~[swgoh.gg-username]",
-    examples: ["has ~necavit", "has", "has @Necavit#0540"]
+    examples: ["has empire", "has tank", "has ~necavit jedi"]
 };

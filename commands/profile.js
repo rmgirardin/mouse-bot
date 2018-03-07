@@ -75,5 +75,5 @@ exports.help = {
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
     usage: "profile ~[swgoh.gg-username]",
-    examples: ["profile ~hansolo", "profile", "profile @Necavit#0540", "profile add necavit", "profile edit hanshotfirst"]
+    examples: ["profile", "profile ~hansolo", "p @Necavit#0540", "profile add necavit"]
 };

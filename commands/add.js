@@ -54,5 +54,5 @@ exports.help = {
     category: "Game",
 	description: "Add your swgoh.gg username to the database",
 	usage: "add <swgoh.gg-username>",
-    examples: ["add necavit", "add hanshotfirst"]
+    examples: ["add necavit", "add hanshotfirst", "add https://swgoh.gg/u/necavit/"]
 };

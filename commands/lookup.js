@@ -77,5 +77,5 @@ exports.help = {
     category: "Game",
     description: "Looks up characters on swgoh.gg",
     usage: "lookup <name|faction|store>",
-    examples: ["lookup leia", "find jedi", "lookup galactic war"]
+    examples: ["lookup leia", "lookup han", "find jedi", "find galactic war"]
 };

@@ -118,5 +118,5 @@ exports.help = {
     category: "Game",
     description: "Let user know which characters they need in shipments",
     usage: "need ~[swgoh.gg-username] <shop/faction>",
-    examples: ["need ~necavit gw", "shipments @Necavit#0540 fleet", "need jedi"]
+    examples: ["need gw", "need jedi", "need ~necavit fleet"]
 };

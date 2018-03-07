@@ -149,5 +149,5 @@ exports.help = {
     category: "Game",
     description: "Looks up character stats and mods on swgoh.gg",
     usage: "mods ~[swgoh.gg-username] <character>",
-    examples: ["mods ~necavit Luke", "mods @Necavit#0540 leia", "mods r2", "ch han"]
+    examples: ["mods cls", "mods leia", "ch ~necavit r2", "ch han"]
 };

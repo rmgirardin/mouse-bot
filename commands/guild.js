@@ -164,5 +164,5 @@ exports.help = {
     category: "Game",
     description: "Looks up and returns guild data for characters/factions",
     usage: "guild <character/faction> [rarity]",
-    examples: ["guild han", "guild han 6", "guildlookup jedi"]
+    examples: ["guild han", "guild han 6", "guildlookup wampa"]
 };
