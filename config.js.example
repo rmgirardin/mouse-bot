@@ -14,7 +14,7 @@ const config = {
         "aChannel": "general",
         "modRole": "Moderator",
         "adminRole": "Administrator",
-        "welcomeEnabled": "true",
+        "welcomeEnabled": "false",
         "pointsEnabled": "false",
         "roleRewardsEnabled": "true",
         "logsEnabled": "false",

@@ -90,6 +90,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             .setThumbnail(`https:${lookup[k].image}`)
             .setURL(`https://swgoh.gg/g/${guildNum}/${guildInfo[3]}/unit-search/#${lookup[k].base_id}`);
 
+        if (lookup.length > 1) embed.setFooter(`(${(k + 1)} of ${lookup.length})`);
+
         // Here we're just getting an array of everyone in the guild to use for
         // the "Not Activated" section
         guildData["CLONEWARSCHEWBACCA"].forEach(d => {

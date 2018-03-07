@@ -66,7 +66,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["swgoh", "swgoh.gg", "swgohgg", "profiles"],
+    aliases: ["swgoh", "swgoh.gg", "swgohgg", "profiles", "p"],
     permLevel: "User"
 };
 

@@ -77,12 +77,20 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     // Loop through the collection array ("description") and add any matching
     // "characters" from the mods array
     const modsLookup = [];
+    const rm = [];
     for (var z = 0; z < lookup.length; z++) {
         const chData = getObjects(collection, "description", lookup[z].name);
-        Object.assign(lookup[z], chData[0]);
-
-        modsLookup.push(getObjects(mods, "character", lookup[z].name));
+        if (chData.length == 1) {
+            Object.assign(lookup[z], chData[0]);
+            modsLookup.push(getObjects(mods, "character", lookup[z].name));
+        }
+        else rm.push(z);
     }
+
+    rm.forEach(x => {
+        lookup.splice(x, 1);
+    });
+
 
     if (modsLookup[0] == undefined || modsLookup[0][0] == undefined) return chMessage.edit(`${message.author}, I don't think you have __${searchTerm}__ activated.\n*(I can only search for **characters** in this command)*`);
 
@@ -97,6 +105,8 @@ Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(looku
             .setThumbnail(`https://${lookup[i].imageSrc}`)
             .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
             .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
+
+            if (lookup.length > 1) embed.setFooter(`(${(i + 1)} of ${lookup.length}) | Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
             // Iterate to get each mod
             for (var j = 0; j < modsLookup[i].length; j++) {

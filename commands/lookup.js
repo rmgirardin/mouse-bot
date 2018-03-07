@@ -41,8 +41,9 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             .setColor(0xEE7100)
             .setThumbnail(`https:${unit.image}`)
             .setURL(`${unit.url}`)
-            .setFooter(`${"Result " + (c+1) + " of " + len}`)
             .addField("__Max Galactic Power__",`${new Intl.NumberFormat("en-US", { useGrouping: "true" }).format(unit.power)}`);
+
+        if (len > 1) embed.setFooter(`(${(c+1)} of ${len})`);
 
         if (unit.faction.length > 0) {
             embed.addField("__Factions__", `${unit.faction.join(", ")}`);
