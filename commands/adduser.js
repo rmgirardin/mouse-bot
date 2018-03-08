@@ -13,6 +13,12 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (!args[0]) return message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd));
 
         let swName = args.shift();
+        if (swName.startsWith("http")) {
+            const start = swName.indexOf("/u/");
+            if (start == -1) client.cmdError(message, cmd);
+            const end = swName.lastIndexOf("/");
+            swName = swName.slice(start + 3, end);
+        }
         if (swName.startsWith("~")) swName = swName.replace("~", "");
         if (swName.startsWith("--")) swName = swName.replace("--", "");
 
