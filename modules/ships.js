@@ -42,7 +42,7 @@ const ships = [
 
     {
         "name": "Chimaera",
-        "light": [],
+        "light": ["chimera"],
         "dark": [],
         "cantina": [],
         "shops": [],
@@ -82,7 +82,7 @@ const ships = [
 
     {
         "name": "First Order SF TIE Fighter",
-        "light": [],
+        "light": ["FOSFTF"],
         "dark": [],
         "cantina": [],
         "shops": ["guild shop"],
@@ -92,7 +92,7 @@ const ships = [
 
     {
         "name": "First Order TIE Fighter",
-        "light": [],
+        "light": ["FOTF"],
         "dark": [],
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
@@ -152,7 +152,7 @@ const ships = [
 
     {
         "name": "Imperial TIE Fighter",
-        "light": [],
+        "light": ["ITF"],
         "dark": [],
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
