@@ -153,6 +153,13 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         if (args[0] && args[0].startsWith("~") || args[0] && args[0].startsWith("--")) {
             profile = args[0].replace("~", "").replace("--", "");
             text = args.slice(1).join(" ");
+        } else if (args[0].startsWith("http")) {
+            const start = args[0].indexOf("/u/");
+            if (start == -1) error = ("There is no username in this URL.");
+            const end = args[0].lastIndexOf("/");
+            profile = args[0].slice(start + 3, end);
+            profile = profile.replace(/%20/g, " ");
+            text = args.slice(1).join(" ");
         } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
             profile = client.profileTable.get(message.mentions.users.first().id);
             text = args.slice(1).join(" ");
@@ -161,7 +168,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
             text = args.join(" ");
         }
 
-        if (profile === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
+        if (profile === undefined || profile.userId === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
         return [encodeURI(profile), text, error];
     };
 

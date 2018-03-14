@@ -27,11 +27,13 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // Setting up guild id and url for swgoh.gg/api
     let profile = client.cache.get(id + "_profile");
+    console.log(profile);
     // Only cache if needed to
-    if (profile == undefined) {
+    if (profile === undefined || profile.userId === undefined) {
         await client.cacheCheck(message, id, "");
         profile = client.cache.get(id + "_profile");
     } else client.cacheCheck(message, id, ""); // But if we don't need to cache, just do it in the background
+    if (profile === undefined || profile.userId === undefined) return guildMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
     const guildInfo = profile.guildUrl.split("/");
     const guildNum = guildInfo[2];
     const guildName = guildInfo[3].replace(/-/g, " ").toProperCase();

@@ -22,6 +22,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
         if (swName.startsWith("~")) swName = swName.replace("~", "");
         if (swName.startsWith("--")) swName = swName.replace("--", "");
+        swName = swName.replace(/%20/g, " ");
 
         const id = client.profileTable.get(user.id);
 

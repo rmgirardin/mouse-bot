@@ -13,13 +13,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const [id, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line no-unused-vars
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
+    const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
+
     // Cache check and pull the user's data
     const [username, updated] = await client.cacheCheck(message, id, "cs");
     const characterCollection = client.cache.get(id + "_collection");
     if (characterCollection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = client.cache.get(id + "_ships");
 
-    const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
     const charactersData = client.swgohData.get("charactersData");
     const shipsData = client.swgohData.get("shipsData");
     let lookup;
