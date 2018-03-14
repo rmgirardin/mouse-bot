@@ -18,6 +18,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (start == -1) client.cmdError(message, cmd);
             const end = swName.lastIndexOf("/");
             swName = swName.slice(start + 3, end);
+            swName = swName.replace(/%20/g, " ");
         }
         if (swName.startsWith("~")) swName = swName.replace("~", "");
         if (swName.startsWith("--")) swName = swName.replace("--", "");

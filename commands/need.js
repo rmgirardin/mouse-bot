@@ -20,7 +20,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const needMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
 
     // Cache check and pull the user's data
-    const updated = await client.cacheCheck(message, id, "cs");
+    const [username, updated] = await client.cacheCheck(message, id, "cs");
     const characterCollection = client.cache.get(id + "_collection");
     if (characterCollection.length < 1) return needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = client.cache.get(id + "_ships");
@@ -51,7 +51,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // Creating the embed
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setAuthor(`${id.toProperCase()}'s Needs for ${searchTerm.toProperCase()}`, shopImage)
+        .setAuthor(`${username}'s Needs for ${searchTerm.toProperCase()}`, shopImage)
         .setColor(0xEE7100)
         .setDescription("*Need Shards (current rank)*")
         .setURL("https://swgoh.gg/db/shipments/")

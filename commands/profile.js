@@ -35,9 +35,9 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const profileMessage = await message.channel.send("Checking... One moment. 👀");
 
     // Here we pull the profile data from swgoh.gg
-    const profile = await swgoh.profile(encodeURI(id));
+    const profile = await swgoh.profile(id);
 
-    if (!profile.username || profile === undefined) return profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
+    if (profile === undefined) return profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
 
     // Some user's don't submit thier profile codes on swgoh.gg, if that's the
     // case, lets not display (undefined) next to their name

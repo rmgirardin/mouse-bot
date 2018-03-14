@@ -14,7 +14,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
 
     // Cache check and pull the user's data
-    const updated = await client.cacheCheck(message, id, "cs");
+    const [username, updated] = await client.cacheCheck(message, id, "cs");
     const characterCollection = client.cache.get(id + "_collection");
     if (characterCollection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
     const shipCollection = client.cache.get(id + "_ships");
@@ -32,7 +32,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     lookup = lookup.sort( (p, c) => p.combat_type > c.combat_type ? 1 : p.name > c.name && p.combat_type == c.combat_type ? 1 : -1 );
 
     let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setTitle(`${id.toProperCase()}'s Collection:`)
+        .setTitle(`${username}'s Collection:`)
         .setColor(0xEE7100)
         .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
         .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");

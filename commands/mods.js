@@ -64,7 +64,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     const chMessage = await message.channel.send("Checking... this may take a minute. 👀"); // wait message
 
     // Cache collection and mods ("cm") if needed
-    const updated = await client.cacheCheck(message, id, "cm");
+    const [username, updated] = await client.cacheCheck(message, id, "cm");
     const collection = client.cache.get(id + "_collection");
     const mods = client.cache.get(id + "_mods");
     let lookup;
@@ -97,7 +97,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     for (var i = 0; i < lookup.length; i++) {
         const starString = `${starEmoji}`.repeat(lookup[i].star) + `${inactiveStarEmoji}`.repeat(7 - lookup[i].star);
         const embed = new RichEmbed()
-            .setTitle(`${id.toProperCase()}'s ${lookup[i].description}`)
+            .setTitle(`${username}'s ${lookup[i].description}`)
             .setDescription(`${starString}
 Level ${lookup[i].level}  |  Gear ${lookup[i].gearLevel}
 Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)

@@ -185,6 +185,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         const pastProfile = client.cache.get(id + "_profile");
         const currentProfile = await swgoh.profile(id);
         const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
+        const username = currentProfile.username;
 
         const pastUpdatedUTC = pastProfile ? pastProfile.lastUpdatedUTC : -1;
 
@@ -213,7 +214,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
         }
 
-        return updated;
+        return [username, updated];
 
     };
 
