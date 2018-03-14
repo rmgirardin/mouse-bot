@@ -35,7 +35,7 @@ const characters = [
 
     {
         "name": "Ahsoka Tano (Fulcrum)",
-        "nickname": [],
+        "nickname": ["ATF", "FAT"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -118,7 +118,7 @@ const characters = [
 
     {
         "name": "Bistan",
-        "nickname": [],
+        "nickname": ["Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -140,7 +140,7 @@ const characters = [
 
     {
         "name": "Bodhi Rook",
-        "nickname": [],
+        "nickname": ["Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -184,7 +184,7 @@ const characters = [
 
     {
         "name": "Cassian Andor",
-        "nickname": [],
+        "nickname": ["Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -195,7 +195,7 @@ const characters = [
 
     {
         "name": 'CC-2224 "Cody"', // eslint-disable-line quotes
-        "nickname": [],
+        "nickname": ["clones"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -250,7 +250,7 @@ const characters = [
 
     {
         "name": "Clone Sergeant - Phase I",
-        "nickname": [],
+        "nickname": ["clones"],
         "light": ["5-E"],
         "dark": ["1-B", "3-E"],
         "cantina": [],
@@ -316,7 +316,7 @@ const characters = [
 
     {
         "name": 'CT-21-0408 "Echo"', // eslint-disable-line quotes
-        "nickname": [],
+        "nickname": ["clones"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -327,7 +327,7 @@ const characters = [
 
     {
         "name": 'CT-5555 "Fives"', // eslint-disable-line quotes
-        "nickname": [],
+        "nickname": ["clones"],
         "light": ["4-F"],
         "dark": ["2-D"],
         "cantina": [],
@@ -338,7 +338,7 @@ const characters = [
 
     {
         "name": 'CT-7567 "Rex"', // eslint-disable-line quotes
-        "nickname": [],
+        "nickname": ["clones"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -383,13 +383,23 @@ const characters = [
     {
         "name": "Darth Sion",
         "nickname": [],
-        "faction": ["Dark Side", "Sith", "Tank"]
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [""],
+        "faction": ["Dark Side", "Sith", "Tank"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sion.png"
     },
 
     {
         "name": "Darth Traya",
         "nickname": [],
-        "faction": ["Dark Side", "Sith", "Support"]
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [""],
+        "faction": ["Dark Side", "Sith", "Support"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_traya.png"
     },
 
     {
@@ -536,7 +546,7 @@ const characters = [
 
     {
         "name": "First Order SF TIE Pilot",
-        "nickname": [],
+        "nickname": ["FOSFTP", "SFTP"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -547,7 +557,7 @@ const characters = [
 
     {
         "name": "First Order Stormtrooper",
-        "nickname": ["FOS"],
+        "nickname": ["FOS", "FOST"],
         "light": ["2-B", "9-A"],
         "dark": ["2-A"],
         "cantina": [],
@@ -558,7 +568,7 @@ const characters = [
 
     {
         "name": "First Order TIE Pilot",
-        "nickname": [],
+        "nickname": ["FOTP"],
         "light": ["6-D"],
         "dark": ["6-B"],
         "cantina": [],
@@ -745,7 +755,7 @@ const characters = [
 
     {
         "name": "Hoth Rebel Scout",
-        "nickname": [],
+        "nickname": ["hrscout"],
         "light": ["8-B"],
         "dark": ["6-A"],
         "cantina": [],
@@ -756,7 +766,7 @@ const characters = [
 
     {
         "name": "Hoth Rebel Soldier",
-        "nickname": [],
+        "nickname": ["hrsoldier"],
         "light": [],
         "dark": ["3-B"],
         "cantina": [],
@@ -767,7 +777,7 @@ const characters = [
 
     {
         "name": "IG-100 MagnaGuard",
-        "nickname": [],
+        "nickname": ["ig100"],
         "light": [],
         "dark": ["6-E"],
         "cantina": ["3-C"],
@@ -800,7 +810,7 @@ const characters = [
 
     {
         "name": "Ima-Gun Di",
-        "nickname": ["IGD"],
+        "nickname": ["IGD","Ima Gun Di"],
         "light": ["7-C"],
         "dark": ["5-A"],
         "cantina": ["7-E"],
@@ -887,7 +897,7 @@ const characters = [
 
     {
         "name": "Jedi Knight Guardian",
-        "nickname": [],
+        "nickname": ["jkg"],
         "light": [],
         "dark": ["3-F"],
         "cantina": [],
@@ -898,7 +908,7 @@ const characters = [
 
     {
         "name": "Jyn Erso",
-        "nickname": [],
+        "nickname": ["Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -909,7 +919,7 @@ const characters = [
 
     {
         "name": "K-2SO",
-        "nickname": ["k2s0"],
+        "nickname": ["k2s0", "Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -1140,7 +1150,7 @@ const characters = [
 
     {
         "name": "Pao",
-        "nickname": [],
+        "nickname": ["Rogue One", "R1"],
         "light": [],
         "dark": [],
         "shops": ["cantina"],
@@ -1321,7 +1331,7 @@ const characters = [
 
     {
         "name": "Scarif Rebel Pathfinder",
-        "nickname": [],
+        "nickname": ["SRP", "Rogue One", "R1"],
         "light": [],
         "dark": [],
         "cantina": ["1-D"],
@@ -1437,7 +1447,7 @@ const characters = [
 
     {
         "name": "TIE Fighter Pilot",
-        "nickname": [],
+        "nickname": ["TFP"],
         "light": [],
         "dark": [],
         "cantina": ["4-B"],
@@ -1515,7 +1525,12 @@ const characters = [
     {
         "name": "Visas Marr",
         "nickname": [],
-        "faction": ["Light Side", "Healer"]
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Healer"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_visas.png"
     },
 
     {
