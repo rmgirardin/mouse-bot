@@ -27,7 +27,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     // Setting up guild id and url for swgoh.gg/api
     let profile = client.cache.get(id + "_profile");
-    console.log(profile);
     // Only cache if needed to
     if (profile === undefined || profile.userId === undefined) {
         await client.cacheCheck(message, id, "");

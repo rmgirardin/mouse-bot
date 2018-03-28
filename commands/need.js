@@ -89,8 +89,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
     }
 
     if (charDescription === "" && shipDescription === "") embed.setDescription(`Nothing found!
-Either all characters/ships have been maxed out,
-or I cannot find a shop or faction for __${searchTerm}__.`);
+Either all characters/ships have been maxed out, or I cannot find a shop or faction for __${searchTerm}__.`);
 
     // Check if fields are too long before sending
     if (charDescription != "") {

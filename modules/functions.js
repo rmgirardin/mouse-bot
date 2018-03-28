@@ -150,16 +150,18 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         let text;
         let error;
 
-        if (args[0] && args[0].startsWith("~") || args[0] && args[0].startsWith("--")) {
-            profile = args[0].replace("~", "").replace("--", "");
-            text = args.slice(1).join(" ");
-        } else if (args[0].startsWith("http")) {
-            const start = args[0].indexOf("/u/");
-            if (start == -1) error = ("There is no username in this URL.");
-            const end = args[0].lastIndexOf("/");
-            profile = args[0].slice(start + 3, end);
-            profile = profile.replace(/%20/g, " ");
-            text = args.slice(1).join(" ");
+        if (args[0]) {
+            if (args[0].startsWith("~") || args[0].startsWith("--")) {
+                profile = args[0].replace("~", "").replace("--", "");
+                text = args.slice(1).join(" ");
+            } else if (args[0].startsWith("http")) {
+                const start = args[0].indexOf("/u/");
+                if (start == -1) error = ("There is no username in this URL.");
+                const end = args[0].lastIndexOf("/");
+                profile = args[0].slice(start + 3, end);
+                profile = profile.replace(/%20/g, " ");
+                text = args.slice(1).join(" ");
+            }
         } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
             profile = client.profileTable.get(message.mentions.users.first().id);
             text = args.slice(1).join(" ");

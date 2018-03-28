@@ -671,7 +671,7 @@ const characters = [
         "light": [],
         "dark": [],
         "cantina": [],
-        "shops": ["guild events"],
+        "shops": [],
         "faction": ["Dark Side", "Support", "Empire", "Fleet Commander"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_thrawn.png"
     },
@@ -1429,7 +1429,7 @@ const characters = [
         "light": ["2-D", "2-F"],
         "dark": [],
         "cantina": ["1-G", "5-E"],
-        "shops": [],
+        "shops": ["guild shop"],
         "faction": ["Dark Side", "Healer", "Nightsister"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_nightsister_talia.png"
     },

@@ -86,13 +86,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
         else rm.push(z);
     }
-
     rm.forEach(x => {
         lookup.splice(x, 1);
     });
 
-
-    if (modsLookup[0] == undefined || modsLookup[0][0] == undefined) return chMessage.edit(`${message.author}, I don't think you have __${searchTerm}__ activated.\n*(I can only search for **characters** in this command)*`);
+    if (lookup[0] == undefined) return chMessage.edit(`${message.author}, I don't think you have __${searchTerm}__ activated.\n*(I can only search for **characters** in this command)*`);
 
     for (var i = 0; i < lookup.length; i++) {
         const starString = `${starEmoji}`.repeat(lookup[i].star) + `${inactiveStarEmoji}`.repeat(7 - lookup[i].star);
