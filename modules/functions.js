@@ -161,10 +161,13 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
                 profile = args[0].slice(start + 3, end);
                 profile = profile.replace(/%20/g, " ");
                 text = args.slice(1).join(" ");
+            } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
+                profile = client.profileTable.get(message.mentions.users.first().id);
+                text = args.slice(1).join(" ");
+            } else {
+                profile = client.profileTable.get(message.author.id);
+                text = args.join(" ");
             }
-        } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
-            profile = client.profileTable.get(message.mentions.users.first().id);
-            text = args.slice(1).join(" ");
         } else {
             profile = client.profileTable.get(message.author.id);
             text = args.join(" ");
