@@ -1,51 +1,58 @@
-exports.run = (client, message, cmd, args, level) => {
+exports.run = async (client, message, cmd, args, level) => {
 
-    const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
+    try {
 
-    // If no specific command is called, show all filtered commands
-    if (!args[0]) {
-        // Load guild settings (for prefixes and eventually per-guild tweaks)
         const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
 
-        // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
-        const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.enabled) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true && cmd.conf.enabled);
+        // If no specific command is called, show all filtered commands
+        if (!args[0]) {
+            // Load guild settings (for prefixes and eventually per-guild tweaks)
+            const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
 
-        let currentCategory = "";
-        let output = `**__COMMAND LIST__**\nUse \`${settings.prefix}help <command-name>\` for details\n`;
+            // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
+            const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.enabled) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true && cmd.conf.enabled);
 
-        const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
-        sorted.forEach( c => {
-            const cat = c.help.category.toProperCase();
-            if (currentCategory !== cat) {
-                output += `\n**${cat.toUpperCase()}:**\n`;
-                currentCategory = cat;
-            }
-            output += `**\`${settings.prefix}${c.help.name}\`** - ${c.help.description}\n`;
-        });
+            let currentCategory = "";
+            let output = `**__COMMAND LIST__**\nUse \`${settings.prefix}help <command-name>\` for details\n`;
 
-        message.channel.send(output);
-        message.channel.send("Visit the User Guide for more info: <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/>");
-    }
+            const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
+            sorted.forEach( c => {
+                const cat = c.help.category.toProperCase();
+                if (currentCategory !== cat) {
+                    output += `\n**${cat.toUpperCase()}:**\n`;
+                    currentCategory = cat;
+                }
+                output += `**\`${settings.prefix}${c.help.name}\`** - ${c.help.description}\n`;
+            });
 
-    // If command is specified, show the command details
-    else {
-        const commandName = args[0];
-        if (client.commands.has(commandName) || client.commands.get(client.aliases.get(commandName))) {
-            const command = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
-            if (level < client.levelCache[command.conf.permLevel]) return message.channel.send(`${message.author}, you don't have the permissions to use that command.`);
-            if (!command.conf.enabled) return message.channel.send(`${message.author}, I can't find that command.`);
-            let output = `Command:  **__${command.help.name}__**
+            await message.channel.send(output);
+            await message.channel.send("Visit the User Guide for more info: <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/>");
+        }
+
+        // If command is specified, show the command details
+        else {
+            const commandName = args[0];
+            if (client.commands.has(commandName) || client.commands.get(client.aliases.get(commandName))) {
+                const command = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
+                if (level < client.levelCache[command.conf.permLevel]) return await message.channel.send(`${message.author}, you don't have the permissions to use that command.`);
+                if (!command.conf.enabled) return await message.channel.send(`${message.author}, I can't find that command.`);
+                let output = `Command:  **__${command.help.name}__**
 Description:  **${command.help.description}**
 Permission:  **${command.conf.permLevel.replace("User", "Everyone")}**`;
-            if (command.conf.aliases.length >= 1) output += `\nAliases:  **${command.conf.aliases.join(", ")}**`;
-            output += `\nUsage:\`\`\`${settings.prefix}${command.help.usage}\n\`\`\`
+                if (command.conf.aliases.length >= 1) output += `\nAliases:  **${command.conf.aliases.join(", ")}**`;
+                output += `\nUsage:\`\`\`${settings.prefix}${command.help.usage}\n\`\`\`
 Examples:\`\`\`\n${settings.prefix}${command.help.examples.join(`\n${settings.prefix}`)}\n\`\`\`
 <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/${command.help.name}.html>`;
 
-            message.channel.send(output);
+                await message.channel.send(output);
+            }
+
+            else return await message.channel.send(`${message.author}, I can't find that command.`);
         }
 
-        else return message.channel.send(`${message.author}, I can't find that command.`);
+    } catch (error) {
+        client.logger.error(client, `help command failure:\n${error.stack}`);
+        client.codeError(message);
     }
 };
 

@@ -57,7 +57,7 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
     client.addPoints(message, client.config.messagePoints);
 
     // If the command exists **AND** the user has permission
-    client.log("log", `${message.author.username} (${client.config.permLevels.find(l => l.level === level).name}, ${message.author.id}) ran ${cmd.help.name}`, "Command");
+    client.logger.cmd(client, `${message.author.username} (${client.config.permLevels.find(l => l.level === level).name}, ${message.author.id}) ran ${cmd.help.name}`);
     cmd.run(client, message, cmd, args, level);
 
 };

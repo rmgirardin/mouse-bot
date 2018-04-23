@@ -1,7 +1,12 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    const msg = await message.channel.send("Ping?");
-    msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
+    try {
+        const msg = await message.channel.send("Ping?");
+        await msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
+    } catch (error) {
+        client.logger.error(client, `ping command failure:\n${error.stack}`);
+        client.codeError(message);
+    }
 
 };
 

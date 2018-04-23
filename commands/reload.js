@@ -4,15 +4,22 @@
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    if (!args.join() || args.join().length < 1) return client.cmdError(message, cmd);
+    try {
 
-    let response = await client.unloadCommand(args[0]);
-    if (response) return message.reply(`Error Unloading: ${response}`);
+        if (!args.join() || args.join().length < 1) return await client.cmdError(message, cmd);
 
-    response = client.loadCommand(args[0]);
-    if (response) return message.reply(`Error Loading: ${response}`);
+        let response = await client.unloadCommand(args[0]);
+        if (response) return await message.reply(`Error Unloading: ${response}`);
 
-    message.channel.send(`${message.author}, the command \`${args[0]}\` has been reloaded.`);
+        response = await client.loadCommand(args[0]);
+        if (response) return await message.reply(`Error Loading: ${response}`);
+
+        await message.channel.send(`${message.author}, the command \`${args[0]}\` has been reloaded.`);
+
+    }  catch (error) {
+        client.logger.error(client, `reload command failure:\n${error.stack}`);
+        client.codeError(message);
+    }
 
 };
 

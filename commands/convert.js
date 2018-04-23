@@ -21,34 +21,41 @@ function calculate(num, sorted, isPercent) {
     }
 }
 
-exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    // Return and send error message if there is not 3 args
-    if (!args[2]) return client.cmdError(message, cmd);
+    try {
 
-    const messageContent = args.join("|").toLowerCase().split("|");
+        // Return and send error message if there is not 3 args
+        if (!args[2]) return client.cmdError(message, cmd);
 
-    let num = messageContent.sort().splice(0, 1); // Sort and remove the number which is not at [0]
-    num = num.toString().split(",").join(""); // Remove commas
-    let isPercent = false;
+        const messageContent = args.join("|").toLowerCase().split("|");
 
-    if (num.toString().indexOf("%") > -1) {
-        isPercent = true;
-        num = parseFloat(num);
-    }
+        let num = messageContent.sort().splice(0, 1); // Sort and remove the number which is not at [0]
+        num = num.toString().split(",").join(""); // Remove commas
+        let isPercent = false;
 
-    const convert = n => raidKey[n.toString()] || n;
-    const sorted = messageContent.map(convert).sort();
-    const phaseNum = sorted[1].replace(/[a-z]/g, "").toString();
+        if (num.toString().indexOf("%") > -1) {
+            isPercent = true;
+            num = parseFloat(num);
+        }
 
-    const damage = calculate(num, sorted, isPercent);
+        const convert = n => raidKey[n.toString()] || n;
+        const sorted = messageContent.map(convert).sort();
+        const phaseNum = sorted[1].replace(/[a-z]/g, "").toString();
 
-    if (isNaN(damage)) {
-        client.cmdError(message, cmd);
-    } else if (isPercent == true) {
-        message.channel.send(num + "% is about **" + Math.round(damage).toLocaleString() + "** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
-    } else {
-        message.channel.send(Number(num).toLocaleString() + " is about **" + damage.toFixed(2) + "%** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
+        const damage = calculate(num, sorted, isPercent);
+
+        if (isNaN(damage)) {
+            client.cmdError(message, cmd);
+        } else if (isPercent == true) {
+            await message.channel.send(num + "% is about **" + Math.round(damage).toLocaleString() + "** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
+        } else {
+            await message.channel.send(Number(num).toLocaleString() + " is about **" + damage.toFixed(2) + "%** in Phase " + phaseNum + " of the " + raidKey[sorted[0]] + " raid.");
+        }
+
+    } catch (error) {
+        client.logger.error(client, `convert command failure:\n${error.stack}`);
+        client.codeError(message);
     }
 
 };

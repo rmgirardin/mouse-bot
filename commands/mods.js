@@ -50,88 +50,95 @@ const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    if (!args[0]) return client.cmdError(message, cmd);
+    try {
 
-    // Cool star emojis! Just like in the game!
-    const starEmoji = client.emojis.get("416420499078512650");
-    const inactiveStarEmoji = client.emojis.get("416422867606044683");
+        if (!args[0]) return client.cmdError(message, cmd);
 
-    // Check for a username
-    const [id, searchTerm, error] = client.profileCheck(message, args);
-    if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
-    if (searchTerm.length < 2) return message.reply("please use 2 or more letters to search for characters, I don't want to spam your channel with every character.");
+        // Cool star emojis! Just like in the game!
+        const starEmoji = client.emojis.get("416420499078512650");
+        const inactiveStarEmoji = client.emojis.get("416422867606044683");
 
-    const chMessage = await message.channel.send("Checking... this may take a minute. 👀"); // wait message
+        // Check for a username
+        const [id, searchTerm, error] = await client.profileCheck(message, args);
+        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (searchTerm.length < 2) return await message.reply("please use 2 or more letters to search for characters, I don't want to spam your channel with every character.");
 
-    // Cache collection and mods ("cm") if needed
-    const [username, updated] = await client.cacheCheck(message, id, "cm");
-    const collection = client.cache.get(id + "_collection");
-    const mods = client.cache.get(id + "_mods");
-    let lookup;
+        const chMessage = await message.channel.send("Checking... this may take a minute. 👀"); // wait message
 
-    if (searchTerm.length == 2) lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, "nickname"));
-    else lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, ["name", "nickname"]));
+        // Cache collection and mods ("cm") if needed
+        const [username, updated] = await client.cacheCheck(message, id, "cm");
+        const collection = client.cache.get(id + "_collection");
+        const mods = client.cache.get(id + "_mods");
+        let lookup;
 
-    if (collection.length < 1) return chMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+        if (searchTerm.length == 2) lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, "nickname"));
+        else lookup = client.swgohData.get("charactersData").filter(fuzzy(searchTerm, ["name", "nickname"]));
 
-    // Loop through the collection array ("description") and add any matching
-    // "characters" from the mods array
-    const modsLookup = [];
-    const rm = [];
-    for (var z = 0; z < lookup.length; z++) {
-        const chData = getObjects(collection, "description", lookup[z].name);
-        if (chData.length == 1) {
-            Object.assign(lookup[z], chData[0]);
-            modsLookup.push(getObjects(mods, "character", lookup[z].name));
+        if (collection.length < 1) return await chMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+
+        // Loop through the collection array ("description") and add any matching
+        // "characters" from the mods array
+        const modsLookup = [];
+        const rm = [];
+        for (var z = 0; z < lookup.length; z++) {
+            const chData = getObjects(collection, "description", lookup[z].name);
+            if (chData.length == 1) {
+                Object.assign(lookup[z], chData[0]);
+                modsLookup.push(getObjects(mods, "character", lookup[z].name));
+            }
+            else rm.push(z);
         }
-        else rm.push(z);
-    }
-    rm.forEach(x => {
-        lookup.splice(x, 1);
-    });
+        rm.forEach(x => {
+            lookup.splice(x, 1);
+        });
 
-    if (lookup[0] == undefined) return chMessage.edit(`${message.author}, I don't think you have __${searchTerm}__ activated.\n*(I can only search for **characters** in this command)*`);
+        if (lookup[0] == undefined) return await chMessage.edit(`${message.author}, I don't think you have __${searchTerm}__ activated.\n*(I can only search for **characters** in this command)*`);
 
-    for (var i = 0; i < lookup.length; i++) {
-        const starString = `${starEmoji}`.repeat(lookup[i].star) + `${inactiveStarEmoji}`.repeat(7 - lookup[i].star);
-        const embed = new RichEmbed()
-            .setTitle(`${username}'s ${lookup[i].description}`)
-            .setDescription(`${starString}
+        for (var i = 0; i < lookup.length; i++) {
+            const starString = `${starEmoji}`.repeat(lookup[i].star) + `${inactiveStarEmoji}`.repeat(7 - lookup[i].star);
+            const embed = new RichEmbed()
+                .setTitle(`${username}'s ${lookup[i].description}`)
+                .setDescription(`${starString}
 Level ${lookup[i].level}  |  Gear ${lookup[i].gearLevel}
 Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)
-            .setColor(0xEE7100)
-            .setThumbnail(`https://${lookup[i].imageSrc}`)
-            .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
-            .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
+                .setColor(0xEE7100)
+                .setThumbnail(`https://${lookup[i].imageSrc}`)
+                .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
+                .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
-            if (lookup.length > 1) embed.setFooter(`(${(i + 1)} of ${lookup.length}) | Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
+                if (lookup.length > 1) embed.setFooter(`(${(i + 1)} of ${lookup.length}) | Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
-            // Iterate to get each mod
-            for (var j = 0; j < modsLookup[i].length; j++) {
-                if (lookup[i].name == modsLookup[i][j].character) {
-                    const typeEmoji = client.emojis.get(modsEmojis[getModType(modsLookup[i][j].description)]); // Find the type of mod
-                    const slotEmoji = client.emojis.get(modsEmojis[modsLookup[i][j].slot]); // Store the mod slot
-                    const fieldTitle = `${slotEmoji}${typeEmoji} (Lv ${modsLookup[i][j].level})`;
+                // Iterate to get each mod
+                for (var j = 0; j < modsLookup[i].length; j++) {
+                    if (lookup[i].name == modsLookup[i][j].character) {
+                        const typeEmoji = client.emojis.get(modsEmojis[getModType(modsLookup[i][j].description)]); // Find the type of mod
+                        const slotEmoji = client.emojis.get(modsEmojis[modsLookup[i][j].slot]); // Store the mod slot
+                        const fieldTitle = `${slotEmoji}${typeEmoji} (Lv ${modsLookup[i][j].level})`;
 
-                    let secondaryValue = "";
+                        let secondaryValue = "";
 
-                    // Iterate to get the secondary values of each mod
-                    for (var k = 0; k < modsLookup[i][j].secondary.length; k++) {
-                        secondaryValue += `${modsLookup[i][j].secondary[k].value.replace("+", "")} ${modsLookup[i][j].secondary[k].type}\n`;
+                        // Iterate to get the secondary values of each mod
+                        for (var k = 0; k < modsLookup[i][j].secondary.length; k++) {
+                            secondaryValue += `${modsLookup[i][j].secondary[k].value.replace("+", "")} ${modsLookup[i][j].secondary[k].type}\n`;
+                        }
+
+                        // Now display all the mod details
+                        const fieldText = `**${modsLookup[i][j].primary.value.replace("+", "")} ${modsLookup[i][j].primary.type}**\n${secondaryValue}`;
+                        embed.addField(fieldTitle, fieldText, true);
                     }
-
-                    // Now display all the mod details
-                    const fieldText = `**${modsLookup[i][j].primary.value.replace("+", "")} ${modsLookup[i][j].primary.type}**\n${secondaryValue}`;
-                    embed.addField(fieldTitle, fieldText, true);
                 }
-            }
 
-            // Now that the embed is fully created for one character, we can send it
-            message.channel.send({ embed });
+                // Now that the embed is fully created for one character, we can send it
+                await message.channel.send({ embed });
+        }
+
+        // Change the waiting message before we're done
+        await chMessage.edit("Here's what I found:");
+
+    } catch (error) {
+        client.logger.error(client, `mods command failure:\n${error.stack}`);
+        client.codeError(message);
     }
-
-    // Change the waiting message before we're done
-    await chMessage.edit("Here's what I found:");
 
 };
 

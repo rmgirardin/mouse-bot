@@ -1,7 +1,14 @@
-exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    const [time, day] = client.getTime();
-    message.channel.send(`The time is ${time} and the day is ${day}.`);
+    try {
+
+        const [time, day] = client.getTime();
+        await message.channel.send(`The time is ${time} and the day is ${day}.`);
+
+    }  catch (error) {
+        client.logger.error(client, `time command failure:\n${error.stack}`);
+        client.codeError(message);
+    }
 
 };
 

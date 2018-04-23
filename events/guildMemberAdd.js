@@ -1,5 +1,3 @@
-const { RichEmbed } = require("discord.js");
-
 // This event executes when a new member joins a server
 // The default welcomeMessage is in the config.json file
 
@@ -28,18 +26,5 @@ module.exports = (client, member) => {
         // Send the welcome message to the aChannel set in the config file
         client.aMessage(member.guild, welcomeMessage);
     }
-
-
-    /*
-    Send embed to mod-log channel that a new member has joined
-    */
-    const modlog = member.guild.channels.find("name", settings.modLogChannel);
-    if (!modlog || !client.channels.get(modlog.id).permissionsFor(client.user).has("SEND_MESSAGES")) return;
-    const embed = new RichEmbed()
-        .setAuthor(`${member.user.tag} (${member.user.id})`, member.user.avatarURL)
-        .setColor(0x00FF00)
-        .setTimestamp()
-        .setFooter("User Joined");
-    return client.channels.get(modlog.id).send({embed});
 
 };

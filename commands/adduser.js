@@ -1,38 +1,45 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-   // Return and send error message if there are not 2 args
-   if (args.length < 2) return client.cmdError(message, cmd);
+    try {
 
-    while (args.length > 0) {
+       // Return and send error message if there are not 2 args
+       if (args.length < 2) return client.cmdError(message, cmd);
 
-        // user id in args has the form <@273421645828325377>, so strip of leading <@ and trailing >
-        const userId = args.shift().replace(/(^<@[!]?)|(>$)/g, "");
+        while (args.length > 0) {
 
-        const user = message.guild.members.get(userId);
-        if (!user) return message.reply(`user ${userId} not found.`).then(client.cmdError(message,cmd));
-        if (!args[0]) return message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd));
+            // user id in args has the form <@273421645828325377>, so strip of leading <@ and trailing >
+            const userId = args.shift().replace(/(^<@[!]?)|(>$)/g, "");
 
-        let swName = args.shift();
-        if (swName.startsWith("http")) {
-            const start = swName.indexOf("/u/");
-            if (start == -1) client.cmdError(message, cmd);
-            const end = swName.lastIndexOf("/");
-            swName = swName.slice(start + 3, end);
+            const user = message.guild.members.get(userId);
+            if (!user) return await message.reply(`user ${userId} not found.`).then(client.cmdError(message,cmd));
+            if (!args[0]) return await message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd));
+
+            let swName = args.shift();
+            if (swName.startsWith("http")) {
+                const start = swName.indexOf("/u/");
+                if (start == -1) client.cmdError(message, cmd);
+                const end = swName.lastIndexOf("/");
+                swName = swName.slice(start + 3, end);
+                swName = swName.replace(/%20/g, " ");
+            }
+            if (swName.startsWith("~")) swName = swName.replace("~", "");
+            if (swName.startsWith("--")) swName = swName.replace("--", "");
             swName = swName.replace(/%20/g, " ");
-        }
-        if (swName.startsWith("~")) swName = swName.replace("~", "");
-        if (swName.startsWith("--")) swName = swName.replace("--", "");
-        swName = swName.replace(/%20/g, " ");
 
-        const id = client.profileTable.get(user.id);
+            const id = client.profileTable.get(user.id);
 
-        if (!id) {
-            client.profileTable.set(user.id, swName);
-            message.reply(`I've added **${swName}** to ${user}'s record.`);
-        } else {
-            client.profileTable.set(user.id, swName);
-            message.reply(`I've changed ${user}'s record from **${id}** to **${swName}**.`);
+            if (!id) {
+                client.profileTable.set(user.id, swName);
+                await message.reply(`I've added **${swName}** to ${user}'s record.`);
+            } else {
+                client.profileTable.set(user.id, swName);
+                await message.reply(`I've changed ${user}'s record from **${id}** to **${swName}**.`);
+            }
         }
+
+    } catch (error) {
+        client.logger.error(client, `adduser command failure:\n${error.stack}`);
+        client.codeError(message);
     }
 };
 

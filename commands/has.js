@@ -8,62 +8,69 @@ const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    if (!args[0]) return client.cmdError(message, cmd);
+    try {
 
-    const [id, searchTerm, error] = client.profileCheck(message, args); // eslint-disable-line no-unused-vars
-    if (id === undefined) return message.reply(error).then(client.cmdError(message, cmd));
-    if (searchTerm === "") return message.reply("please enter a search term.").then(client.cmdError(message, cmd));
+        if (!args[0]) return client.cmdError(message, cmd);
 
-    const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
+        const [id, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
+        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (searchTerm === "") return await message.reply("please enter a search term.").then(client.cmdError(message, cmd));
 
-    // Cache check and pull the user's data
-    const [username, updated] = await client.cacheCheck(message, id, "cs");
-    const characterCollection = client.cache.get(id + "_collection");
-    if (characterCollection.length < 1) return hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
-    const shipCollection = client.cache.get(id + "_ships");
+        const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message
 
-    const charactersData = client.swgohData.get("charactersData");
-    const shipsData = client.swgohData.get("shipsData");
-    let lookup;
-    let has = "";
-    let notHas = "";
+        // Cache check and pull the user's data
+        const [username, updated] = await client.cacheCheck(message, id, "cs");
+        const characterCollection = client.cache.get(id + "_collection");
+        if (characterCollection.length < 1) return await hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
+        const shipCollection = client.cache.get(id + "_ships");
 
-    if (searchTerm.length == 2) lookup = charactersData.filter(fuzzy(searchTerm, "nickname")).concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
-    else if (searchTerm.length == 3) lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname"])));
-    else lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
-    lookup = lookup.sort( (p, c) => p.combat_type > c.combat_type ? 1 : p.name > c.name && p.combat_type == c.combat_type ? 1 : -1 );
+        const charactersData = client.swgohData.get("charactersData");
+        const shipsData = client.swgohData.get("shipsData");
+        let lookup;
+        let has = "";
+        let notHas = "";
 
-    let embed = new RichEmbed() // eslint-disable-line prefer-const
-        .setTitle(`${username}'s Collection:`)
-        .setColor(0xEE7100)
-        .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
-        .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
+        if (searchTerm.length == 2) lookup = charactersData.filter(fuzzy(searchTerm, "nickname")).concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
+        else if (searchTerm.length == 3) lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname"])));
+        else lookup = charactersData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])).concat(shipsData.filter(fuzzy(searchTerm, ["name", "nickname", "faction"])));
+        lookup = lookup.sort( (p, c) => p.combat_type > c.combat_type ? 1 : p.name > c.name && p.combat_type == c.combat_type ? 1 : -1 );
 
-    for (let i = 0; i < lookup.length; i++) {
+        let embed = new RichEmbed() // eslint-disable-line prefer-const
+            .setTitle(`${username}'s Collection:`)
+            .setColor(0xEE7100)
+            .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
+            .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
-        let found = characterCollection.find(c => c.description === lookup[i].name);
-        if (!found) found = shipCollection.find(s => s.description == lookup[i].name);
-        const urlFlip = lookup[i].combat_type == 1 ? "collection" : "ships";
-        const isShip = lookup[i].combat_type == 2 ? "ⓢ " : "";
+        for (let i = 0; i < lookup.length; i++) {
 
-        if (found && found.star != 0) {
-            const url = `https://swgoh.gg/u/${id}/${urlFlip}/${found.code}/`;
-            has += `${isShip}[${client.checkClones(lookup[i].name)}](${url}) (${found.star})\n`;
-        } else {
-            notHas += `${isShip}${client.checkClones(lookup[i].name)}\n`;
+            let found = characterCollection.find(c => c.description === lookup[i].name);
+            if (!found) found = shipCollection.find(s => s.description == lookup[i].name);
+            const urlFlip = lookup[i].combat_type == 1 ? "collection" : "ships";
+            const isShip = lookup[i].combat_type == 2 ? "ⓢ " : "";
+
+            if (found && found.star != 0) {
+                const url = `https://swgoh.gg/u/${id}/${urlFlip}/${found.code}/`;
+                has += `${isShip}[${client.checkClones(lookup[i].name)}](${url}) (${found.star})\n`;
+            } else {
+                notHas += `${isShip}${client.checkClones(lookup[i].name)}\n`;
+            }
         }
-    }
 
-    if (has != "") {
-        if (has.length > 950) client.splitText("✅ ✅ ✅", has, embed);
-        else embed.addField("✅ ✅ ✅", has, false);
+        if (has != "") {
+            if (has.length > 950) client.splitText("✅ ✅ ✅", has, embed);
+            else embed.addField("✅ ✅ ✅", has, false);
+        }
+        if (notHas != "") {
+            if (notHas.length > 950) client.splitText("❌ ❌ ❌", notHas, embed);
+            else embed.addField("❌ ❌ ❌", notHas, false);
+        }
+        if (has == "" && notHas == "") return await hasMessage.edit(`${message.author}, I couldn't find any characters/ships or factions with __${searchTerm}__ in it.`);
+        await hasMessage.edit({ embed });
+
+    } catch (error) {
+        client.logger.error(client, `has command failure:\n${error.stack}`);
+        client.codeError(message);
     }
-    if (notHas != "") {
-        if (notHas.length > 950) client.splitText("❌ ❌ ❌", notHas, embed);
-        else embed.addField("❌ ❌ ❌", notHas, false);
-    }
-    if (has == "" && notHas == "") return hasMessage.edit(`${message.author}, I couldn't find any characters/ships or factions with __${searchTerm}__ in it.`);
-    hasMessage.edit({ embed });
 
 };
 

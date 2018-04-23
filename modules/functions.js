@@ -29,10 +29,10 @@ module.exports = (client) => {
     --- LOADING COMMANDS ---
     */
 
-    client.loadCommand = (commandName) => {
+    client.loadCommand = async (commandName) => {
         try {
             const props = require(`../commands/${commandName}`);
-            client.log("log", `Loading Command: ${props.help.name}...`, "Loading");
+            client.logger.log(client, `Loading Command: ${props.help.name}...`);
             if (props.init) {
                 props.init(client);
             }
@@ -42,7 +42,7 @@ module.exports = (client) => {
             });
             return false;
         } catch (error) {
-            client.log("log", `Unable to load command ${commandName}: ${error}`, "Error!!");
+            client.logger.error(client, `Unable to load command ${commandName}:\n${error.stack}`);
             return error;
         }
     };
@@ -52,31 +52,24 @@ module.exports = (client) => {
     --- UNLOADING COMMANDS ---
     */
     client.unloadCommand = async (commandName) => {
-        let command;
-        if (client.commands.has(commandName)) {
-            command = client.commands.get(commandName);
-        } else if (client.aliases.has(commandName)) {
-            command = client.commands.get(client.aliases.get(commandName));
+        try {
+            let command;
+            if (client.commands.has(commandName)) {
+                command = client.commands.get(commandName);
+            } else if (client.aliases.has(commandName)) {
+                command = client.commands.get(client.aliases.get(commandName));
+            }
+            if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
+
+            if (command.shutdown) {
+                await command.shutdown(client);
+            }
+            delete require.cache[require.resolve(`../commands/${commandName}.js`)];
+            return false;
+        } catch (error) {
+            client.logger.error(client, `Unable to unload command ${commandName}:\n${error.stack}`);
+            return error;
         }
-        if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
-
-        if (command.shutdown) {
-            await command.shutdown(client);
-        }
-        delete require.cache[require.resolve(`../commands/${commandName}.js`)];
-        return false;
-    };
-
-
-    /*
-    --- LOGGING FUNTION ---
-
-    Logs to console. Future patches may include time+colors
-    */
-
-    client.log = (type, msg, title) => {
-        if (!title) title = "Log";
-        console.log(`[${type}] [${title}] ${msg}`);
     };
 
 
@@ -86,14 +79,24 @@ module.exports = (client) => {
     Used in most commands to responds with the commands usage if the user did
     not use the command correctly
     */
-    client.cmdError = (message, cmd) => {
+    client.cmdError = async (message, cmd) => {
         const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-        message.channel.send(`To use this command, use the following command structure: \`\`\`${settings.prefix}${cmd.help.usage}\`\`\`
+        await message.channel.send(`To use this command, use the following command structure: \`\`\`${settings.prefix}${cmd.help.usage}\`\`\`
 Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`)}\`\`\``);
 
         // Let's remove a point from the user for using the command incorrectly
         // This makes the message worth only a regular message
         client.addPoints(message, client.config.messagePoints*-1);
+    };
+
+
+    /*
+    --- PROMISE FAILURE ERROR ---
+
+    This sends a discord message to let the user know that there was an error
+    */
+    client.codeError = async (message) => {
+        await message.channel.send("Laugh it up, fuzzball! I screwed up and my code failed. Try again or let someone know I'm failing.");
     };
 
 
@@ -107,13 +110,17 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     msg.reply(`Oh, I really love ${response} too!`);
     */
     client.awaitReply = async (message, question, limit = 60000) => {
-        const filter = m => m.author.id === message.author.id;
-        await message.channel.send(question);
         try {
-            const collected = await message.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
-            return collected.first().content;
-        } catch (e) {
-            return false;
+            const filter = m => m.author.id === message.author.id;
+            await message.channel.send(question);
+            try {
+                const collected = await message.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
+                return collected.first().content;
+            } catch (error) {
+                return false;
+            }
+        } catch (error) {
+            client.logger.error(client, `awaitReply function failure:\n${error.stack}`);
         }
     };
 
@@ -124,15 +131,24 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     Finds aChannel, defined in the config file, and sends aMessage
     */
     client.aMessage = async (guild, text) => {
-        const settings = guild ? client.settings.get(guild.id) : client.config.defaultSettings;
-        let guildChannel;
-        if (guild.channels.exists("name", settings.aChannel))
-            guildChannel = await guild.channels.find(r => r.name === settings.aChannel);
-        else return;
+            try {
+            const settings = guild ? client.settings.get(guild.id) : client.config.defaultSettings;
+            let guildChannel;
+            if (guild.channels.exists("name", settings.aChannel))
+                guildChannel = await guild.channels.find(r => r.name === settings.aChannel);
+            else return;
 
-        if (!guildChannel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+            if (!guildChannel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
 
-        guildChannel.send(text).catch(console.error);
+            try {
+                await guildChannel.send(text);
+            } catch (error) {
+                client.logger.error(client, `Could not send aMessage function:\n${error.stack}`);
+            }
+
+        } catch (error) {
+            client.logger.error(client, `aMessage send failure\n${error.stack}`);
+        }
     };
 
 
@@ -193,41 +209,44 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         const swgoh = require("swgoh").swgoh;
         const moment = require("moment");
 
-        if (!id) id = client.profileTable.get(message.author.id);
-        const pastProfile = client.cache.get(id + "_profile");
-        const currentProfile = await swgoh.profile(id);
-        const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
-        const username = currentProfile.username;
+        try {
+            if (!id) id = client.profileTable.get(message.author.id);
+            const pastProfile = client.cache.get(id + "_profile");
+            const currentProfile = await swgoh.profile(id);
+            const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
+            const username = currentProfile.username;
 
-        const pastUpdatedUTC = pastProfile ? pastProfile.lastUpdatedUTC : -1;
+            const pastUpdatedUTC = pastProfile ? pastProfile.lastUpdatedUTC : -1;
 
-        // We need to compare when the cache profile was last updated
-        // with when the new profile was last updated
-        if (pastUpdatedUTC != currentProfile.lastUpdatedUTC) {
+            // We need to compare when the cache profile was last updated
+            // with when the new profile was last updated
+            if (pastUpdatedUTC != currentProfile.lastUpdatedUTC) {
 
-            // If true, reload all the cached data
-            // Profile, no need to pull it again
-            client.cache.set(id + "_profile", currentProfile);
-            // Character Collection
-            if (input.includes("c")) {
-                const cachedCollection = await swgoh.collection(id);
-                client.cache.set(id + "_collection", cachedCollection);
-            } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
-            // Ship Collection
-            if (input.includes("s")) {
-                const cachedShips = await swgoh.ship(id);
-                client.cache.set(id + "_ships", cachedShips);
-            } else client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.ship(id)); });
-            // Mods
-            if (input.includes("m")) {
-                const cachedMods = await swgoh.mods(id);
-                client.cache.set(id + "_mods", cachedMods);
-            } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
+                // If true, reload all the cached data
+                // Profile, no need to pull it again
+                client.cache.set(id + "_profile", currentProfile);
+                // Character Collection
+                if (input.includes("c")) {
+                    const cachedCollection = await swgoh.collection(id);
+                    client.cache.set(id + "_collection", cachedCollection);
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
+                // Ship Collection
+                if (input.includes("s")) {
+                    const cachedShips = await swgoh.ship(id);
+                    client.cache.set(id + "_ships", cachedShips);
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.ship(id)); });
+                // Mods
+                if (input.includes("m")) {
+                    const cachedMods = await swgoh.mods(id);
+                    client.cache.set(id + "_mods", cachedMods);
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
 
+            }
+
+            return [username, updated];
+        } catch (error) {
+            client.logger.error(client, `cacheCheck failure\n${error.stack}`);
         }
-
-        return [username, updated];
-
     };
 
 
@@ -240,17 +259,21 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     This is mostly only used by the Eval and Exec commands.
     */
     client.clean = async (client, text) => {
-        if (text && text.constructor.name == "Promise")
-        text = await text;
-        if (typeof evaled !== "string")
-        text = require("util").inspect(text, {depth: 0});
+        try {
+            if (text && text.constructor.name == "Promise")
+            text = await text;
+            if (typeof evaled !== "string")
+            text = require("util").inspect(text, {depth: 0});
 
-        text = text
-        .replace(/`/g, "`" + String.fromCharCode(8203))
-        .replace(/@/g, "@" + String.fromCharCode(8203))
-        .replace(client.token, "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0");
+            text = text
+            .replace(/`/g, "`" + String.fromCharCode(8203))
+            .replace(/@/g, "@" + String.fromCharCode(8203))
+            .replace(client.token, "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0");
 
-        return text;
+            return text;
+        } catch (error) {
+            client.logger.error(client, `clean function failure\n${error.stack}`);
+        }
     };
 
 
@@ -261,7 +284,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     Useful for things like giving users an extra point for using a command or
     for submitting a bug/suggestion
     */
-    client.addPoints = (message, extraPoints) => {
+    client.addPoints = async (message, extraPoints) => {
         // Double-check for botception! Why not
         // Also check for message.guild
         if (message.author.bot || !message.guild) return;
@@ -299,13 +322,13 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
             const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
             if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
-                    message.channel.send(congratsMessage);
+                    await message.channel.send(congratsMessage);
                 }
             } else if (settings.roleRewardsEnabled === "true") {
                 client.assignRole(message.member, roleName);
                 client.removePointsRole(message.member, newLevel);
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
-                    message.channel.send(`${congratsMessage}\nYou've been promoted to **${roleName}**!`);
+                    await message.channel.send(`${congratsMessage}\nYou've been promoted to **${roleName}**!`);
                 }
             }
         }
@@ -332,24 +355,29 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     */
     client.assignRole = async (member, roleName) => {
 
-        // If the bot cannot manage roles, then don't even try to
-        if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        try {
+            // If the bot cannot manage roles, then don't even try to
+            if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
-        let role = member.guild.roles.find(r => r.name === roleName);
-        if (!role) {
-            try {
-                role = await member.guild.createRole({
-                    name: roleName,
-                    color: [],
-                    permissions: []
-                });
-            } catch (e) {
-                console.log(e.stack);
+            let role = member.guild.roles.find(r => r.name === roleName);
+            if (!role) {
+                try {
+                    role = await member.guild.createRole({
+                        name: roleName,
+                        color: [],
+                        permissions: []
+                    });
+                } catch (error) {
+                    client.logger.error(client, `Unable to assign user role\n${error.stack}`);
+                    return;
+                }
             }
-        }
 
-        await member.addRole(role).catch(console.error);
-        return;
+            await member.addRole(role);
+            return;
+        } catch (error) {
+            client.logger.error(client, `assignRole failure\n${error.stack}`);
+        }
     };
 
 
@@ -361,94 +389,49 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     */
     client.removePointsRole = async (member, curLevel) => {
 
-        // If the bot cannot manage roles, then don't even try to
-        if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
+        try {
+            // If the bot cannot manage roles, then don't even try to
+            if (!member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) return;
 
-        let oldRole;
+            let oldRole;
 
-        for (let i = 1; i < 100; i++) {
-            const lvl = curLevel - i;
-            oldRole = client.config.roleRewards.find(l => l.level === lvl);
-            if (oldRole != undefined) break;
+            for (let i = 1; i < 100; i++) {
+                const lvl = curLevel - i;
+                oldRole = client.config.roleRewards.find(l => l.level === lvl);
+                if (oldRole != undefined) break;
+            }
+
+            const role = member.guild.roles.find(r => r.name === oldRole.name);
+
+            await member.removeRole(role);
+            return;
+        } catch (error) {
+            client.logger.error(client, `removePointsRole failure\n${error.stack}`);
         }
-
-        const role = member.guild.roles.find(r => r.name === oldRole.name);
-
-        await member.removeRole(role).catch(console.error);
-        return;
     };
-
-
-    /*
-    --- SENDS A RICH EMBED TO MOD-LOG ---
-
-    Used to log System commands such as kick and ban. Responds with an embed
-    including action, user (target), moderator, reason and timestamp
-    */
-    client.modlogEmbed = async (message, command, color = 0xCACBCE, user, reason, duration = "", amount = "") => {
-
-        // Make sure you can send a message
-        if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
-
-        const { RichEmbed } = require("discord.js");
-        const settings = client.settings.get(message.guild.id);
-        const modlog = message.guild.channels.find("name", settings.modLogChannel);
-
-        if (!modlog) return message.reply("the deed is done.");
-
-        // Here we search the modlog channel for the last case number and add
-        // 1 to it, if it's not found, start at 1
-        // Searches previous 100 messages
-        const messages = await modlog.fetchMessages({limit:100});
-
-        const log = messages.filter(m => m.author.id === client.user.id &&
-            m.embeds[0] &&
-            m.embeds[0].type === "rich" &&
-            m.embeds[0].footer &&
-            m.embeds[0].footer.text.startsWith("Case")
-        ).first();
-
-        let lastCase;
-        if (log) lastCase = /Case\s(\d+)/.exec(log.embeds[0].footer.text);
-        const caseNumber = lastCase ? parseInt(lastCase[1]) + 1 : 1;
-
-        // Here we check for unused variables
-        if (user) user = `\n**User:** ${user} (${user.id})`;
-        if (!user) user = `\n**Channel**: <#${message.channel.id}> (${message.channel.id})`;
-     // if (!reason) reason = `Awaiting moderator's input, use \`${settings.prefix}reason ${caseNumber} <reason>\``;
-        if (reason) reason = `\n**Reason:** ${reason}`;
-        if (duration) duration = `\n**Duration:** ${duration}`;
-        if (amount) amount = `\n**Amount:** ${amount}`;
-
-        // This is the RichEmbed that is sent to the modlog channel
-        const embed = new RichEmbed()
-            .setAuthor(message.author.tag, message.author.avatarURL)
-            .setColor(color)
-            .setDescription(`**Action:** ${command.toProperCase()}${duration}${user}${amount}${reason}`)
-            .setTimestamp()
-            .setFooter(`Case ${caseNumber}`);
-        return client.channels.get(modlog.id).send({embed});
-    };
-
 
     /*
     --- SENDS A RICH EMBED TO BOT-LOG ---
 
-    This is similar to the mod-log embed, but this is sent to the botLog channel
-    for events like guild creation and reconnecting. Useful so that the logs
-    don't have to be checked as frequently
+    This is sent to the botLog channel for events like guild creation and reconnecting.
+    Useful so that the logs don't have to be checked as frequently
     */
     client.botLogEmbed = async (client, description, events, color = 0xCACBCE) => {
-        const { RichEmbed } = require("discord.js");
-        const botLogChannel = client.channels.get(client.config.botLogChannel);
-        if (!botLogChannel) return;
 
-        const embed = new RichEmbed()
-            .setDescription(description)
-            .setColor(color)
-            .setTimestamp()
-            .setFooter(events);
-        return botLogChannel.send({embed});
+        try {
+            const { RichEmbed } = require("discord.js");
+            const botLogChannel = client.channels.get(client.config.botLogChannel);
+            if (!botLogChannel) return;
+
+            const embed = new RichEmbed()
+                .setDescription(description)
+                .setColor(color)
+                .setTimestamp()
+                .setFooter(events);
+            return await botLogChannel.send({embed});
+        } catch (error) {
+            client.logger.error(client, `botLogEmbed failure\n${error.stack}`);
+        }
     };
 
     /*
@@ -458,6 +441,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     needed
     */
     client.getObjects = (obj, key, val, parentKey) => {
+
         var objects = [];
         for (var i in obj) {
             if (!obj.hasOwnProperty(i)) continue;
@@ -513,10 +497,10 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     /* ===== MISCELLANEOUS NON-CRITICAL FUNCTIONS ===== */
 
 
-    // Replaces clone names to be more aesthetically pleasing, also returns
-    // toProperCase
+    // Replaces clone names to be more aesthetically pleasing
     // **ONLY ACCEPTS STRINGS**
     client.checkClones = (text) => {
+
         text = text.replace('CC-2224 "Cody"', "Cody") // eslint-disable-line quotes
             .replace('CT-21-0408 "Echo"', "Echo") // eslint-disable-line quotes
             .replace('CT-5555 "Fives"', "Fives") // eslint-disable-line quotes
@@ -527,6 +511,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
     // Returns the time (24-hour) and the numbered day
     client.getTime = () => {
+
         const date = new Date();
         const day = date.getDay();
         const time = date.getHours().toString() + date.getMinutes().toString();
@@ -536,6 +521,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
     // Returns string "to the proper case" = "To The Proper Case"
     String.prototype.toProperCase = function() {
+
         return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     };
 
@@ -548,6 +534,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     // in an array. `range(10).forEach()` loops 10 times for instance. Why?
     // Because honestly for...i loops are ugly.
     global.range = (count, start = 0) => {
+
         const myArr = [];
         for (var i = 0; i<count; i++) {
             myArr[i] = i+start;
@@ -557,6 +544,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
     // These 2 process methods will catch exceptions and give *more details* about the error and stack trace.
     process.on("uncaughtException", (err) => {
+
         const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
         console.error("Uncaught Exception: ", errorMsg);
         // Always best practice to let the code crash on uncaught exceptions.
@@ -565,6 +553,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     });
 
     process.on("unhandledRejection", err => {
+
         console.error(`Unhandled rejection: ${err}`);
     });
 

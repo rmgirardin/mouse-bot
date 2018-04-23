@@ -4,22 +4,29 @@ const moment = require("moment");
 require("moment-duration-format");
 const os = require("os");
 
-exports.run = (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
-    const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
+    try {
 
-    const embed = new Discord.RichEmbed()
-        .setTitle(`${client.user.username.toProperCase()} Statistics`)
-        .setColor(0x268BD2)
-        .setDescription(`**${pjson.name.replace("-", " ").toProperCase()}** v${pjson.version}  |  **Node** ${process.version}  |  **Discord.js** v${Discord.version}`)
-        .addField("Servers:", client.guilds.size.toLocaleString(), true)
-        .addField("Channels:", client.channels.size.toLocaleString(), true)
-        .addField("Users:", client.users.size.toLocaleString(), true)
-        .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-        .addField("CPU Load:", `${Math.round(os.loadavg()[0]*10000)/100}%`, true)
-        .addField("Uptime:", duration, true);
+        const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
 
-    message.channel.send({embed});
+        const embed = new Discord.RichEmbed()
+            .setTitle(`${client.user.username.toProperCase()} Statistics`)
+            .setColor(0x268BD2)
+            .setDescription(`**${pjson.name.replace("-", " ").toProperCase()}** v${pjson.version}  |  **Node** ${process.version}  |  **Discord.js** v${Discord.version}`)
+            .addField("Servers:", client.guilds.size.toLocaleString(), true)
+            .addField("Channels:", client.channels.size.toLocaleString(), true)
+            .addField("Users:", client.users.size.toLocaleString(), true)
+            .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
+            .addField("CPU Load:", `${Math.round(os.loadavg()[0]*10000)/100}%`, true)
+            .addField("Uptime:", duration, true);
+
+        await message.channel.send({embed});
+
+    } catch (error) {
+        client.logger.error(client, `stats command failure:\n${error.stack}`);
+        client.codeError(message);
+    }
 };
 
 exports.conf = {

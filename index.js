@@ -29,6 +29,9 @@ const client = new Discord.Client();
 client.config = require("./config.js");
 require("./modules/functions.js")(client);
 
+// Also the Logger
+client.logger = require("./modules/logger");
+
 // Aliases and commands are put in collections where they can be read from,
 // catalogued, listed, etc.
 client.commands = new Enmap();
@@ -36,36 +39,35 @@ client.aliases = new Enmap();
 client.swgohData = new Enmap();
 
 // Setting up the Enhanced Map module
-client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})});
-client.pointsTable = new Enmap({provider: new EnmapLevel({name: "points"})});
-client.profileTable = new Enmap({provider: new EnmapLevel({name: "profiles"})});
-client.cache = new Enmap({provider: new EnmapLevel({name: "cache"})});
+client.settings = new Enmap({provider: new EnmapLevel({ name: "settings" })});
+client.pointsTable = new Enmap({provider: new EnmapLevel({ name: "points" })});
+client.profileTable = new Enmap({provider: new EnmapLevel({ name: "profiles" })});
+client.cache = new Enmap({provider: new EnmapLevel({ name: "cache" })});
+client.logs = new Enmap({ provider: new EnmapLevel({ name: "log" })});
 
 const init = async () => {
 
     // Now we load **commands** into memory, as a collection
     const cmdFiles = await readdir("./commands/");
-    client.log("log", `Loading ${cmdFiles.length} commands:`, "Loading");
-    cmdFiles.forEach(f => {
-        if (!f.endsWith(".js")) return;
-        const response = client.loadCommand(f);
-        if (response) console.log(response);
+    client.logger.log(client, `Loading ${cmdFiles.length} commands:`,);
+    cmdFiles.forEach(cmdFile => {
+        if (!cmdFile.endsWith(".js")) return;
+        client.loadCommand(cmdFile);
     });
 
     // Then we load events, which will include our message and ready event.
     const evtFiles = await readdir("./events/");
-    client.log("log", `Loading ${evtFiles.length} events:`, "Loading");
+    client.logger.log(client, `Loading ${evtFiles.length} events:`);
     evtFiles.forEach(file => {
         try {
             const eventName = file.split(".")[0];
             const event = require(`./events/${file}`);
-            client.log("log", `Loading Event: ${eventName}...`, "Loading");
+            client.logger.log(client, `Load Event: ${eventName}...`);
             client.on(eventName, event.bind(null, client));
             delete require.cache[require.resolve(`./events/${file}`)];
-        } catch (err) {
-            client.log("log", `Unable to load event ${file}: ${err}`, "Error!!");
+        } catch (error) {
+            client.logger.error(client, `Unable to load command ${file}:\n${error.stack}`);
         }
-
     });
 
     // Generate a cache of client permissions
@@ -80,48 +82,44 @@ const init = async () => {
     const charactersOptions = { uri: charactersURL, json: true };
     let characters;
 
-    await request(charactersOptions)
-        .then(function(body) {
-            characters = body;
+    try {
+        characters = await request(charactersOptions);
 
-            // Loop through our character array, find the matching characters in the swgoh.gg api
-            // and merge its data into ours.
-            for (var i = 0; i < characters.length; i++) {
+        // Loop through our character array, find the matching characters in the swgoh.gg api
+        // and merge its data into ours.
+        for (var i = 0; i < characters.length; i++) {
 
-                const chData = getObjects(charactersJS, "name", characters[i].name);
+            const chData = getObjects(charactersJS, "name", characters[i].name);
 
-                if (chData.length == 1) Object.assign(characters[i], chData[0]);
-                else if (chData.length == 0) console.log("No JS results found for character: ", characters[i].name);
-                else console.log("Multiple results found for character: ", characters[i].name);
-            }
-        })
-        .catch(function(err) {
-            client.log = ("log", `Character Request Failure: ${err}`, "Error");
-        });
+            if (chData.length == 1) Object.assign(characters[i], chData[0]);
+            else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${characters[i].name}`);
+            else client.logger.warn(client, `Multiple results found for character: ${characters[i].name}`);
+        }
+    } catch (error) {
+        client.logger.error(client, `Character Request Failure\n${error.stack}`);
+    }
 
     // GET and merge ship databases
     const shipsURL = "https://swgoh.gg/api/ships/";
     const shipsOptions = { uri: shipsURL, json: true };
     let ships;
 
-    await request(shipsOptions)
-        .then(function(body) {
-            ships = body;
+    try {
+        ships = await request(shipsOptions);
 
-            // Loop through our ships array, find the matching ships in the swgoh.gg api
-            // and merge its data into ours.
-            for (var j = 0; j < ships.length; j++) {
+        // Loop through our ships array, find the matching ships in the swgoh.gg api
+        // and merge its data into ours.
+        for (var j = 0; j < ships.length; j++) {
 
-                const sData = getObjects(shipsJS, "name", ships[j].name);
+            const sData = getObjects(shipsJS, "name", ships[j].name);
 
-                if (sData.length == 1) Object.assign(ships[j], sData[0]);
-                else if (sData.length == 0) console.log("No JS results found for ship: ", ships[j].name);
-                else console.log("Multiple results found for ship: ", ships[j].name);
-            }
-        })
-        .catch(function(err) {
-            client.log = ("log", `Ships Request Failure: ${err}`, "Error");
-        });
+            if (sData.length == 1) Object.assign(ships[j], sData[0]);
+            else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ships[j].name}`);
+            else client.logger.warn(client, `Multiple results found for ship: ${ships[j].name}`);
+        }
+    } catch (error) {
+        client.logger.error(client, `Ships Request Failure\n${error}`);
+    }
 
     client.swgohData.set("charactersData", characters);
     client.swgohData.set("shipsData", ships);

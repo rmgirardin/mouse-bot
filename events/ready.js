@@ -3,7 +3,7 @@ module.exports = async client => {
     await client.wait(1000); // eslint-disable-line no-undef
 
     // Both `wait` and `client.log` are in `./modules/functions`.
-    client.log("log", `[${new Date()}] ${client.user.username.toProperCase()} is ready to serve ${client.users.size} users in ${client.guilds.size} servers`, "Ready!!");
+    client.logger.ready(client, `${client.user.username.toProperCase()} is ready to serve ${client.users.size} users in ${client.guilds.size} servers`);
 
     // We check for any guilds added while the bot was offline, if any were, they get a default configuration.
     client.guilds.filter(g => !client.settings.has(g.id)).forEach(g => client.settings.set(g.id, client.config.defaultSettings));
@@ -15,7 +15,7 @@ module.exports = async client => {
 
     // try {
     //     const link = await client.generateInvite(["ADMINISTRATOR"]);
-    //     client.log("log", link);
+    //     client.logger.log(client, link);
     // } catch (e) {
     //     console.log(e.stack);
     // }
