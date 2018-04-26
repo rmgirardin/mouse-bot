@@ -74,31 +74,6 @@ module.exports = (client) => {
 
 
     /*
-    --- CONNECT TO MYSQL DATABASE ---
-    */
-    client.sqlConnect = async (command, message) => {
-        try {
-            await client.sqlConnection.connect();
-        } catch (error) {
-            client.logger.error(client, `Error connecting to mySQL DB:\n${error.stack}`);
-            return await message.reply("I can't connect to the database right now. I've already let my support know.");
-        }
-    };
-
-
-    /*
-    --- DISCONNECT FROM MYSQL DATABASE ---
-    */
-    client.sqlDisconnect = async () => {
-        try {
-            await client.sqlConnection.end();
-        } catch (error) {
-            client.logger.error(client, `Error disconnecting from mySQL DB:\n${error.stack}`);
-        }
-    };
-
-
-    /*
     --- MYSQL LOOKUP FUNCTION ---
     Establishes a connection with mySQL, then executes the sqlSyntax
     args replace "?" within the sqlSyntax
@@ -262,7 +237,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
             if (username === undefined) {
                 const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
-                username = results[0].username;
+                if (results && results.length > 0) username = results[0].username;
             }
 
             if (username === undefined || username === null) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${settings.prefix}add\`.`;
