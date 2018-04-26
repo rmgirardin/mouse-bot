@@ -74,6 +74,77 @@ module.exports = (client) => {
 
 
     /*
+    --- CONNECT TO MYSQL DATABASE ---
+    */
+    client.sqlConnect = async (command, message) => {
+        try {
+            await client.sqlConnection.connect();
+        } catch (error) {
+            client.logger.error(client, `Error connecting to mySQL DB:\n${error.stack}`);
+            return await message.reply("I can't connect to the database right now. I've already let my support know.");
+        }
+    };
+
+
+    /*
+    --- DISCONNECT FROM MYSQL DATABASE ---
+    */
+    client.sqlDisconnect = async () => {
+        try {
+            await client.sqlConnection.end();
+        } catch (error) {
+            client.logger.error(client, `Error disconnecting from mySQL DB:\n${error.stack}`);
+        }
+    };
+
+
+    /*
+    --- MYSQL LOOKUP FUNCTION ---
+    Establishes a connection with mySQL, then executes the sqlSyntax
+    args replace "?" within the sqlSyntax
+    db by default is "mousebot", can also be "swgoh"
+    */
+    client.doSQL = async (sqlSyntax, args, db = "mousebot") => {
+        const mySQL = require("mysql");
+        const sqlConnection = mySQL.createConnection({
+            host     : client.config.mySQL.host,
+            user     : client.config.mySQL.user,
+            password : client.config.mySQL.password,
+            database : db
+        });
+
+        return new Promise((resolve, reject) => {
+            try {
+                // Attempt to establish a connection
+                try {
+                    sqlConnection.connect();
+                } catch (error) {
+                    client.logger.error(`**Cannot connect to mySQL DB**\n${error.stack}`);
+                    reject(error);
+                }
+
+                // Now we can actually do SQL stuff
+                sqlConnection.query(sqlSyntax, args, function(error, result) {
+                    sqlConnection.end();
+                    if (error) {
+                        if (error.code === "ENOTFOUND") {
+                            error = `! ERROR : CONFIG\n : Could not connect to the defined database at ${error.host}`;
+                        } else {
+                            error = `! ERROR : CONFIG\n : ${error.sqlMessage}`;
+                        }
+                        resolve(false);
+                    }
+                    resolve(result);
+                });
+
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+
+
+    /*
     --- COMMMAND ERROR ---
 
     Used in most commands to responds with the commands usage if the user did
@@ -158,39 +229,47 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
     Checks to see which method a user is inputing the profile and arguments and
     returns those
     */
-    client.profileCheck = (message, args) => {
+    client.profileCheck = async (message, args) => {
 
-        const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
+        try {
+            const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
 
-        let profile;
-        let text;
-        let error;
+            let id = message.author.id.toString();
+            let username = undefined;
+            let text = args.join(" ");
+            let error = false;
 
-        if (args[0]) {
-            if (args[0].startsWith("~") || args[0].startsWith("--")) {
-                profile = args[0].replace("~", "").replace("--", "");
-                text = args.slice(1).join(" ");
-            } else if (args[0].startsWith("http")) {
-                const start = args[0].indexOf("/u/");
-                if (start == -1) error = ("There is no username in this URL.");
-                const end = args[0].lastIndexOf("/");
-                profile = args[0].slice(start + 3, end);
-                profile = profile.replace(/%20/g, " ");
-                text = args.slice(1).join(" ");
-            } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
-                profile = client.profileTable.get(message.mentions.users.first().id);
-                text = args.slice(1).join(" ");
-            } else {
-                profile = client.profileTable.get(message.author.id);
-                text = args.join(" ");
+            if (args[0]) {
+                if (args[0].startsWith("~") || args[0].startsWith("--")) {
+                    username = args[0].replace("~", "").replace("--", "");
+                } else if (args[0].startsWith("http")) {
+                    const start = args[0].indexOf("/u/");
+                    if (start == -1) error = ("There is no username in this URL.");
+                    const end = args[0].lastIndexOf("/");
+                    username = args[0].slice(start + 3, end);
+                    username = username.replace(/%20/g, " ");
+                } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
+                    id = message.mentions.users.first().id.toString();
+                }
+
+                if (username === undefined) {
+                    const results = await client.doSQL("SELECT discordId FROM profiles WHERE username = ?", [args[0]]);
+                    if (results.length > 0 || results != false) username = results[0].username;
+                }
+
+                if (username != undefined) text = args.slice(1).join(" ");
             }
-        } else {
-            profile = client.profileTable.get(message.author.id);
-            text = args.join(" ");
-        }
 
-        if (profile === undefined || profile.userId === undefined) error = `I can't find a profile for that username, try adding your swgoh.gg username with \`${settings.prefix}add\`.`;
-        return [encodeURI(profile), text, error];
+            if (username === undefined) {
+                const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
+                username = results[0].username;
+            }
+
+            if (username === undefined || username === null) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${settings.prefix}add\`.`;
+            return [encodeURI(username), text, error];
+        } catch (error) {
+            client.logger.error(client, `profileCheck failure\n${error.stack}`);
+        }
     };
 
     /*

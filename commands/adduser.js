@@ -1,3 +1,5 @@
+const swgoh = require("swgoh").swgoh;
+
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
@@ -26,15 +28,34 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (swName.startsWith("--")) swName = swName.replace("--", "");
             swName = swName.replace(/%20/g, " ");
 
-            const id = client.profileTable.get(user.id);
-
-            if (!id) {
-                client.profileTable.set(user.id, swName);
-                await message.reply(`I've added **${swName}** to ${user}'s record.`);
-            } else {
-                client.profileTable.set(user.id, swName);
-                await message.reply(`I've changed ${user}'s record from **${id}** to **${swName}**.`);
+            const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [user.id.toString()]);
+            if (results === false) {
+                client.logger.error(client, "doSQL() error within add command");
+                return client.codeError(message);
             }
+
+            const profile = await swgoh.profile(swName);
+            let allycode = null;
+            if (profile.allyCode.length == 11) allycode = profile.allyCode.replace("-", "");
+
+            client.doSQL(
+                "INSERT INTO profiles (discordID, discordName, discordTag, username, allycode) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode)",
+                [user.id.toString(), user.username, user.discriminator, swName, allycode]
+            );
+
+            // Save the username
+            if (!results || results.length === 0) {
+                await message.reply(`I've added **${swName}** to your record.`);
+            } else {
+                await message.reply(`I've changed your record from **${results[0].username}** to **${swName}**.`);
+            }
+
+            // Manually cache everything!
+            client.cache.defer.then(async () => { client.cache.set(swName + "_profile", profile); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_collection", await swgoh.collection(swName)); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_ships", await swgoh.ship(swName)); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_mods", await swgoh.mods(swName)); });
+
         }
 
     } catch (error) {

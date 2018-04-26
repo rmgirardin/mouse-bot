@@ -17,6 +17,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         else {
             let swName = args.join(" ");
+            const user = message.author;
             if (swName.startsWith("http")) {
                 const start = swName.indexOf("/u/");
                 if (start == -1) client.cmdError(message, cmd);
@@ -26,23 +27,35 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             }
             if (swName.startsWith("~")) swName = swName.replace("~", "");
             if (swName.startsWith("--")) swName = swName.replace("--", "");
-            const id = client.profileTable.get(message.author.id);
+
+            const results = await client.doSQL("SELECT username, allycode FROM profiles WHERE discordId = ?", [user.id.toString()]);
+            if (results === false) {
+                client.logger.error(client, "doSQL() error within add command");
+                return client.codeError(message);
+            }
+
+            const profile = await swgoh.profile(swName);
+            let allycode = null;
+            if (profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
+
+            client.doSQL(
+                "INSERT INTO profiles (discordID, discordName, discordTag, username, allycode) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode)",
+                [user.id.toString(), user.username, user.discriminator, swName, allycode]
+            );
 
             // Save the username
-            client.profileTable.set(message.author.id, swName);
+            if (!results || results.length === 0) {
+                await message.reply(`I've added **${swName}** to your record.`);
+            } else {
+                await message.reply(`I've changed your record from **${results[0].username}** to **${swName}**.`);
+            }
 
             // Manually cache everything!
-            client.cache.defer.then(async () => { client.cache.set(id + "_profile", await swgoh.profile(id)); });
-            client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
-            client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.ship(id)); });
-            client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_profile", profile); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_collection", await swgoh.collection(swName)); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_ships", await swgoh.ship(swName)); });
+            client.cache.defer.then(async () => { client.cache.set(swName + "_mods", await swgoh.mods(swName)); });
 
-            // Notify the user
-            if (!id) {
-                return await message.reply(`I've added **${swName}** to your record.`);
-            } else {
-                return await message.reply(`I've changed your record from **${id}** to **${swName}**.`);
-            }
         }
 
     } catch (error) {
@@ -55,7 +68,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: [],
+    aliases: ["register", "update", "u"],
     permLevel: "User"
 };
 
