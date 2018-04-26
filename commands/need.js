@@ -108,15 +108,18 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         iterateLookup(chLookup, characterCollection, charArray);
         iterateLookup(sLookup, shipCollection, shipArray);
 
-        let charDescription = "" + charArray.join("\n");
-        let shipDescription = "" + shipArray.join("\n");
+        const charDescription = "" + charArray.join("\n");
+        const shipDescription = "" + shipArray.join("\n");
 
-        if (charDescription === "" && shipDescription === "") {
+        if (charDescription === "" && shipDescription === "" && shopCheck) embed.setDescription(`\`100% complete\`
+Congrats! You've maxed out all the shards in the shop!
+Now go find another one to finish.`);
+        else if (charDescription === "" && shipDescription === "") {
             embed.setDescription(`Nothing found!
 Either all characters/ships have been maxed out, or I cannot find a shop or faction for __${searchTerm}__.`);
         } else {
-            let storeProgress = ((shardsRemaining / totalShards) * 100).toFixed(1);
-            embed.setDescription(`~${storeProgress}% complete`);
+            const storeProgress = ((shardsRemaining / totalShards) * 100).toFixed(1);
+            embed.setDescription(`\`~${storeProgress}% complete\``);
         }
 
         // Check if fields are too long before sending
