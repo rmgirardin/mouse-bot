@@ -266,7 +266,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         const moment = require("moment");
 
         try {
-            if (!id) id = client.profileTable.get(message.author.id);
+            if (!id) id = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [message.author.id]);
             const pastProfile = client.cache.get(id + "_profile");
             const currentProfile = await swgoh.profile(id);
             const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
