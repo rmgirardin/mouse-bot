@@ -225,6 +225,8 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
                     username = username.replace(/%20/g, " ");
                 } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
                     id = message.mentions.users.first().id.toString();
+                    const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
+                    if (results.length > 0 || results != false) username = results[0].username;
                 }
 
                 if (username === undefined) {
