@@ -28,7 +28,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (swName.startsWith("--")) swName = swName.replace("--", "");
             swName = swName.replace(/%20/g, " ");
 
-            const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [user.id.toString()]);
+            const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [userId]);
             if (results === false) {
                 client.logger.error(client, "doSQL() error within add command");
                 return client.codeError(message);
@@ -36,18 +36,26 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             const profile = await swgoh.profile(swName);
             let allycode = null;
-            if (profile.allyCode.length == 11) allycode = profile.allyCode.replace("-", "");
-
-            client.doSQL(
-                "INSERT INTO profiles (discordID, discordName, discordTag, username, allycode) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode)",
-                [user.id.toString(), user.username, user.discriminator, swName, allycode]
-            );
+            let guildId = null;
+            if (profile.allyCode && profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
+            if (profile.guildUrl) {
+                const guildInfo = profile.guildUrl.split("/");
+                guildId = guildInfo[2];
+            }
 
             // Save the username
             if (!results || results.length === 0) {
-                await message.reply(`I've added **${swName}** to your record.`);
+                await client.doSQL(
+                    "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?)",
+                    [userId, user.user.username, user.user.discriminator, swName, allycode, guildId]
+                );
+                await message.reply(`I've added **${swName}** to ${user}'s record.`);
             } else {
-                await message.reply(`I've changed your record from **${results[0].username}** to **${swName}**.`);
+                await client.doSQL(
+                    "UPDATE profiles SET discordName = ?, discordTag = ?, username = ?, allycode = ?, guildId = ? WHERE discordID = ?",
+                    [user.user.username, user.user.discriminator, swName, allycode, guildId, userId]
+                );
+                await message.reply(`I've changed ${user}'s record from **${results[0].username}** to **${swName}**.`);
             }
 
             // Manually cache everything!

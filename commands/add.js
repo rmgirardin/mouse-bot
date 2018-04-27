@@ -36,11 +36,17 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             const profile = await swgoh.profile(swName);
             let allycode = null;
-            if (profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
+            let guildId = null;
+            if (profile.allyCode && profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
+            if (profile.guildUrl) {
+                const guildInfo = profile.guildUrl.split("/");
+                guildId = parseInt(guildInfo[2]);
+                console.log(guildId);
+            }
 
-            client.doSQL(
-                "INSERT INTO profiles (discordID, discordName, discordTag, username, allycode) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode)",
-                [user.id.toString(), user.username, user.discriminator, swName, allycode]
+            await client.doSQL(
+                "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode), guildId=VALUES(guildId)",
+                [user.id.toString(), user.username, user.discriminator, swName, allycode, guildId]
             );
 
             // Save the username
