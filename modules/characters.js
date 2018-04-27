@@ -47,6 +47,7 @@ const characters = [
     {
         "name": "Amilyn Holdo",
         "nickname": [],
+        "dark": ["7-C"],
         "faction": ["Light Side", "Resistance", "Tank"]
     },
 
@@ -147,6 +148,12 @@ const characters = [
         "shops": ["galactic war"],
         "faction": ["Light Side", "Support", "Rebel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bodhi.png"
+    },
+
+    {
+        "name": "Bossk",
+        "nickname": [],
+        "faction": ["Dark Side", "Bounty Hunter", "Scoundrel", "Tank"]
     },
 
     {
@@ -328,7 +335,6 @@ const characters = [
     {
         "name": 'CT-5555 "Fives"', // eslint-disable-line quotes
         "nickname": ["clones"],
-        "light": ["4-F"],
         "dark": ["2-D"],
         "cantina": [],
         "shops": ["cantina", "fleet"],
@@ -1173,7 +1179,6 @@ const characters = [
         "name": "Plo Koon",
         "nickname": [],
         "light": [],
-        "dark": ["7-C"],
         "cantina": ["4-G"],
         "shops": ["fleet"],
         "faction": ["Light Side", "Tank", "Galactic Republic", "Jedi"],
@@ -1293,6 +1298,7 @@ const characters = [
     {
         "name": "Rose Tico",
         "nickname": [],
+        "light": ["4-F"],
         "faction": ["Light Side", "Attacker", "Resistance"]
     },
 
