@@ -6,6 +6,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await message.channel.send(`The time is ${time} and the day is ${day}.`);
 
     }  catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `time command failure:\n${error.stack}`);
         client.codeError(message);
     }

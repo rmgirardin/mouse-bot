@@ -65,6 +65,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await profileMessage.edit({embed});
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `profile command failure:\n${error.stack}`);
         client.codeError(message);
     }

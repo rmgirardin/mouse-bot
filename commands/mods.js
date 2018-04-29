@@ -1,5 +1,9 @@
 // These are the ID codes for the different mod emojis hosted
 // on the Mouse Bot Support Server
+
+const { RichEmbed } = require("discord.js");
+const fuzzy = require("fuzzy-predicate");
+
 const modsEmojis = {
     // Slots
     "Square": "418109875395231755",
@@ -43,10 +47,6 @@ function getObjects(obj, key, val) {
     }
     return objects;
 }
-
-
-const { RichEmbed } = require("discord.js");
-const fuzzy = require("fuzzy-predicate");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
@@ -136,6 +136,7 @@ Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(looku
         await chMessage.edit("Here's what I found:");
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `mods command failure:\n${error.stack}`);
         client.codeError(message);
     }

@@ -18,6 +18,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         process.exit(1);
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `restart command failure:\n${error.stack}`);
         client.codeError(message);
     }

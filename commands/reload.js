@@ -17,6 +17,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await message.channel.send(`${message.author}, the command \`${args[0]}\` has been reloaded.`);
 
     }  catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `reload command failure:\n${error.stack}`);
         client.codeError(message);
     }

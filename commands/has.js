@@ -68,6 +68,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await hasMessage.edit({ embed });
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `has command failure:\n${error.stack}`);
         client.codeError(message);
     }

@@ -67,6 +67,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `lookup command failure:\n${error.stack}`);
         client.codeError(message);
     }

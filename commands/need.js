@@ -6,26 +6,16 @@ const { RichEmbed } = require("discord.js");
 const shipments = require("../modules/shipments.js");
 const fuzzy = require("fuzzy-predicate");
 
-const shardsRequired = [ // unused, informational purposes
-        0,  // 0*
-        10, // 1*
-        15, // 2*
-        25, // 3*
-        30, // 4*
-        65, // 5*
-        85, // 6*
-        100 // 7*
-    ];
 const shardsRemainingAtStarLevel = {
-        0: 330,
-        1: 320,
-        2: 305,
-        3: 280,
-        4: 250,
-        5: 185,
-        6: 100,
-        7: 0
-    };
+    0: 330,
+    1: 320,
+    2: 305,
+    3: 280,
+    4: 250,
+    5: 185,
+    6: 100,
+    7: 0
+};
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
@@ -135,6 +125,7 @@ Either all characters/ships have been maxed out, or I cannot find a shop or fact
         await needMessage.edit({ embed });
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `need command failure:\n${error.stack}`);
         client.codeError(message);
     }

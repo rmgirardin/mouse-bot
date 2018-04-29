@@ -30,7 +30,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             const results = await client.doSQL("SELECT username, allycode FROM profiles WHERE discordId = ?", [user.id.toString()]);
             if (results === false) {
-                client.logger.error(client, "doSQL() error within add command");
+                client.logger.warn(client, "doSQL() error within add command");
                 return client.codeError(message);
             }
 
@@ -41,7 +41,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (profile.guildUrl) {
                 const guildInfo = profile.guildUrl.split("/");
                 guildId = parseInt(guildInfo[2]);
-                console.log(guildId);
             }
 
             await client.doSQL(
@@ -65,6 +64,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `add command failure:\n${error.stack}`);
         client.codeError(message);
     }

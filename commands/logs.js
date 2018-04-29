@@ -21,6 +21,7 @@ ${body}
 \`\`\``);
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `logs command failure:\n${error.stack}`);
         client.codeError(message);
     }

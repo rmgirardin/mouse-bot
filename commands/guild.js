@@ -35,6 +35,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 await client.cacheCheck(message, id, "");
                 profile = client.cache.get(id + "_profile");
             } catch (error) {
+                client.errlog(cmd, message, level, error);
                 client.logger.error(client, `swgoh.gg profile pull failure within the guild command:\n${error.stack}`);
             }
         } else client.cacheCheck(message, id, ""); // If we don't need to cache, just do it in the background
@@ -63,6 +64,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             // Pull data from swgoh.gg/api
             guildData = await request(options);
         } catch (error) {
+            client.errlog(cmd, message, level, error);
             client.logger.error(client, `swgoh.gg guild API pull failure within the guild command:\n${error.stack}`);
         }
 
@@ -154,6 +156,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `guild command failure:\n${error.stack}`);
         client.codeError(message);
     }
