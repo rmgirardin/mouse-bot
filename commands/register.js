@@ -75,15 +75,15 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["register", "update", "u"],
+    aliases: ["add"],
     arguments: [],
     permLevel: "User"
 };
 
 exports.help = {
-    name: "add",
+    name: "register",
     category: "Game",
-	description: "Add your swgoh.gg username to the database",
-	usage: "add <swgoh.gg-username>",
-    examples: ["add necavit", "add hanshotfirst", "add https://swgoh.gg/u/necavit/"]
+	description: "Register your swgoh.gg username to the database",
+	usage: "register <swgoh.gg-username>",
+    examples: ["register necavit", "register hanshotfirst", "register https://swgoh.gg/u/necavit/"]
 };
