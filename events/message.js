@@ -73,15 +73,17 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
         const results = await client.doSQL("SELECT * FROM profiles WHERE discordId = ?", [message.author.id.toString()]);
         // If they don't have a stored username, then will send them an introduction
         // message and ask them to register their username before using any commands
-        if (results.length === 0 && cmd.help.name != "add") {
-            return message.channel.send(`Hello ${message.author}! Before you can use any of my commands, please run \`${settings.prefix}register <swgoh.gg-username>\` first (remember to remove the \`< >\`).\nMost of my commands use data from your profile; registering helps me run with fewer errors. Thanks!`);
+        if (results.length === 0) {
+            if (cmd.help.name != "register" && cmd.help.name != "help") {
+                return message.channel.send(`Hello ${message.author}! Before you can use any of my commands, please run \`${settings.prefix}register <swgoh.gg-username>\` first (remember to remove \`< >\`).\nMost of my commands use data from your profile; registering helps me run with fewer errors. Thanks!`);
+            }
         }
         // If they have registered in the past, we'll save the pulled information
         // and pass it to the command so we don't have to pull it again
-        else {
-            // We can assign the profile results to the message
-            message.profile = results[0];
-        }
+
+        // We can assign the profile results to the message
+        message.profile = results[0];
+
     } catch (error) {
         client.errlog(cmd, message, level, error);
         client.logger.error(`Failed to write to cmdlog:\n${error.stack}`);

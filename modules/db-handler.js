@@ -10,7 +10,7 @@ module.exports = (client) => {
     client.doSQL = async (sqlSyntax, args, db = "mousebot") => {
         return new Promise((resolve, reject) => {
             try {
-                
+
                 // Attempt to establish a connection
                 const mySQL = require("mysql");
                 const sqlConnection = mySQL.createConnection({
@@ -108,7 +108,7 @@ module.exports = (client) => {
                 if (message.profile && message.profile.username) username = message.profile.username;
             }
 
-            if (username === undefined) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}add\`.`;
+            if (username === undefined) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}register\`.`;
             return [encodeURI(username), text, error];
 
         } catch (error) {

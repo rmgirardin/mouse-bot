@@ -30,7 +30,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [userId]);
             if (results === false) {
-                client.logger.warn(client, "doSQL() error within add command");
+                client.logger.warn(client, "doSQL() error within adduser command");
                 return client.codeError(message);
             }
 
@@ -49,7 +49,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                     "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?)",
                     [userId, user.user.username, user.user.discriminator, swName, allycode, guildId]
                 );
-                await message.reply(`I've added **${swName}** to ${user}'s record.`);
+                await message.reply(`I've registered **${swName}** to ${user}'s record.`);
             } else {
                 await client.doSQL(
                     "UPDATE profiles SET discordName = ?, discordTag = ?, username = ?, allycode = ?, guildId = ? WHERE discordID = ?",
@@ -76,7 +76,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 exports.conf = {
     enabled: true,
     guildOnly: true,
-    aliases: ["au", "addusers"],
+    aliases: ["au", "addusers", "registeruser"],
     arguments: [],
     permLevel: "Moderator"
 };
@@ -84,7 +84,7 @@ exports.conf = {
 exports.help = {
     name: "adduser",
     category: "Game",
-	description: "Add the swgoh.gg username for one or more Discord users to the database",
+	description: "Register the swgoh.gg username for one or more Discord users to the database",
 	usage: "adduser <discord-username> <swgoh.gg-username>",
     examples: ["adduser @necavit necavit", "adduser @kyloren sweetsaberdude @hoboyoda theGhost"]
 };

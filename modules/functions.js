@@ -154,7 +154,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
     /*
     --- CHARACTER CACHING ---
 
-    Addes profile, character and ships from swgoh.gg for quicker access.
+    Adds profile, character and ships from swgoh.gg for quicker access.
     First checks for last update and if updated, replace all data for that user.
 
     The variable input throttles the speed of the cache. By making input = "csm",

@@ -6,7 +6,7 @@
 const swgoh = require("swgoh").swgoh;
 const moment = require("moment");
 const { RichEmbed } = require("discord.js");
-const add = require("./add.js");
+const register = require("./register.js");
 const adduser = require("./adduser.js");
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
@@ -19,8 +19,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             // Remove the "add" or "edit"
             args = args.slice(1);
 
-            // Now either run add or adduser commands
-            if (args.length === 1) add.run(client, message, cmd, args, level);
+            // Now either run register or adduser commands
+            if (args.length === 1) register.run(client, message, cmd, args, level);
             else if (args.length > 1) adduser.run(client, message, cmd, args, level);
             else client.cmdError(message, cmd);
 
@@ -28,7 +28,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
     } catch (error) {
         client.errlog(cmd, message, level, error);
-        client.logger.error(`Error offloading profile command to add:\n${error.stack}`);
+        client.logger.error(`Error offloading profile command to register:\n${error.stack}`);
     }
 
     try {

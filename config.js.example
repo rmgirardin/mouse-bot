@@ -16,7 +16,7 @@ const config = {
         "pointsEnabled": "false",
         "roleRewardsEnabled": "true",
         "guildReset": 2030,
-        "welcomeMessage": "Welcome to {{server}}, {{user}}! Please take a second to enter your swgoh.gg username by typing `{{prefix}}add <swgoh.gg-username>`. If you need any help, just type \`{{prefix}}help\`!"
+        "welcomeMessage": "Welcome to {{server}}, {{user}}! Please take a second to enter your swgoh.gg username by typing `{{prefix}}register <swgoh.gg-username>` (remember to remove \`< >\`). If you need any help, just type \`{{prefix}}help\`!"
     },
 
     // These are used for the roleRewards within the point system
