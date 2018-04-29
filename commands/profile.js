@@ -71,18 +71,18 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 .addField("Galactic Power (% based on Overall)",
                     `\`\`\`asciidoc
 Overall   :: ${profile.galacticPower.toLocaleString()}
-Character :: ${profile.charactersGalacticPower.toLocaleString()}  (${(profile.charactersGalacticPower / profile.galacticPower * 100).toFixed(1)}%)
-Ship      :: ${profile.shipsGalacticPower.toLocaleString()}  (${(profile.shipsGalacticPower / profile.galacticPower * 100).toFixed(1)}%)\`\`\``,
+Character :: ${profile.charactersGalacticPower.toLocaleString()} (${(profile.charactersGalacticPower / profile.galacticPower * 100).toFixed(1)}%)
+Ship      :: ${profile.shipsGalacticPower.toLocaleString()} (${(profile.shipsGalacticPower / profile.galacticPower * 100).toFixed(1)}%)\`\`\``,
                     false
                 )
                 .addField("Characters (% based on Unlocked)",
                     `\`\`\`asciidoc
 Unlocked  :: ${profile.characters}
-7 star    :: ${profile.characters7}  (${(profile.characters7 / profile.characters * 100).toFixed(1)}%)
-6 star    :: ${profile.characters6}  (${(profile.characters6 / profile.characters * 100).toFixed(1)}%)
-Gear 12   :: ${profile.gearXII}  (${(profile.gearXII / profile.characters * 100).toFixed(1)}%)
-Gear 11   :: ${profile.gearXI}  (${(profile.gearXI / profile.characters * 100).toFixed(1)}%)
-Gear 10   :: ${profile.gearX}  (${(profile.gearX / profile.characters * 100).toFixed(1)}%)\`\`\``,
+7 star    :: ${profile.characters7} (${(profile.characters7 / profile.characters * 100).toFixed(1)}%)
+6 star    :: ${profile.characters6} (${(profile.characters6 / profile.characters * 100).toFixed(1)}%)
+Gear 12   :: ${profile.gearXII} (${(profile.gearXII / profile.characters * 100).toFixed(1)}%)
+Gear 11   :: ${profile.gearXI} (${(profile.gearXI / profile.characters * 100).toFixed(1)}%)
+Gear 10   :: ${profile.gearX} (${(profile.gearX / profile.characters * 100).toFixed(1)}%)\`\`\``,
                     false
                 )
                 .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
