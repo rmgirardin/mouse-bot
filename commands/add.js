@@ -1,7 +1,7 @@
 const adduser = require("./adduser.js");
 const swgoh = require("swgoh").swgoh;
 
-exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level, profile) => { // eslint-disable-line no-unused-vars
 
     try {
 

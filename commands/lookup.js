@@ -9,7 +9,7 @@ const shardLocation = [
 const fuzzy = require("fuzzy-predicate");
 const { RichEmbed } = require("discord.js");
 
-exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level, profile) => { // eslint-disable-line no-unused-vars
 
     try {
 

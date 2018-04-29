@@ -1,7 +1,7 @@
 // This runs anytime a message is received
 // Every event needs `client, other, args` when this function is run
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
 
     if (message.author.bot) return; // Prevents botception!
 
@@ -56,8 +56,37 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
     // Give an extra point if they are using a command!
     client.addPoints(message, client.config.messagePoints);
 
-    // If the command exists **AND** the user has permission
+    // If the command exists **AND** the user has permission we can run it
+    // but first we will logger and write the command to the database
     client.logger.cmd(client, `${message.author.username} (${client.config.permLevels.find(l => l.level === level).name}, ${message.author.id}) ran ${cmd.help.name}`);
-    cmd.run(client, message, cmd, args, level);
+    try {
+        await client.doSQL(
+            "INSERT INTO cmdlog (timestamp, command, channelId, userId, permLevel) VALUES (?, ?, ?, ?, ?)",
+            [new Date(), cmd.help.name, message.channel.id.toString(), message.author.id.toString(), client.config.permLevels.find(l => l.level === level).name]
+        );
+    } catch (error) {
+        client.logger.error(`Failed to write to cmdlog:\n${error.stack}`);
+    }
+
+    // And right before we run the command, let's check to see if they are registered
+    let profile = null;
+    try {
+        const results = await client.doSQL("SELECT * FROM profiles WHERE discordId = ?", [message.author.id.toString()]);
+        // If they don't have a stored username, then will send them an introduction
+        // message and ask them to register their username before using any commands
+        if (results.length === 0 && cmd.help.name != "add") {
+            return message.channel.send(`Hello ${message.author}! Before you can use any of my commands, please run \`${settings.prefix}register <swgoh.gg-username>\` first (remember to remove the \`< >\`).\nMost of my commands use data from your profile; registering helps me run with fewer errors. Thanks!`);
+        }
+        // If they have registered in the past, we'll save the pulled information
+        // and pass it to the command so we don't have to pull it again
+        else {
+            profile = results[0];
+        }
+    } catch (error) {
+        client.errlog(cmd, message, level, error);
+        client.logger.error(`Failed to write to cmdlog:\n${error.stack}`);
+    }
+
+    cmd.run(client, message, cmd, args, level, profile);
 
 };
