@@ -10,27 +10,24 @@ const { inspect } = require("util");
 exports.run = async (client, message, cmd, [action, key, ...value], level) => {
 
     try {
-
-        const settings = client.settings.get(message.guild.id);
-
         // If a user does `-set add <key> <new value>`, let's add it
         if (action === "add") {
             if (!key) return await message.reply("Please specify a key to add").then(client.cmdError(message, cmd));
-            if (settings[key]) return await message.reply("This key already exists in the settings");
+            if (message.settings[key]) return await message.reply("This key already exists in the settings");
             if (value.length < 1) return await message.reply("Please specify a value").then(client.cmdError(message, cmd));
 
             // `value` being an array, we need to join it first.
-            settings[key] = value.join(" ");
+            message.settings[key] = value.join(" ");
 
             // One the settings is modified, we write it back to the collection
-            client.settings.set(message.guild.id, settings);
+            client.settings.set(message.guild.id, message.settings);
             await message.reply(`**${key}** successfully added with the value of **${value.join(" ")}**`);
         }
 
         // If a user does `-set edit <key> <new value>`, let's change it
         else if (action === "edit") {
             if (!key) return await message.reply("please specify a key to edit.").then(client.cmdError(message, cmd));
-            if (!settings[key]) return await message.reply("this key does not exist in the settings.");
+            if (!message.settings[key]) return await message.reply("this key does not exist in the settings.");
             if (value.length < 1) return await message.reply("please specify a new value.").then(client.cmdError(message, cmd));
 
             // We don't want a prefix to have more than 1 character, so lets not allow this to happen
@@ -50,27 +47,28 @@ exports.run = async (client, message, cmd, [action, key, ...value], level) => {
             }
 
             // `value` being an array, we need to join it first.
-            settings[key] = value.join(" ");
+            message.settings[key] = value.join(" ");
 
             // Once the settings is modified, we write it back to the collection
-            client.settings.set(message.guild.id, settings);
+            client.settings.set(message.guild.id, message.settings);
             await message.reply(`**${key}** was successfully changed to **${value.join(" ")}**`);
 
         }
 
         else if (action === "get") {
             if (!key) return await message.reply("Please specify a key to view").then(client.cmdError(message, cmd));
-            if (!settings[key]) return await message.reply("This key does not exist in the settings");
-            await message.reply(`the value of **${key}** is currently **${settings[key]}**`);
+            if (!message.settings[key]) return await message.reply("This key does not exist in the settings");
+            await message.reply(`the value of **${key}** is currently **${message.settings[key]}**`);
         }
 
         else if (action === "view" || !action) {
-            await message.channel.send(inspect(settings), {code: "json"});
+            await message.channel.send(inspect(message.settings), {code: "json"});
         }
 
         else { client.cmdError(message, cmd); }
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `set command failure:\n${error.stack}`);
         client.codeError(message);
     }

@@ -3,12 +3,10 @@ const { RichEmbed } = require("discord.js");
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
-
-        const settings = client.settings.get(message.guild.id);
-
+        
         // If points system is off, let user know this is disabled
         // Welcome is on by default
-        if (settings.pointsEnabled != "true") return await message.channel.send("The points system is disabled for this server.");
+        if (message.settings.pointsEnabled != "true") return await message.channel.send("The points system is disabled for this server.");
 
         // Instead of just using author.id, we add guild.id to the begining
         // so that points are specific to each guild
@@ -30,6 +28,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await message.channel.send({embed});
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `level command failure:\n${error.stack}`);
         client.codeError(message);
     }

@@ -5,7 +5,7 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
-
+        
         // Grab all of the guilds the bot is serving
         const guilds = await client.guilds.array();
         const msg = args.join(" ");
@@ -22,8 +22,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         for (let i = 0; i < guilds.length; i++) {
             const id = guilds[i];
             if (!id) continue;
-            const settings = id.guild ? client.settings.get(id) : client.config.defaultSettings;
-            const shoutChannel = await id.channels.find(r => r.name === settings.aChannel);
+            const shoutChannel = await id.channels.find(r => r.name === message.settings.aChannel);
 
             if (shoutChannel && shoutChannel != "undefined") {
                 try {
@@ -37,6 +36,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await shoutMessage.edit(`Finished! Sent to **${guilds.length-x}** server(s)! **${x}** failed to send.`);
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `shout command failure:\n${error.stack}`);
         client.codeError(message);
     }

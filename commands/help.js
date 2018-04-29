@@ -2,18 +2,13 @@ exports.run = async (client, message, cmd, args, level) => {
 
     try {
 
-        const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-
         // If no specific command is called, show all filtered commands
         if (!args[0]) {
-            // Load guild settings (for prefixes and eventually per-guild tweaks)
-            const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-
             // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
             const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.enabled) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true && cmd.conf.enabled);
 
             let currentCategory = "";
-            let output = `**__COMMAND LIST__**\nUse \`${settings.prefix}help <command-name>\` for details\n`;
+            let output = `**__COMMAND LIST__**\nUse \`${message.settings.prefix}help <command-name>\` for details\n`;
 
             const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
             sorted.forEach( c => {
@@ -22,7 +17,7 @@ exports.run = async (client, message, cmd, args, level) => {
                     output += `\n**${cat.toUpperCase()}:**\n`;
                     currentCategory = cat;
                 }
-                output += `**\`${settings.prefix}${c.help.name}\`** - ${c.help.description}\n`;
+                output += `**\`${message.settings.prefix}${c.help.name}\`** - ${c.help.description}\n`;
             });
 
             await message.channel.send(output);
@@ -40,8 +35,8 @@ exports.run = async (client, message, cmd, args, level) => {
 Description:  **${command.help.description}**
 Permission:  **${command.conf.permLevel.replace("User", "Everyone")}**`;
                 if (command.conf.aliases.length >= 1) output += `\nAliases:  **${command.conf.aliases.join(", ")}**`;
-                output += `\nUsage:\`\`\`${settings.prefix}${command.help.usage}\n\`\`\`
-Examples:\`\`\`\n${settings.prefix}${command.help.examples.join(`\n${settings.prefix}`)}\n\`\`\`
+                output += `\nUsage:\`\`\`${message.settings.prefix}${command.help.usage}\n\`\`\`
+Examples:\`\`\`\n${message.settings.prefix}${command.help.examples.join(`\n${message.settings.prefix}`)}\n\`\`\`
 <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/${command.help.name}.html>`;
 
                 await message.channel.send(output);
@@ -51,6 +46,7 @@ Examples:\`\`\`\n${settings.prefix}${command.help.examples.join(`\n${settings.pr
         }
 
     } catch (error) {
+        client.errlog(cmd, message, level, error);
         client.logger.error(client, `help command failure:\n${error.stack}`);
         client.codeError(message);
     }
