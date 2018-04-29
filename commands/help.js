@@ -35,7 +35,8 @@ exports.run = async (client, message, cmd, args, level) => {
 Description:  **${command.help.description}**
 Permission:  **${command.conf.permLevel.replace("User", "Everyone")}**`;
                 if (command.conf.aliases.length >= 1) output += `\nAliases:  **${command.conf.aliases.join(", ")}**`;
-                output += `\nUsage:\`\`\`${message.settings.prefix}${command.help.usage}\n\`\`\`
+                if (command.conf.arguments.length >= 1) output += `\nOptional Arguments:  **${command.conf.arguments.join(", ")}**`;
+                output += `\n\nUsage:\`\`\`${message.settings.prefix}${command.help.usage}\n\`\`\`
 Examples:\`\`\`\n${message.settings.prefix}${command.help.examples.join(`\n${message.settings.prefix}`)}\n\`\`\`
 <https://rmgirardin.gitbooks.io/mouse-bot-user-manual/content/${command.help.name}.html>`;
 
@@ -56,6 +57,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["h", "halp"],
+    arguments: [],
     permLevel: "User"
 };
 

@@ -167,6 +167,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["guildlookup"],
+    arguments: ["user mention", "1-7"],
     permLevel: "User"
 };
 
@@ -174,6 +175,6 @@ exports.help = {
     name: "guild",
     category: "Game",
     description: "Looks up and returns guild data for characters/factions",
-    usage: "guild <character/faction> [rarity]",
+    usage: "guild <name|nickname|faction>",
     examples: ["guild han", "guild han 6", "guildlookup wampa"]
 };

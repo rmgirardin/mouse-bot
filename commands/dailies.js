@@ -41,6 +41,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["daily"],
+    arguments: [],
     permLevel: "User"
 };
 

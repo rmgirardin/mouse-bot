@@ -77,6 +77,7 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ["au", "addusers"],
+    arguments: [],
     permLevel: "Moderator"
 };
 

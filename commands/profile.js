@@ -134,7 +134,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["profiles", "p"],
-    arguments: ["%"],
+    arguments: ["%", "user mention"],
     permLevel: "User"
 };
 
@@ -142,6 +142,6 @@ exports.help = {
     name: "profile",
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
-    usage: "profile ~[swgoh.gg-username]",
+    usage: "profile",
     examples: ["p", "p %", "p @Necavit#0540 %"]
 };

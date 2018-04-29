@@ -147,6 +147,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["character", "ch", "mod"],
+    arguments: ["user mention"],
     permLevel: "User"
 };
 
@@ -154,6 +155,6 @@ exports.help = {
     name: "mods",
     category: "Game",
     description: "Looks up character stats and mods on swgoh.gg",
-    usage: "mods ~[swgoh.gg-username] <character>",
+    usage: "mods <name|nickname>",
     examples: ["mods cls", "mods leia", "ch ~necavit r2", "ch han"]
 };

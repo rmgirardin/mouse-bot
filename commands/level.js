@@ -3,7 +3,7 @@ const { RichEmbed } = require("discord.js");
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
-        
+
         // If points system is off, let user know this is disabled
         // Welcome is on by default
         if (message.settings.pointsEnabled != "true") return await message.channel.send("The points system is disabled for this server.");
@@ -39,6 +39,7 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ["levels", "lvl", "points"],
+    arguments: [],
     permLevel: "User"
 };
 

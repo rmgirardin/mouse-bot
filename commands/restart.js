@@ -28,6 +28,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["reboot", "shutdown"],
+    arguments: [],
     permLevel: "Bot Admin"
 };
 

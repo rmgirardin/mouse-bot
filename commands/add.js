@@ -12,10 +12,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (message.isMentioned(userId) && !message.guild.members.get(userId).user.bot) {
 
             adduser.run(client, message, cmd, args, level);
-
         }
 
         else {
+
+            if (!args[0]) return client.cmdError(message, cmd);
             let swName = args.join(" ");
             const user = message.author;
             if (swName.startsWith("http")) {
@@ -75,6 +76,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["register", "update", "u"],
+    arguments: [],
     permLevel: "User"
 };
 

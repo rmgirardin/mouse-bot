@@ -5,7 +5,7 @@
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
-        
+
         // Grab all of the guilds the bot is serving
         const guilds = await client.guilds.array();
         const msg = args.join(" ");
@@ -47,6 +47,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["sh"],
+    arguments: [],
     permLevel: "Bot Admin"
 };
 

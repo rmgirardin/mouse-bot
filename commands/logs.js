@@ -31,6 +31,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["log"],
+    arguments: [],
     permLevel: "Bot Admin"
 };
 

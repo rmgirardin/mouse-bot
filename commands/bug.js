@@ -57,6 +57,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["bugs", "report", "suggestion", "suggestions", "complaint", "typo", "typos"],
+    arguments: [],
     permLevel: "User"
 };
 
@@ -64,6 +65,6 @@ exports.help = {
     name: "bug",
     category: "Miscellaneous",
 	description: "Report bugs, typos or suggestions about this bot",
-	usage: "<bug/suggestion> <message>",
+	usage: "<bug|suggestion> <message>",
     examples: ["bug The ping command doesn't pong", "suggestion Make an Order 66 command!"]
 };

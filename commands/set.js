@@ -79,6 +79,7 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ["settings", "config"],
+    arguments: [],
     permLevel: "Moderator"
 };
 
@@ -86,6 +87,6 @@ exports.help = {
     name: "set",
     category: "System",
     description: "View or change settings for your server",
-    usage: "set <add/edit/get/view> <key> <value>",
+    usage: "set <add|edit|get|view> <key> <value>",
     examples: ["set", "set get prefix", "set edit pointsEnabled true"]
 };

@@ -77,6 +77,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["find", "search"],
+    arguments: [],
     permLevel: "User"
 };
 

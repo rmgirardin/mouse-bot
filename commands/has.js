@@ -79,6 +79,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: [],
+    arguments: ["user mention"],
     permLevel: "User"
 };
 
@@ -86,6 +87,6 @@ exports.help = {
     name: "has",
     category: "Game",
     description: "Checks if the user has certain characters",
-    usage: "has ~[swgoh.gg-username]",
+    usage: "has <faction|name|nickname>",
     examples: ["has empire", "has tank", "has ~necavit jedi"]
 };

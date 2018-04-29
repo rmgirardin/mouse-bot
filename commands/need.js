@@ -136,6 +136,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: ["shops", "shipment", "shipments"],
+    arguments: ["user mention"],
     permLevel: "User"
 };
 
@@ -143,6 +144,6 @@ exports.help = {
     name: "need",
     category: "Game",
     description: "Let user know which characters they need in shipments",
-    usage: "need ~[swgoh.gg-username] <shop/faction>",
+    usage: "need <show|faction|name|nickname>",
     examples: ["need gw", "need jedi", "need ~necavit fleet"]
 };
