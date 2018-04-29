@@ -35,7 +35,7 @@ module.exports = (client) => {
                         } else {
                             error = `! ERROR : CONFIG\n : ${error.sqlMessage}`;
                         }
-                        resolve(false);
+                        reject(error);
                     }
                     resolve(result);
                 });

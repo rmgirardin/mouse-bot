@@ -501,18 +501,18 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
     };
 
     // These 2 process methods will catch exceptions and give *more details* about the error and stack trace.
-    process.on("uncaughtException", (err) => {
+    process.on("uncaughtException", (error) => {
 
-        const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
-        console.error("Uncaught Exception: ", errorMsg);
+        const errorMsg = error.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
+        console.log("Uncaught Exception: ", errorMsg);
         // Always best practice to let the code crash on uncaught exceptions.
         // Because you should be catching them anyway.
         process.exit(1);
     });
 
-    process.on("unhandledRejection", err => {
+    process.on("unhandledRejection", error => {
 
-        console.error(`Unhandled rejection: ${err}`);
+        console.log(`Unhandled rejection: ${error}`);
     });
 
 };

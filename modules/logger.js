@@ -4,11 +4,15 @@ Logger class for easy and aesthetically pleasing console logging
 const chalk = require("chalk");
 const moment = require("moment");
 
-function sqlLog(client, type, details) {
-    client.doSQL(
-        "INSERT INTO botlog (timestamp, type, details) VALUES (?, ?, ?)",
-        [new Date(), type, details]
-    );
+async function sqlLog(client, type, details) {
+    try {
+        await client.doSQL(
+            "INSERT INTO botlog (timestamp, type, details) VALUES (?, ?, ?)",
+            [new Date(), type, details]
+        );
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.log = async (client, content, type = "log") => {
@@ -26,7 +30,7 @@ exports.log = async (client, content, type = "log") => {
             return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content}`);
         }
         case "debug": {
-            await sqlLog(client, "logs", content);
+            await sqlLog(client, "debug", content);
             return console.log(`${timestamp} ${chalk.green(type.toUpperCase())} ${content}`);
         }
         case "cmd": {
