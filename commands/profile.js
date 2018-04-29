@@ -9,12 +9,12 @@ const { RichEmbed } = require("discord.js");
 const add = require("./add.js");
 const adduser = require("./adduser.js");
 
-exports.run = async (client, message, cmd, args, level, profile) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
 
         // If they want to edit their stored swgoh.gg username, we'll let them here
-        if (args[0] === "add" || args[0] === "edit") {
+        if (args[0] === "add" || args[0] === "edit" || args[0] === "register") {
 
             // Remove the "add" or "edit"
             args = args.slice(1);
@@ -26,41 +26,99 @@ exports.run = async (client, message, cmd, args, level, profile) => { // eslint-
 
             return;
         }
+    } catch (error) {
+        client.errlog(cmd, message, level, error);
+        client.logger.error(`Error offloading profile command to add:\n${error.stack}`);
+    }
 
-        //
+    try {
+
         // Now we actually execute the profile command
-        //
 
-        let [id, swName, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
-        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        const [username, empty, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
+        if (username === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // The courtious "checking" message while the user waits
         const profileMessage = await message.channel.send("Checking... One moment. 👀");
 
         // Here we pull the profile data from swgoh.gg
-        const profile = await swgoh.profile(id);
+        const profile = await swgoh.profile(username);
 
         if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
 
         // Some user's don't submit thier profile codes on swgoh.gg, if that's the
         // case, lets not display (undefined) next to their name
         let title = `${profile.username}'s Profile (${profile.allyCode})`;
+        const guildName = profile.guildUrl.split("/")[3].replace(/-/g, " ").toProperCase();
         const lastUpdated = moment(profile.lastUpdatedUTC).fromNow();
-        if (profile.allyCode === undefined) title = profile.username;
+        if (message.profile.allycode === undefined) title = profile.username;
 
-        const embed = new RichEmbed()
-            .setTitle(title)
-            .setColor(0x268BD2)
-            .setThumbnail("https://swgoh.gg/static/img/swgohgg-nav-orange-2x.png")
-            .setURL(`https://swgoh.gg/u/${encodeURI(id)}/`)
-            .setDescription(`**Galactic Power:** ${profile.galacticPower.toLocaleString()}
-**Characters Galactic Power:** ${profile.charactersGalacticPower.toLocaleString()}
-**Ships Galactic Power:** ${profile.shipsGalacticPower.toLocaleString()}
-**Arena Rank:** ${profile.arenaRank.toLocaleString()}
-**7\* Characters:** ${profile.characters7}
-**Gear 12 Characters:** ${profile.gearXII}
-**Gear 11 Characters:** ${profile.gearXI}`)
-            .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
+        let embed = null;
+
+        // We have two options for sending the embed:
+        // The first option is with percentages
+        // This will only send if "%" is in the args
+        if (args.includes("%")) {
+            embed = new RichEmbed()
+                .setTitle(title)
+                .setColor(0x268BD2)
+                .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
+                .setDescription(`Level ${profile.level}
+**Guild**: ${guildName}
+**Collection Score:** ${profile.collectionScore}
+**Arena Rank:** ${profile.arenaRank.toLocaleString()}`
+                )
+                .addField("Galactic Power",
+                    `\`\`\`asciidoc
+Overall   :: ${profile.galacticPower.toLocaleString()}
+Character :: ${profile.charactersGalacticPower.toLocaleString()}  (${(profile.charactersGalacticPower / profile.galacticPower * 100).toFixed(1)}%)
+Ship      :: ${profile.shipsGalacticPower.toLocaleString()}  (${(profile.shipsGalacticPower / profile.galacticPower * 100).toFixed(1)}%)\`\`\``,
+                    false
+                )
+                .addField("Characters",
+                    `\`\`\`asciidoc
+Unlocked  :: ${profile.characters}
+7 star    :: ${profile.characters7}  (${(profile.characters7 / profile.characters * 100).toFixed(1)}%)
+6 star    :: ${profile.characters6}  (${(profile.characters6 / profile.characters * 100).toFixed(1)}%)
+Gear 12   :: ${profile.gearXII}  (${(profile.gearXII / profile.characters * 100).toFixed(1)}%)
+Gear 11   :: ${profile.gearXI}  (${(profile.gearXI / profile.characters * 100).toFixed(1)}%)
+Gear 10   :: ${profile.gearX}  (${(profile.gearX / profile.characters * 100).toFixed(1)}%)\`\`\``,
+                    false
+                )
+                .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
+        }
+
+        // The second option is without percentages
+        // this is the default embed
+        else {
+            embed = new RichEmbed()
+                .setTitle(title)
+                .setColor(0x268BD2)
+                .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
+                .setDescription(`Level ${profile.level}
+**Guild**: ${guildName}
+**Collection Score:** ${profile.collectionScore}
+**Arena Rank:** ${profile.arenaRank.toLocaleString()}`
+                )
+                .addField("Galactic Power",
+                    `\`\`\`asciidoc
+Overall   :: ${profile.galacticPower.toLocaleString()}
+Character :: ${profile.charactersGalacticPower.toLocaleString()}
+Ship      :: ${profile.shipsGalacticPower.toLocaleString()}\`\`\``,
+                    false
+                )
+                .addField("Characters",
+                    `\`\`\`asciidoc
+Unlocked  :: ${profile.characters}
+7 star    :: ${profile.characters7}
+6 star    :: ${profile.characters6}
+Gear 12   :: ${profile.gearXII}
+Gear 11   :: ${profile.gearXI}
+Gear 10   :: ${profile.gearX}\`\`\``,
+                    false
+                )
+                .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
+        }
 
         await profileMessage.edit({embed});
 
