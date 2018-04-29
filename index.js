@@ -28,6 +28,7 @@ const client = new Discord.Client();
 // Here we load the config and functions files
 client.config = require("./config.js");
 require("./modules/functions.js")(client);
+require("./modules/db-handler.js")(client);
 
 // Also the Logger
 client.logger = require("./modules/logger");

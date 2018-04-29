@@ -74,61 +74,14 @@ module.exports = (client) => {
 
 
     /*
-    --- MYSQL LOOKUP FUNCTION ---
-    Establishes a connection with mySQL, then executes the sqlSyntax
-    args replace "?" within the sqlSyntax
-    db by default is "mousebot", can also be "swgoh"
-    */
-    client.doSQL = async (sqlSyntax, args, db = "mousebot") => {
-        const mySQL = require("mysql");
-        const sqlConnection = mySQL.createConnection({
-            host     : client.config.mySQL.host,
-            user     : client.config.mySQL.user,
-            password : client.config.mySQL.password,
-            database : db
-        });
-
-        return new Promise((resolve, reject) => {
-            try {
-                // Attempt to establish a connection
-                try {
-                    sqlConnection.connect();
-                } catch (error) {
-                    client.logger.error(`**Cannot connect to mySQL DB**\n${error.stack}`);
-                    reject(error);
-                }
-
-                // Now we can actually do SQL stuff
-                sqlConnection.query(sqlSyntax, args, function(error, result) {
-                    sqlConnection.end();
-                    if (error) {
-                        if (error.code === "ENOTFOUND") {
-                            error = `! ERROR : CONFIG\n : Could not connect to the defined database at ${error.host}`;
-                        } else {
-                            error = `! ERROR : CONFIG\n : ${error.sqlMessage}`;
-                        }
-                        resolve(false);
-                    }
-                    resolve(result);
-                });
-
-            } catch (error) {
-                reject(error);
-            }
-        });
-    };
-
-
-    /*
     --- COMMMAND ERROR ---
 
     Used in most commands to responds with the commands usage if the user did
     not use the command correctly
     */
     client.cmdError = async (message, cmd) => {
-        const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-        await message.channel.send(`To use this command, use the following command structure: \`\`\`${settings.prefix}${cmd.help.usage}\`\`\`
-Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`)}\`\`\``);
+        await message.channel.send(`To use this command, use the following command structure: \`\`\`${message.settings.prefix}${cmd.help.usage}\`\`\`
+Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.settings.prefix}`)}\`\`\``);
 
         // Let's remove a point from the user for using the command incorrectly
         // This makes the message worth only a regular message
@@ -199,57 +152,6 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
 
     /*
-    --- SWGOH.GG PROFILE CHECK ---
-
-    Checks to see which method a user is inputing the profile and arguments and
-    returns those
-    */
-    client.profileCheck = async (message, args) => {
-
-        try {
-            const settings = message.guild ? client.settings.get(message.guild.id) : client.config.defaultSettings;
-
-            let id = message.author.id.toString();
-            let username = undefined;
-            let text = args.join(" ");
-            let error = false;
-
-            if (args[0]) {
-                if (args[0].startsWith("~") || args[0].startsWith("--")) {
-                    username = args[0].replace("~", "").replace("--", "");
-                } else if (args[0].startsWith("http")) {
-                    const start = args[0].indexOf("/u/");
-                    if (start == -1) error = ("There is no username in this URL.");
-                    const end = args[0].lastIndexOf("/");
-                    username = args[0].slice(start + 3, end);
-                    username = username.replace(/%20/g, " ");
-                } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
-                    id = message.mentions.users.first().id.toString();
-                    const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
-                    if (results.length > 0 || results != false) username = results[0].username;
-                }
-
-                if (username === undefined) {
-                    const results = await client.doSQL("SELECT discordId FROM profiles WHERE username = ?", [args[0]]);
-                    if (results.length > 0 || results != false) username = results[0].username;
-                }
-
-                if (username != undefined) text = args.slice(1).join(" ");
-            }
-
-            if (username === undefined) {
-                const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
-                if (results && results.length > 0) username = results[0].username;
-            }
-
-            if (username === undefined || username === null) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${settings.prefix}add\`.`;
-            return [encodeURI(username), text, error];
-        } catch (error) {
-            client.logger.error(client, `profileCheck failure\n${error.stack}`);
-        }
-    };
-
-    /*
     --- CHARACTER CACHING ---
 
     Addes profile, character and ships from swgoh.gg for quicker access.
@@ -301,6 +203,8 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
 
             return [username, updated];
         } catch (error) {
+            const level = client.permlevel(message);
+            client.errlog("cacheCheck", message, level, error);
             client.logger.error(client, `cacheCheck failure\n${error.stack}`);
         }
     };
@@ -345,8 +249,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         // Also check for message.guild
         if (message.author.bot || !message.guild) return;
 
-        const settings = client.settings.get(message.guild.id);
-        if (settings.pointsEnabled != "true") return;
+        if (message.settings.pointsEnabled != "true") return;
 
         const guildUser = message.guild.id + message.author.id;
         let userPoints = Number(client.pointsTable.get(guildUser));
@@ -355,7 +258,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
         // and assign the lowest roleReward
         if (!userPoints) {
             userPoints = 0;
-            if (settings.roleRewardsEnabled === "true") {
+            if (message.settings.roleRewardsEnabled === "true") {
                 const roleName = client.config.roleRewards.find(l => l.level === userPoints).name;
                 client.assignRole(message.member, roleName);
             }
@@ -376,11 +279,11 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
             if (roleName && roleName != undefined) roleName = roleName.name;
             const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
-            if (!roleName || roleName === undefined || settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
+            if (!roleName || roleName === undefined || message.settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
                     await message.channel.send(congratsMessage);
                 }
-            } else if (settings.roleRewardsEnabled === "true") {
+            } else if (message.settings.roleRewardsEnabled === "true") {
                 client.assignRole(message.member, roleName);
                 client.removePointsRole(message.member, newLevel);
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
@@ -424,8 +327,7 @@ Examples:\`\`\`${settings.prefix}${cmd.help.examples.join(`\n${settings.prefix}`
                         permissions: []
                     });
                 } catch (error) {
-                    client.logger.error(client, `Unable to assign user role\n${error.stack}`);
-                    return;
+                    return client.logger.error(client, `Unable to assign user role\n${error.stack}`);
                 }
             }
 
