@@ -10,6 +10,7 @@ module.exports = (client) => {
     client.doSQL = async (sqlSyntax, args, db = "mousebot") => {
         return new Promise((resolve, reject) => {
             try {
+                
                 // Attempt to establish a connection
                 const mySQL = require("mysql");
                 const sqlConnection = mySQL.createConnection({
@@ -74,6 +75,7 @@ module.exports = (client) => {
     client.profileCheck = async (message, args) => {
 
         try {
+
             let id = message.author.id.toString();
             let username = undefined;
             let text = args.join(" ");
@@ -103,13 +105,14 @@ module.exports = (client) => {
             }
 
             if (username === undefined) {
-                const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
-                if (results && results.length > 0) username = results[0].username;
+                if (message.profile && message.profile.username) username = message.profile.username;
             }
 
-            if (username === undefined || username === null) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}add\`.`;
+            if (username === undefined) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}add\`.`;
             return [encodeURI(username), text, error];
+
         } catch (error) {
+
             const level = client.permlevel(message);
             client.errlog("profileCheck", message, level, error);
             client.logger.error(client, `profileCheck failure\n${error.stack}`);

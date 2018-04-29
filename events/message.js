@@ -69,7 +69,6 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
     }
 
     // And right before we run the command, let's check to see if they are registered
-    let profile = null;
     try {
         const results = await client.doSQL("SELECT * FROM profiles WHERE discordId = ?", [message.author.id.toString()]);
         // If they don't have a stored username, then will send them an introduction
@@ -80,13 +79,14 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
         // If they have registered in the past, we'll save the pulled information
         // and pass it to the command so we don't have to pull it again
         else {
-            profile = results[0];
+            // We can assign the profile results to the message
+            message.profile = results[0];
         }
     } catch (error) {
         client.errlog(cmd, message, level, error);
         client.logger.error(`Failed to write to cmdlog:\n${error.stack}`);
     }
 
-    cmd.run(client, message, cmd, args, level, profile);
+    cmd.run(client, message, cmd, args, level);
 
 };
