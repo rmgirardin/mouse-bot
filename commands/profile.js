@@ -68,14 +68,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 **Collection Score:** ${profile.collectionScore}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
-                .addField("Galactic Power",
+                .addField("Galactic Power (% based on Overall)",
                     `\`\`\`asciidoc
 Overall   :: ${profile.galacticPower.toLocaleString()}
 Character :: ${profile.charactersGalacticPower.toLocaleString()}  (${(profile.charactersGalacticPower / profile.galacticPower * 100).toFixed(1)}%)
 Ship      :: ${profile.shipsGalacticPower.toLocaleString()}  (${(profile.shipsGalacticPower / profile.galacticPower * 100).toFixed(1)}%)\`\`\``,
                     false
                 )
-                .addField("Characters",
+                .addField("Characters (% based on Unlocked)",
                     `\`\`\`asciidoc
 Unlocked  :: ${profile.characters}
 7 star    :: ${profile.characters7}  (${(profile.characters7 / profile.characters * 100).toFixed(1)}%)
@@ -133,7 +133,8 @@ Gear 10   :: ${profile.gearX}\`\`\``,
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["swgoh", "swgoh.gg", "swgohgg", "profiles", "p"],
+    aliases: ["profiles", "p"],
+    arguments: ["%"],
     permLevel: "User"
 };
 
@@ -142,5 +143,5 @@ exports.help = {
     category: "Game",
     description: "Returns swgoh.gg stats of specified/mentioned user",
     usage: "profile ~[swgoh.gg-username]",
-    examples: ["profile", "profile ~hansolo", "p @Necavit#0540", "profile add necavit"]
+    examples: ["p", "p %", "p @Necavit#0540 %"]
 };
