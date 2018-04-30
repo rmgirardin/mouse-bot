@@ -1,6 +1,8 @@
 // This runs anytime a message is received
 // Every event needs `client, other, args` when this function is run
 
+const { RichEmbed } = require("discord.js");
+
 module.exports = async (client, message) => {
 
     if (message.author.bot) return; // Prevents botception!
@@ -75,7 +77,16 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
         // message and ask them to register their username before using any commands
         if (results.length === 0) {
             if (cmd.help.name != "register" && cmd.help.name != "help") {
-                return message.channel.send(`Hello ${message.author}! Before you can use any of my commands, please run \`${settings.prefix}register <swgoh.gg-username>\` first (remember to remove \`< >\`).\nMost of my commands use data from your profile; registering helps me run with fewer errors. Thanks!`);
+                const embed = new RichEmbed()
+                    .setTitle(`Hello ${message.author.username}!`)
+                    .setColor(0x268BD2)
+                    .setDescription(`Before you can use any of my commands, please run
+\`\`\`${settings.prefix}register <swgoh.gg-username>\`\`\`
+(remember to remove \`< >\`)`)
+                    .addField("Why?", "Most of my commands use data from your profile; registering helps me run with fewer errors.", false)
+                    .setFooter("~Thank you!");
+
+                return message.channel.send({ embed });
             }
         }
         // If they have registered in the past, we'll save the pulled information

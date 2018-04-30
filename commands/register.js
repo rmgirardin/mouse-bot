@@ -51,7 +51,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             // Save the username
             if (!results || results.length === 0) {
-                await message.reply(`I've added **${swName}** to your record.`);
+                await message.reply(`thanks for registering with me! I've added **${swName}** to your record. Trying running the \`${message.settings.prefix}profile\` command to see one of the ways I can display your in-game data.`);
             } else {
                 await message.reply(`I've changed your record from **${results[0].username}** to **${swName}**.`);
             }

@@ -117,7 +117,7 @@ Gear 11   :: ${profile.gearXI}
 Gear 10   :: ${profile.gearX}\`\`\``,
                     false
                 )
-                .setFooter(`Last updated ${lastUpdated}`, "https://swgoh.gg/static/img/bb8.png");
+                .setFooter(`Last updated ${lastUpdated} | For percentages use ${message.settings.prefix}p %`, "https://swgoh.gg/static/img/bb8.png");
         }
 
         await profileMessage.edit({embed});
