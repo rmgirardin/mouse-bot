@@ -1,7 +1,7 @@
 # Mouse Bot
 [![David](https://img.shields.io/david/rmgirardin/mouse-bot.svg)](https://david-dm.org/rmgirardin/mouse-bot) [![Codacy grade](https://img.shields.io/codacy/grade/6d6eebf5e04944659be34b926d80a021.svg)](https://www.codacy.com/app/rmgirardin/mouse-bot/dashboard) [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/rmgirardin/mouse-bot/blob/master/LICENSE) [![support](https://img.shields.io/badge/support-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M2R6Q8AN4CW66) [![discord](https://img.shields.io/badge/chat-Discord-7289DA.svg)](https://discord.gg/ZytN4aC)
 
-Add Mouse Bot to your server! [Regular Permissions](https://discord.now.sh/213381103287926785?p354368) | [Moderator Permissions](https://discord.now.sh/213381103287926785?p1879403606)
+==>> [Add Mouse Bot to your server!](https://discordapp.com/api/oauth2/authorize?client_id=213381103287926785&permissions=1879395392&scope=bot) <<==
 
 Mouse Bot is a Discord bot for Star Wars: Galaxy of Heroes players guilds and servers.
 
@@ -13,10 +13,17 @@ You can visit the [user manual](https://rmgirardin.gitbooks.io/mouse-bot-user-ma
 
 ---
 ## Updates
-- Added emojis to `mods` command
-- Added `guild` command to search for guild characters
-- Added native caching
-- Updated `need` command and added new ways to search
+- New behind-the-scene improvements
+    - Migrating to new database
+    - New hosting service
+    - Faster processing
+    - Better error catching
+- Updated profile command
+    - More information
+    - Better layout
+- Changed `add` command to `register`
+- User's must now register before they can use any commands
+- Removed moderation commands to focus on improving SWGoH commands
 
 Come check out the [Discord server](https://discord.gg/ZytN4aC) for all updates and any notifications.
 
