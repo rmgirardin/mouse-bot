@@ -49,7 +49,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Some user's don't submit thier profile codes on swgoh.gg, if that's the
         // case, lets not display (undefined) next to their name
         let title = `${profile.username}'s Profile (${profile.allyCode})`;
-        const guildName = profile.guildUrl.split("/")[3].replace(/-/g, " ").toProperCase();
         const lastUpdated = moment(profile.lastUpdatedUTC).fromNow();
         if (message.profile.allycode === undefined) title = profile.username;
 
@@ -64,7 +63,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 .setColor(0x268BD2)
                 .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
                 .setDescription(`Level ${profile.level}
-**Guild**: ${guildName}
 **Collection Score:** ${profile.collectionScore}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
@@ -96,7 +94,6 @@ Gear 10   :: ${profile.gearX} (${(profile.gearX / profile.characters * 100).toFi
                 .setColor(0x268BD2)
                 .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
                 .setDescription(`Level ${profile.level}
-**Guild**: ${guildName}
 **Collection Score:** ${profile.collectionScore}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
