@@ -11,7 +11,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await client.settings.db.close();
         await client.pointsTable.db.close();
         await client.cache.db.close();
-        await client.logs.db.close();
 
         await closeMessage.edit(`Only at the end do you realize the power of the Dark Side.
 *<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);

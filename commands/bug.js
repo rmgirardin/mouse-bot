@@ -37,11 +37,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         }
         await message.reply(`I just sent **Necavit#0540** the **${command}**! Thank you for your feedback!`);
 
-        // Let's add this to a bugs log
-        let bugsList = client.logs.get("bugs");
-        bugsList = `${bugsList}\n\n${command.toProperCase()}: ${report}`;
-        client.logs.set("bugs", bugsList);
-
         // Let's reward anyone who submits bugs or suggestions with double pionts
         client.addPoints(message, client.config.messagePoints*2);
 

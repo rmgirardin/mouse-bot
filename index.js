@@ -43,7 +43,6 @@ client.swgohData = new Enmap();
 client.settings = new Enmap({provider: new EnmapLevel({ name: "settings" })});
 client.pointsTable = new Enmap({provider: new EnmapLevel({ name: "points" })});
 client.cache = new Enmap({provider: new EnmapLevel({ name: "cache" })});
-client.logs = new Enmap({ provider: new EnmapLevel({ name: "log" })});
 
 
 const init = async () => {

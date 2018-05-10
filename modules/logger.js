@@ -19,7 +19,7 @@ exports.log = async (client, content, type = "log") => {
     const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
     switch (type) {
         case "log": {
-            await sqlLog(client, "logs", content);
+            await sqlLog(client, "log", content);
             return console.log(`${timestamp} ${chalk.white.bgBlue(type.toUpperCase())} ${content}`);
         }
         case "warn": {
@@ -37,7 +37,7 @@ exports.log = async (client, content, type = "log") => {
             return console.log(`${timestamp} ${chalk.inverse(type.toUpperCase())} ${content}`);
         }
         case "ready": {
-            await sqlLog(client, "logs", content);
+            await sqlLog(client, "log", content);
             return console.log(`${timestamp} ${chalk.black.bgGreen(type.toUpperCase())} ${content}`);
         }
         default: throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");
