@@ -1,19 +1,24 @@
 const raidKey = {
     "rancor": 1, "pit" : 1,
     "tank"  : 2, "haat": 2, "aat": 2,
-    1: "Pit", 2: "Tank Takedown"
+    "sith"  : 3, "hstr": 3, "hst": 3,
+    1: "Pit", 2: "Tank Takedown", 3: "Sith"
 };
 
 // Damage per percent for each phase of the raids
 const phaseMultipliers = {
-    1: {"p1": 18709, "p2": 30063,  "p3": 32884,  "p4": 21230},
-    2: {"p1": 40598, "p2": 192000, "p3": 120000, "p4": 120000},
+    1: {"p1": 18709,    "p2": 30063,    "p3": 32884,    "p4":   21230},
+    2: {"p1": 40598,    "p2": 192000,   "p3": 120000,   "p4":   120000},
+    3: {"p1": 468887.76, "p2": 521055.85, "p3": 383714.55, "p4dn": 118220.98,
+                                                        "p4ds": 96748.37,
+                                                        "p4dt": 120026.02},
 };
 
 function calculate(num, sorted, isPercent) {
     const list = phaseMultipliers[sorted[0]];
     if (!list) return NaN;
     const multiplier = list[sorted[1]];
+    if (!multiplier) return NaN;
     if (isPercent == true) {
         return multiplier == null ? NaN : num * multiplier;
     } else {
@@ -73,6 +78,6 @@ exports.help = {
     name: "convert",
     category: "Game",
 	description: "Converts heroic raid damage to percentage (or vice versa)",
-	usage: "convert <number> <rancor|tank> <p1|p2|p3|p4>",
-    examples: ["convert 12.69% pit p2", "convert p1 240,000 pit", "convert tank p2 1287"]
+	usage: "convert <number> <rancor|tank> <p1|p2|p3|p4(dn|ds|dt)>",
+    examples: ["convert 12.69% pit p2", "convert p1 240,000 pit", "convert sith p4dn 1287"]
 };
