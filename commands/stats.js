@@ -45,10 +45,17 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 let commandStats = [];
                 const cmdNames = await readdir(".//commands/");
                 const longest = cmdNames.reduce((long, str) => Math.max(long, str.length), 0) - 3;
-                for (const x in cmdNames) {
-                    const command = cmdNames[x].replace(".js", "");
-                    const result = await client.doSQL("SELECT COUNT(*) FROM cmdLog where command=?", command);
-                    commandStats = commandStats.concat([`${command.toProperCase()}${" ".repeat(longest - command.length)} = ${result[0]["COUNT(*)"]}`]);
+                for (const i in cmdNames) {
+                    try {
+
+                        const command = cmdNames[i].replace(".js", "");
+                        const result = await client.doSQL("SELECT COUNT(*) FROM cmdlog where command=?", command);
+                        commandStats = commandStats.concat([`${command.toProperCase()}${" ".repeat(longest - command.length)} = ${result[0]["COUNT(*)"]}`]);
+                    } catch (error) {
+                        client.errlog(cmd, message, level, error);
+                        client.logger.error(client, `stats command, cmd args doSQL function failure:\n${error.stack}`);
+                        client.codeError(message);
+                    }
                 }
 
                 const sortedStats = commandStats.sort((a, b) =>
