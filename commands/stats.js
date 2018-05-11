@@ -80,7 +80,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: [],
-    arguments: [],
+    arguments: ["cmd", "commands"],
     permLevel: "User"
 };
 
