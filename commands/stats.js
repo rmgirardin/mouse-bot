@@ -3,30 +3,71 @@ const pjson = require("../package.json");
 const moment = require("moment");
 require("moment-duration-format");
 const os = require("os");
+const {promisify} = require("util");
+const readdir = promisify(require("fs").readdir);
+
 
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
 
-        const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
+        if (!args[0]) {
 
-        const profiles = await client.doSQL("SELECT COUNT(*) FROM profiles");
+            try {
+                const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
 
-        const embed = new Discord.RichEmbed()
-            .setTitle(`${client.user.username.toProperCase()} Statistics`)
-            .setColor(0x268BD2)
-            .setDescription(`**${pjson.name.replace("-", " ").toProperCase()}** v${pjson.version}  |  **Node** ${process.version}  |  **Discord.js** v${Discord.version}`)
-            .addField("Servers:", client.guilds.size.toLocaleString(), true)
-            .addField("Channels:", client.channels.size.toLocaleString(), true)
-            .addBlankField(true)
-            .addField("Users:", client.users.size.toLocaleString(), true)
-            .addField("Registered:", profiles[0]["COUNT(*)"], true)
-            .addBlankField(true)
-            .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-            .addField("CPU Load:", `${Math.round(os.loadavg()[0]*10000)/100}%`, true)
-            .addField("Uptime:", duration, true);
+                const profiles = await client.doSQL("SELECT COUNT(*) FROM profiles");
 
-        await message.channel.send({embed});
+                const embed = new Discord.RichEmbed()
+                    .setTitle(`${client.user.username.toProperCase()} Statistics`)
+                    .setColor(0x268BD2)
+                    .setDescription(`**${pjson.name.replace("-", " ").toProperCase()}** v${pjson.version}  |  **Node** ${process.version}  |  **Discord.js** v${Discord.version}`)
+                    .addField("Servers:", client.guilds.size.toLocaleString(), true)
+                    .addField("Channels:", client.channels.size.toLocaleString(), true)
+                    .addBlankField(true)
+                    .addField("Users:", client.users.size.toLocaleString(), true)
+                    .addField("Registered:", profiles[0]["COUNT(*)"], true)
+                    .addBlankField(true)
+                    .addField("Mem Usage:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
+                    .addField("CPU Load:", `${Math.round(os.loadavg()[0]*10000)/100}%`, true)
+                    .addField("Uptime:", duration, true);
+
+                await message.channel.send({embed});
+            } catch (error) {
+                client.errlog(cmd, message, level, error);
+                client.logger.error(client, `stats command, no args failure:\n${error.stack}`);
+                client.codeError(message);
+            }
+        } else if (args[0] === "cmd" || args[0] === "cmds" || args[0] === "command" || args[0] === "commands") {
+
+            try {
+
+                let commandStats = [];
+                const cmdNames = await readdir(".//commands/");
+                const longest = cmdNames.reduce((long, str) => Math.max(long, str.length), 0) - 3;
+                for (const x in cmdNames) {
+                    const command = cmdNames[x].replace(".js", "");
+                    const result = await client.doSQL("SELECT COUNT(*) FROM cmdLog where command=?", command);
+                    commandStats = commandStats.concat([`${command.toProperCase()}${" ".repeat(longest - command.length)} = ${result[0]["COUNT(*)"]}`]);
+                }
+
+                const sortedStats = commandStats.sort((a, b) =>
+                    parseInt(b.slice(longest + 3)) > parseInt(a.slice(longest + 3)) ? 1 :
+                    a > b && a.slice(longest + 3) === b.slice(longest + 3)          ? 1 : -1
+                );
+
+                const embed = new Discord.RichEmbed()
+                    .setTitle(`${client.user.username.toProperCase()} Command Statistics`)
+                    .setColor(0x268BD2)
+                    .setDescription(`\`\`\`ml\n${sortedStats.join("\n")}\`\`\``);
+
+                await message.channel.send({embed});
+            } catch (error) {
+                client.errlog(cmd, message, level, error);
+                client.logger.error(client, `stats command, cmd args failure:\n${error.stack}`);
+                client.codeError(message);
+            }
+        }
 
     } catch (error) {
         client.errlog(cmd, message, level, error);
