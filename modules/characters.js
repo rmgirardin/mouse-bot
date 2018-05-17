@@ -1507,8 +1507,14 @@ const characters = [
     },
 
     {
+        "name": "Vandor Chewbacca",
+        "nickname": ["chewie"],
+        "faction": ["Light Side", "Scoundrel", "Tank"]
+    },
+
+    {
         "name": "Veteran Smuggler Chewbacca",
-        "nickname": ["vets", "vewie"],
+        "nickname": ["vets", "vewie", "chewie"],
         "light": [],
         "dark": [],
         "cantina": ["8-F"],
@@ -1569,6 +1575,12 @@ const characters = [
         "cantina": [],
         "faction": ["Light Side", "Attacker", "Ewok"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_ewok_wicket.png"
+    },
+
+    {
+        "name": "Young Han Solo",
+        "nickname": ["yhs"],
+        "faction": ["Light Side", "Attacker", "Scoundrel"]
     },
 
     {
