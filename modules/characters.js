@@ -47,8 +47,12 @@ const characters = [
     {
         "name": "Amilyn Holdo",
         "nickname": [],
+        "light": [],
         "dark": ["7-C"],
-        "faction": ["Light Side", "Resistance", "Tank"]
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Resistance", "Tank"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_holdo.png"
     },
 
     {
@@ -153,7 +157,12 @@ const characters = [
     {
         "name": "Bossk",
         "nickname": [],
-        "faction": ["Dark Side", "Bounty Hunter", "Scoundrel", "Tank"]
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Dark Side", "Bounty Hunter", "Scoundrel", "Tank"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bossk.png"
     },
 
     {
@@ -169,7 +178,7 @@ const characters = [
 
     {
         "name": "Captain Han Solo",
-        "nickname": ["Han"],
+        "nickname": ["Han", "CHOLO"],
         "light": [],
         "dark": [],
         "cantina": ["7-D"],
@@ -392,7 +401,7 @@ const characters = [
         "light": [],
         "dark": [],
         "cantina": [],
-        "shops": [""],
+        "shops": [],
         "faction": ["Dark Side", "Sith", "Tank"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sion.png"
     },
@@ -403,7 +412,7 @@ const characters = [
         "light": [],
         "dark": [],
         "cantina": [],
-        "shops": [""],
+        "shops": [],
         "faction": ["Dark Side", "Sith", "Support"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_traya.png"
     },
@@ -519,7 +528,7 @@ const characters = [
 
     {
         "name": "Finn",
-        "nickname": ["Zinn"],
+        "nickname": ["Zinn", "zfinn"],
         "light": ["7-A"],
         "dark": [],
         "cantina": ["3-E", "5-C"],
@@ -640,7 +649,7 @@ const characters = [
 
     {
         "name": "General Veers",
-        "nickname": [],
+        "nickname": ["zeers"],
         "light": ["4-C", "6-C"],
         "dark": ["6-D"],
         "cantina": [],
@@ -673,7 +682,7 @@ const characters = [
 
     {
         "name": "Grand Admiral Thrawn",
-        "nickname": [],
+        "nickname": ["GAT"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -684,7 +693,7 @@ const characters = [
 
     {
         "name": "Grand Master Yoda",
-        "nickname": [],
+        "nickname": ["GMY"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -695,7 +704,7 @@ const characters = [
 
     {
         "name": "Grand Moff Tarkin",
-        "nickname": [],
+        "nickname": ["GMT"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -739,7 +748,7 @@ const characters = [
 
     {
         "name": "Hermit Yoda",
-        "nickname": ["hoda"],
+        "nickname": ["hoda", "hyoda"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -750,7 +759,7 @@ const characters = [
 
     {
         "name": "HK-47",
-        "nickname": ["hk47"],
+        "nickname": ["hk47", "hk"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -838,7 +847,7 @@ const characters = [
 
     {
         "name": "Imperial Super Commando",
-        "nickname": [],
+        "nickname": ["ISC"],
         "light": [],
         "dark": [],
         "cantina": ["8-D"],
@@ -860,7 +869,7 @@ const characters = [
 
     {
         "name": "Jawa Engineer",
-        "nickname": [],
+        "nickname": ["JE"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -882,7 +891,7 @@ const characters = [
 
     {
         "name": "Jedi Consular",
-        "nickname": [],
+        "nickname": ["JC"],
         "light": ["1-B"],
         "dark": ["1-D", "3-C"],
         "cantina": ["3-A", "6-E"],
@@ -925,7 +934,7 @@ const characters = [
 
     {
         "name": "K-2SO",
-        "nickname": ["k2s0", "Rogue One", "R1"],
+        "nickname": ["k2s0", "Rogue One", "R1", "K2"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -1134,7 +1143,7 @@ const characters = [
 
     {
         "name": "Obi-Wan Kenobi (Old Ben)",
-        "nickname": [],
+        "nickname": ["obiwan"],
         "light": [],
         "dark": [],
         "cantina": ["2-F", "6-B"],
@@ -1264,7 +1273,7 @@ const characters = [
 
     {
         "name": "Resistance Trooper",
-        "nickname": [],
+        "nickname": ["RT"],
         "light": ["3-A"],
         "dark": ["3-A"],
         "cantina": [],
@@ -1286,7 +1295,7 @@ const characters = [
 
     {
         "name": "Rey (Scavenger)",
-        "nickname": [],
+        "nickname": ["scavrey"],
         "light": ["2-A"],
         "dark": ["5-D", "7-B"],
         "cantina": "",
@@ -1299,7 +1308,11 @@ const characters = [
         "name": "Rose Tico",
         "nickname": [],
         "light": ["4-F"],
-        "faction": ["Light Side", "Attacker", "Resistance"]
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Resistance"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_rose.png"
     },
 
     {
@@ -1371,7 +1384,12 @@ const characters = [
     {
         "name": "Sith Marauder",
         "nickname": [],
-        "faction": ["Dark Side", "Sith", "Attacker"]
+        "light": [],
+        "dark": [],
+        "cantina": ["6-E"],
+        "shops": [],
+        "faction": ["Dark Side", "Sith", "Attacker"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sithmarauder.png"
     },
 
     {
@@ -1409,7 +1427,7 @@ const characters = [
 
     {
         "name": "Stormtrooper Han",
-        "nickname": ["sthan"],
+        "nickname": ["sthan", "sth"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -1497,7 +1515,7 @@ const characters = [
 
     {
         "name": "URoRRuR'R'R",
-        "nickname": ["UR"],
+        "nickname": ["UR", "uroror"],
         "light": ["5-A", "5-F"],
         "dark": [],
         "cantina": [],
@@ -1509,7 +1527,12 @@ const characters = [
     {
         "name": "Vandor Chewbacca",
         "nickname": ["chewie"],
-        "faction": ["Light Side", "Scoundrel", "Tank"]
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Scoundrel", "Tank"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_chewbacca_vandor.png"
     },
 
     {
@@ -1547,7 +1570,7 @@ const characters = [
 
     {
         "name": "Wampa",
-        "nickname": [],
+        "nickname": ["wompa"],
         "light": [],
         "dark": [],
         "cantina": [],
@@ -1579,8 +1602,13 @@ const characters = [
 
     {
         "name": "Young Han Solo",
-        "nickname": ["yhs"],
-        "faction": ["Light Side", "Attacker", "Scoundrel"]
+        "nickname": ["yhs", "yolo"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_han_young.png"
     },
 
     {
