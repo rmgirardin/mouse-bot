@@ -23,7 +23,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         if (!args[0]) return client.cmdError(message, cmd);
 
-        let [id, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const
+        let [id, isSelf, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const
         if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // Pull in our swgoh databases
@@ -34,6 +34,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         // Cache check and pull the user's data
         const [username, updated] = await client.cacheCheck(message, id, "cs");
+        if (!username) {
+            return client.profileError(message, id, isSelf);
+        }
+
         const characterCollection = client.cache.get(id + "_collection");
         if (characterCollection.length < 1) return await needMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
         const shipCollection = client.cache.get(id + "_ships");
@@ -75,7 +79,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const charArray = [];
         const shipArray = [];
         const totalShards = (chLookup.length + sLookup.length) * shardsRemainingAtStarLevel[0];
-        let shardsRemaining = totalShards; // start out with the max and subtract as we go
+        let shardsCompleted = totalShards; // start out with the max and subtract as we go
 
 
         const iterateLookup = function(lookupList, accountCollection, resultArray) {
@@ -91,7 +95,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                     resultArray.push(`${client.checkClones(charName)} (${rankDisplay})`);
                 }
 
-                shardsRemaining -= shardsRemainingAtStarLevel[rank];
+                shardsCompleted -= shardsRemainingAtStarLevel[rank];
             }
         };
 
@@ -108,8 +112,8 @@ Now go find another one to finish.`);
             embed.setDescription(`Nothing found!
 Either all characters/ships have been maxed out, or I cannot find a shop or faction for __${searchTerm}__.`);
         } else {
-            const storeProgress = ((shardsRemaining / totalShards) * 100).toFixed(1);
-            embed.setDescription(`\`~${storeProgress}% complete\``);
+            const storeProgress = ((shardsCompleted / totalShards) * 100).toFixed(1);
+            embed.setDescription(`~${storeProgress}% complete`);
         }
 
         // Check if fields are too long before sending

@@ -16,7 +16,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const charactersData = client.swgohData.get("charactersData");
         const shipsData = client.swgohData.get("shipsData");
 
-        const [id, searchText, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
+        const [id, isSelf, searchText, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
         if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
         const splitSearchText = searchText.split(" ");
 
@@ -30,7 +30,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Setting up guild id and url for swgoh.gg/api
         let profile = client.cache.get(id + "_profile");
         // Only cache if needed to
-        if (profile === undefined || profile.userId === undefined) {
+        if (!profile || (profile && !profile.username)) {
             try {
                 await client.cacheCheck(message, id, "");
                 profile = client.cache.get(id + "_profile");
@@ -39,7 +39,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 client.logger.error(client, `swgoh.gg profile pull failure within the guild command:\n${error.stack}`);
             }
         } else client.cacheCheck(message, id, ""); // If we don't need to cache, just do it in the background
-        if (profile === undefined || profile.userId === undefined) return await guildMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
+
+        if (!profile || (profile && !profile.username)) {
+            return client.profileError(message, id, isSelf);
+        }
         const guildInfo = profile.guildUrl.split("/");
         const guildNum = guildInfo[2];
         const guildName = guildInfo[3].replace(/-/g, " ").toProperCase();

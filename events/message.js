@@ -80,9 +80,9 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
                 const embed = new RichEmbed()
                     .setTitle(`Hello ${message.author.username}!`)
                     .setColor(0x268BD2)
-                    .setDescription(`Before you can use any of my commands, please run
-\`\`\`${settings.prefix}register <swgoh.gg-username>\`\`\`
-(remember to remove \`< >\`)`)
+                    .setDescription(`Before you can use any of my commands, please provide your swgoh.gg profile URL
+\`\`\`${settings.prefix}register http://swgoh.gg/u/your-profile\`\`\`
+`)
                     .addField("Why?", "Most of my commands use data from your profile; registering helps me run with fewer errors.", false)
                     .setFooter("~Thank you!");
 

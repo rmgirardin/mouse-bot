@@ -36,6 +36,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             }
 
             const profile = await swgoh.profile(swName);
+            if (!profile.username) {
+                const isSelf = false;
+                return client.profileError(message, swName, isSelf);
+            }
+
             let allycode = null;
             let guildId = null;
             if (profile.allyCode && profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
@@ -84,6 +89,6 @@ exports.help = {
     name: "register",
     category: "Game",
 	description: "Register your swgoh.gg username to the database",
-	usage: "register <swgoh.gg-username>",
-    examples: ["register necavit", "register hanshotfirst", "register https://swgoh.gg/u/necavit/"]
+	usage: "register http://swgoh.gg/u/your-profile/",
+    examples: ["register https://swgoh.gg/u/necavit/", "register necavit", "register hanshotfirst"]
 };

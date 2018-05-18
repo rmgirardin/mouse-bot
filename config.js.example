@@ -2,6 +2,13 @@ const config = {
     "admins": "[]",
     "token": "",
 
+    "mySQL": {
+        "host"     : "localhost",
+        "user"     : "mousebot",
+        "password" : "",
+        "database" : "mousebot"
+    },
+
     // This is for the points systems, changing this dynamically changes how
     // many points user receives
     "messagePoints": 1,
