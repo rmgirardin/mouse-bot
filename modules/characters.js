@@ -398,7 +398,7 @@ const characters = [
     {
         "name": "Darth Sion",
         "nickname": [],
-        "light": [],
+        "light": ["9-A"],
         "dark": [],
         "cantina": [],
         "shops": [],
@@ -573,7 +573,7 @@ const characters = [
     {
         "name": "First Order Stormtrooper",
         "nickname": ["FOS", "FOST"],
-        "light": ["2-B", "9-A"],
+        "light": ["2-B"],
         "dark": ["2-A"],
         "cantina": [],
         "shops": [],
@@ -1228,6 +1228,17 @@ const characters = [
     },
 
     {
+        "name": "Qi'ra",
+        "nickname": ["qira", "kira"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Support", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_qira.png"
+    },
+
+    {
         "name": "Qui-Gon Jinn",
         "nickname": ["QGJ"],
         "light": [],
@@ -1297,7 +1308,7 @@ const characters = [
         "name": "Rey (Scavenger)",
         "nickname": ["scavrey"],
         "light": ["2-A"],
-        "dark": ["5-D", "7-B"],
+        "dark": ["5-D"],
         "cantina": "",
         "shops": ["guild shop"],
         "faction": ["Light Side", "Attacker", "Human", "Resistance"],
@@ -1561,7 +1572,7 @@ const characters = [
         "name": "Visas Marr",
         "nickname": [],
         "light": [],
-        "dark": [],
+        "dark": ["7-B"],
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Healer"],
