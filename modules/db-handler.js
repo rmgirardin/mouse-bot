@@ -5,8 +5,9 @@ module.exports = (client) => {
     --- MYSQL LOOKUP FUNCTION ---
     Establishes a connection with mySQL, then executes the sqlSyntax
     args replace "?" within the sqlSyntax
+    db by default is "mousebot", can also be "swgoh"
     */
-    client.doSQL = async (sqlSyntax, args, db = client.config.mySQL.database) => {
+    client.doSQL = async (sqlSyntax, args, db = "mousebot") => {
         return new Promise((resolve, reject) => {
             try {
 
@@ -79,7 +80,6 @@ module.exports = (client) => {
             let username = undefined;
             let text = args.join(" ");
             let error = false;
-            let isSelf = false;
 
             if (args[0]) {
                 if (args[0].startsWith("~") || args[0].startsWith("--")) {
@@ -91,7 +91,6 @@ module.exports = (client) => {
                     username = args[0].slice(start + 3, end);
                     username = username.replace(/%20/g, " ");
                 } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
-                    // TODO - check if the user mentioned themselves and set isSelf correctly
                     id = message.mentions.users.first().id.toString();
                     const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
                     if (results.length > 0 || results != false) username = results[0].username;
@@ -99,24 +98,18 @@ module.exports = (client) => {
 
                 if (username === undefined) {
                     const results = await client.doSQL("SELECT discordId FROM profiles WHERE username = ?", [args[0]]);
-                    if (results.length > 0 || results != false) {
-                        username = results[0].username;
-                        isSelf = true;
-                    }
+                    if (results.length > 0 || results != false) username = results[0].username;
                 }
 
                 if (username != undefined) text = args.slice(1).join(" ");
             }
 
             if (username === undefined) {
-                if (message.profile && message.profile.username) {
-                    username = message.profile.username;
-                    isSelf = true;
-                }
+                if (message.profile && message.profile.username) username = message.profile.username;
             }
 
             if (username === undefined) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}register\`.`;
-            return [encodeURI(username), isSelf, text, error];
+            return [encodeURI(username), text, error];
 
         } catch (error) {
 

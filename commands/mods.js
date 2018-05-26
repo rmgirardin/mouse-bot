@@ -59,7 +59,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const inactiveStarEmoji = client.emojis.get("416422867606044683");
 
         // Check for a username
-        const [id, isSelf, searchTerm, error] = await client.profileCheck(message, args);
+        const [id, searchTerm, error] = await client.profileCheck(message, args);
         if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
         if (searchTerm.length < 2) return await message.reply("please use 2 or more letters to search for characters, I don't want to spam your channel with every character.");
 
@@ -67,11 +67,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         // Cache collection and mods ("cm") if needed
         const [username, updated] = await client.cacheCheck(message, id, "cm");
-
-        if (!username) {
-            return client.profileError(message, id, isSelf);
-        }
-
         const collection = client.cache.get(id + "_collection");
         const mods = client.cache.get(id + "_mods");
         let lookup;

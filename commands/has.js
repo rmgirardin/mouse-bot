@@ -12,7 +12,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         if (!args[0]) return client.cmdError(message, cmd);
 
-        const [id, isSelf, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
+        const [id, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
         if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
         if (searchTerm === "") return await message.reply("please enter a search term.").then(client.cmdError(message, cmd));
 
@@ -20,11 +20,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         // Cache check and pull the user's data
         const [username, updated] = await client.cacheCheck(message, id, "cs");
-
-        if (!username) {
-            return client.profileError(message, id, isSelf);
-        }
-
         const characterCollection = client.cache.get(id + "_collection");
         if (characterCollection.length < 1) return await hasMessage.edit(`${message.author}, I can't find anything for that user.`).then(client.cmdError(message, cmd));
         const shipCollection = client.cache.get(id + "_ships");

@@ -88,16 +88,6 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
         client.addPoints(message, client.config.messagePoints*-1);
     };
 
-    client.profileError = async (message, profileId, isSelf) => {
-        let correctiveAction = "Please check the swgoh.gg profile page and provide a valid account profile";
-        if (isSelf) {
-            correctiveAction = "Please check the swgoh.gg profile page and try the register command again";
-        }
-        await message.reply(`I couldn't find a swgoh.gg account at:
-\`\`\`http://swgoh.gg/u/${profileId}/\`\`\`
-${correctiveAction}`);
-    };
-
 
     /*
     --- PROMISE FAILURE ERROR ---
@@ -140,7 +130,7 @@ ${correctiveAction}`);
     Finds aChannel, defined in the config file, and sends aMessage
     */
     client.aMessage = async (guild, text) => {
-        try {
+            try {
             const settings = guild ? client.settings.get(guild.id) : client.config.defaultSettings;
             let guildChannel;
             if (guild.channels.exists("name", settings.aChannel))
