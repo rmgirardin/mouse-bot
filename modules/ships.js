@@ -181,6 +181,16 @@ const ships = [
     },
 
     {
+        "name": "Lando's Millennium Falcon",
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mil_fal_pristine.png"
+    },
+
+    {
         "name": "Millennium Falcon (Ep VII)",
         "light": [],
         "dark": ["5-D"],

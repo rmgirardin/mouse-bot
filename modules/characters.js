@@ -494,6 +494,17 @@ const characters = [
     },
 
     {
+        "name": "Enfys Nest",
+        "nickname": ["nest"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_enfys.png"
+    },
+
+    {
         "name": "Ewok Elder",
         "nickname": ["EE"],
         "light": ["2-C"],
@@ -988,6 +999,17 @@ const characters = [
     },
 
     {
+        "name": "L3-37",
+        "nickname": ["l3"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Droid", "Scoundrel", "Tank"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_l337.png"
+    },
+
+    {
         "name": "Lando Calrissian",
         "nickname": [],
         "light": [],
@@ -1258,6 +1280,17 @@ const characters = [
         "shops": [],
         "faction": ["Light Side", "Support", "Droid", "Galactic Republic", "Rebel", "Resistance"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_astromech_r2d2.png"
+    },
+
+    {
+        "name": "Range Trooper",
+        "nickname": [],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Dark Side", "Empire", "Imperial Trooper", "Support", "Assist", "Counter"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_trooperranger.png"
     },
 
     {
@@ -1620,6 +1653,17 @@ const characters = [
         "shops": [],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_han_young.png"
+    },
+
+    {
+        "name": "Young Lando Calrissian",
+        "nickname": ["yhs", "yolo"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_younglando.png"
     },
 
     {
