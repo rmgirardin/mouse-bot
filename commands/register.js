@@ -37,12 +37,19 @@ ${message.settings.prefix}register necavit\`\`\``)
                     .setFooter(`If you still need more inforamtion on this command, you can type \`${message.settings.prefix}help register\``);
 
                 await message.channel.send({embed});
-                return;
             }
 
             // What happens if a command doesn't have args, but they've previously registered?
             // Let's show them what we have saved.
             else if (!args[0] && results.length >= 1) {
+
+                // This is just to format the allycode, so it looks nicer
+                let ac;
+                if (results[0]["allycode"]) {
+                    const acString = results[0]["allycode"].toString();
+                    ac = [acString.slice(0,3), acString.slice(3,6), acString.slice(6)].join("-");
+                } else ac = "Nothing Found";
+
                 const embed = new RichEmbed()
                     .setColor(0x268BD2)
                     .setAuthor(message.author.username, message.author.avatarURL)
@@ -52,13 +59,12 @@ If this information is wrong, please run \`${message.settings.prefix}register\` 
 If your allycode is not found, you will be able to add that in the future.`)
                     .addField("**Basic User Information**", `\`\`\`asciidoc
 Username  :: ${results[0]["username"] ? results[0]["username"] : "Nothing Found"}
-Ally Code :: ${results[0]["allycode"] ? results[0]["allycode"] : "Nothing Found"}
+Ally Code :: ${ac}
 Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
 \`\`\``, false)
                     .setFooter(`Try running the \`${message.settings.prefix}profile\` command to see one of the ways I can display your in-game data.`);
 
                 await message.channel.send({embed});
-                return;
             }
 
             // The meat and potatoes of the register command
