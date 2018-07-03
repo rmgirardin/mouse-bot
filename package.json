@@ -1,6 +1,6 @@
 {
   "name": "mouse-bot",
-  "version": "2.5.8",
+  "version": "2.5.9",
   "description": "A Discord bot for Star Wars: Galaxy of Heroes",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/rmgirardin/mouse-bot#readme",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^2.6.1",
     "bufferutil": "^3.0.5",
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
@@ -33,7 +33,7 @@
     "enmap": "^0.4.2",
     "enmap-level": "^1.0.0",
     "fuzzy-predicate": "^1.0.1",
-    "moment": "^2.22.1",
+    "moment": "^2.22.2",
     "moment-duration-format": "^2.2.1",
     "ms": "^2.1.1",
     "mysql": "^2.15.0",
@@ -41,7 +41,7 @@
     "querystring": "^0.2.0",
     "request-promise-native": "^1.0.5",
     "snekfetch": "^3.6.4",
-    "swgoh": "^0.4.8",
+    "swgoh": "^0.4.9",
     "uws": "^9.148.0"
   },
   "devDependencies": {}
