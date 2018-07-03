@@ -102,7 +102,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 Level ${lookup[i].level}  |  Gear ${lookup[i].gearLevel}
 Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)
                 .setColor(0xEE7100)
-                .setThumbnail(`https://${lookup[i].imageSrc}`)
+                .setThumbnail(`https:${lookup[i].image}`)
                 .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
                 .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
