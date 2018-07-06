@@ -100,7 +100,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 .setTitle(`${username}'s ${lookup[i].description}`)
                 .setDescription(`${starString}
 Level ${lookup[i].level}  |  Gear ${lookup[i].gearLevel}
-Galactic Power: ${lookup[i].galacticPower.toLocaleString()} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)
+Galactic Power: ${lookup[i].galacticPower != undefined ? lookup[i].galacticPower.toLocaleString() : lookup[i].galacticPower} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)
                 .setColor(0xEE7100)
                 .setThumbnail(`https:${lookup[i].image}`)
                 .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
