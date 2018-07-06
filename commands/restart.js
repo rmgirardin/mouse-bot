@@ -8,13 +8,24 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         });
 
         // Close the collections before shutting down
-        await client.settings.db.close();
         await client.pointsTable.db.close();
         await client.cache.db.close();
 
         await closeMessage.edit(`Only at the end do you realize the power of the Dark Side.
-*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
-        process.exit(1);
+*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*
+[Please wait 30 seconds before you feed me anymore of your commands]`);
+
+        if (message.content.includes("shutdown")) {
+            const { exec } = require("child_process");
+            exec("pm2 stop mousebot", (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`exec error: ${error}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+            });
+        } else process.exit(1);
 
     } catch (error) {
         client.errlog(cmd, message, level, error);
