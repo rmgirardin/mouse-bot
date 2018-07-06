@@ -106,7 +106,7 @@ If this information is wrong, please run \`${message.settings.prefix}register\` 
 If your allycode is not found, you will be able to add that in the future.`)
                     .addField("**Basic User Information**", `\`\`\`asciidoc
 Username  :: ${profile.username ? profile.username : "Nothing Found"}
-Ally Code :: ${profile.allyCode ? profile.allyCode : "Nothing Found"}
+Ally Code :: ${profile.allyCode && profile.allyCode.length === 11 ? profile.allyCode : "Nothing Found"}
 Guild     :: ${guildName}
 \`\`\``, false)
                     .setFooter(`Try running the \`${message.settings.prefix}profile\` command to see one of the ways I can display your in-game data.`);
