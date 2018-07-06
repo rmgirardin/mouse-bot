@@ -21,8 +21,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             try {
                 await client.doSQL(
-                    "INSERT INTO settings (guildId, prefix, aChannel, modRole, welcome, points, roleReward, guildReset, welcomeMessage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [guildIdArray[i].toString(), guildSettings.prefix, guildSettings.aChannel, guildSettings.modRole, welcome, points, roleReward, guildSettings.guildReset, guildSettings.welcomeMessage]
+                    "INSERT INTO settings (guildId, prefix, modRole, guildReset, points, roleReward, welcome, welcomeChannel, welcomeMessage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [guildIdArray[i].toString(), guildSettings.prefix, guildSettings.modRole, guildSettings.guildReset, points, roleReward, welcome, guildSettings.aChannel, guildSettings.welcomeMessage]
                 );
                 j++;
             } catch (error) {
