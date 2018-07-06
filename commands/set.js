@@ -1,71 +1,141 @@
-const { inspect } = require("util");
-
 // This command is to modify/edit guild configuration. Perm Level 3 for admins
 // and owners only. Used for changing prefixes and role names and such.
 
-// Note that there's no "checks" in this basic version - no config "types" like
-// Role, String, Int, etc... It's basic, to be extended with your deft hands!
+// This will help parse boolean natural language
+const stringToBool = {
+    "false": 0, "off": 0, 0: 0,
+    "true" : 1, "on" : 1, 1: 1
+};
+
+// Value check function
+async function valueCheck(client, message, cmd, key) {
+    let error = false;
+
+    if (!key) {
+        error = true;
+        await message.reply("please specify a key to edit.").then(client.cmdError(message, cmd));
+    }
+
+    if (key === "guildId" || message.settings[key] === undefined) {
+        error = true;
+        await message.reply("this key does not exist in the settings.");
+    }
+
+    return error;
+}
+
+// The edit function
+async function edit(client, message, cmd, level, key, value) {
+    if (value.length < 1) return await message.reply("please specify a new value.").then(client.cmdError(message, cmd));
+
+    // We don't want a prefix to have more than 1 character, so lets not allow this to happen
+    if (key === "prefix") if (value.join(" ").length > 1) return await message.reply("please make sure the new prefix is only **1** character.");
+    if (key === "welcome" || key === "points" || key == "roleReward") {
+        value = stringToBool[value.join(" ").toLowerCase()];
+        if (value === undefined) return await message.reply("please change the value to on/off, true/false or 1/0.");
+    }
+    else value = value.join(" ");
+
+    // Once the settings is modified, we write it back to the collection
+    try {
+        await client.doSQL(
+            `UPDATE settings SET ${key} = ? WHERE guildId = ?`,
+            [value, message.guild.id.toString()]
+        );
+    } catch (error) {
+        client.errlog(cmd, message, level, error);
+        client.logger.error(client, `set doSQL failure:\n${error.stack}`);
+        client.codeError(message);
+        return;
+    }
+    await message.reply(`**${key}** was successfully changed to **${value}**`);
+    if (key === "prefix") await message.channel.send(`Please use \`${value}help\` from now on.`);
+}
+
+// The get function
+async function get(message, key) {
+    const getValue = key === "guildReset" ? message.settings[key] : message.settings[key] === 0 ? "Off" : message.settings[key] === 1 ? "On" : message.settings[key];
+    await message.reply(`the value of **${key}** is currently **${getValue}**`);
+}
 
 // This is the same as const action = args[0]; const key = args[1]; const value = args.slice(2);
 exports.run = async (client, message, cmd, [action, key, ...value], level) => {
 
+    console.log(`${action}\n${key}\n${value}`);
+
     try {
-        // If a user does `-set add <key> <new value>`, let's add it
-        if (action === "add") {
-            if (!key) return await message.reply("Please specify a key to add").then(client.cmdError(message, cmd));
-            if (message.settings[key]) return await message.reply("This key already exists in the settings");
-            if (value.length < 1) return await message.reply("Please specify a value").then(client.cmdError(message, cmd));
-
-            // `value` being an array, we need to join it first.
-            message.settings[key] = value.join(" ");
-
-            // One the settings is modified, we write it back to the collection
-            client.settings.set(message.guild.id, message.settings);
-            await message.reply(`**${key}** successfully added with the value of **${value.join(" ")}**`);
-        }
 
         // If a user does `-set edit <key> <new value>`, let's change it
-        else if (action === "edit") {
-            if (!key) return await message.reply("please specify a key to edit.").then(client.cmdError(message, cmd));
-            if (!message.settings[key]) return await message.reply("this key does not exist in the settings.");
-            if (value.length < 1) return await message.reply("please specify a new value.").then(client.cmdError(message, cmd));
+        if (action === "edit") {
 
-            // We don't want a prefix to have more than 1 character, so lets not allow this to happen
-            if (key === "prefix") {
-                if (value.length > 1) return await message.reply("please make sure the new prefix is only **1** character.");
-                const prefixMessage = `The prefix for commands has been changed to **${value}**\nPlease use \`${value}command\` from now on.`;
-                client.aMessage(message.guild, prefixMessage);
-            }
-
-            // WARNING! Cyclical reasoning here!
-            // Admin role must be present to change adminRole, but if there is no
-            // admin role or it is a different name, an "Administrator" role must
-            // first be created in order to change this setting.
-            if (key === "adminRole") {
-                if (level < 3) return await message.channel.send("You do not have permission to edit this setting.");
-                client.addPoints(message, client.config.messagePoints*-1);
-            }
-
-            // `value` being an array, we need to join it first.
-            message.settings[key] = value.join(" ");
-
-            // Once the settings is modified, we write it back to the collection
-            client.settings.set(message.guild.id, message.settings);
-            await message.reply(`**${key}** was successfully changed to **${value.join(" ")}**`);
-
+            const error = await valueCheck(client, message, cmd, key);
+            if (error) return;
+            await edit(client, message, cmd, level, key, value);
         }
 
         else if (action === "get") {
-            if (!key) return await message.reply("Please specify a key to view").then(client.cmdError(message, cmd));
-            if (!message.settings[key]) return await message.reply("This key does not exist in the settings");
-            await message.reply(`the value of **${key}** is currently **${message.settings[key]}**`);
+
+            const error = await valueCheck(client, message, cmd, key);
+            if (error) return;
+
+            await get(message, key);
         }
 
         else if (action === "view" || !action) {
-            await message.channel.send(inspect(message.settings), {code: "json"});
+
+            const body = [];
+            const longest = Object.keys(message.settings).reduce((long, str) => Math.max(long, str.length), 0);
+            for (var objKey in message.settings) {
+                const objValue = key === "guildReset" ? message.settings[objKey] : message.settings[objKey] === 0 ? "Off" : message.settings[objKey] === 1 ? "On" : message.settings[objKey];
+                if (objKey != "guildId") body.push(`${objKey}${" ".repeat(longest - objKey.length)} :: ${objValue}`);
+            }
+            await message.channel.send(`\`\`\`asciidoc
+= Settings for ${message.guild.name} =\n
+${body.join("\n")}
+\`\`\``);
         }
 
-        else { client.cmdError(message, cmd); }
+        // Reset all the keys because we can
+        else if (action === "reset") {
+            const def = client.config.defaultSettings;
+            try {
+                await client.doSQL(
+                    "UPDATE settings SET prefix = ?, modRole = ?, guildReset = ?, points = ?, roleReward = ?, welcome = ?, welcomeChannel = ?, welcomeMessage = ? WHERE guildId = ?",
+                    [def.prefix, def.modRole, def.guildReset, def.points, def.roleReward, def.welcome, def.welcomeChannel, def.welcomeMessage, message.guild.id.toString()]
+                );
+            } catch (error) {
+                client.errlog(cmd, message, level, error);
+                client.logger.error(client, `set doSQL failure:\n${error.stack}`);
+                client.codeError(message);
+                return;
+            }
+            await message.reply("I've completely reset your settings to the default config.");
+        }
+
+
+        // If they want to change a key without the edit, let's do that.
+        // This just means that 'action' = 'key' and 'key' + 'value' = 'value'
+        // This code is just copy/pasted from above
+        else {
+            if (value.length > 0) value = key.concat(value);
+            else if (key != undefined) value = [key];
+            key = action;
+
+            const error = await valueCheck(client, message, cmd, key);
+            if (error) return;
+
+            // This is the same as the 'get' action
+            if (value.length === 0) {
+
+                await get(message, key);
+            }
+
+            // This is the same as the 'add' action
+            else {
+
+                await edit(client, message, cmd, level, key, value);
+            }
+        }
 
     } catch (error) {
         client.errlog(cmd, message, level, error);
@@ -87,6 +157,6 @@ exports.help = {
     name: "set",
     category: "System",
     description: "View or change settings for your server",
-    usage: "set <add|edit|get|view> <key> <value>",
-    examples: ["set", "set get prefix", "set edit pointsEnabled true"]
+    usage: "set <edit|get|view|reset> <key> <value>",
+    examples: ["set", "set prefix", "set points on"]
 };

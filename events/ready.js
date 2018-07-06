@@ -17,7 +17,33 @@ module.exports = async client => {
     client.logger.ready(client, `${client.user.username.toProperCase()} is ready to serve ${client.users.size} users in ${client.guilds.size} servers`);
 
     // We check for any guilds added while the bot was offline, if any were, they get a default configuration.
-    client.guilds.filter(g => !client.settings.has(g.id)).forEach(g => client.settings.set(g.id, client.config.defaultSettings));
+    const clientArray = client.guilds.array();
+    const sqlArray = await client.doSQL("SELECT guildId FROM settings", []);
 
+    const clientGuildId = [];
+    const sqlGuildId = [];
+    for (var i = 0; i < clientArray.length; i++) {
+        clientGuildId.push(clientArray[i].id);
+    }
+    for (var j = 0; j < sqlArray.length; j++) {
+        sqlGuildId.push(sqlArray[j]["guildId"]);
+    }
+
+    const guildsThatNeedSettings = clientGuildId.filter( function(n) {
+        return !this.has(n);
+    }, new Set(sqlGuildId) );
+
+    for (var k = 0; k < guildsThatNeedSettings.length; k++) {
+        try {
+            client.doSQL(
+                "INSERT INTO settings (guildId, welcomeMessage) VALUES (?, ?)",
+                [guildsThatNeedSettings[k].toString(), client.config.defaultSettings.welcomeMessage]
+            );
+        } catch (error) {
+            client.logger.error(client, `Couldn't add guild (${guildsThatNeedSettings[k]}) to the settings:\n${error.stack}`);
+        }
+    }
+
+    // And finally set the activity
     client.user.setActivity("SWGoH");
 };

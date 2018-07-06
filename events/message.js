@@ -7,11 +7,13 @@ module.exports = async (client, message) => {
 
     if (message.author.bot) return; // Prevents botception!
 
-    // Grab the settings for this server from the PersistentCollection
-    // If there is no guild, get default conf (DMs)
-    const settings = message.guild
-        ? client.settings.get(message.guild.id)
-        : client.config.defaultSettings;
+    // Grab the settings for this server from the mySQL DB
+    // If there is no guild, get default config (DMs)
+    let settings;
+    if (message.guild) {
+        settings = await client.doSQL("SELECT * FROM settings WHERE guildId = ?", [message.guild.id]);
+        settings = settings[0];
+    } else settings = client.config.defaultSettings;
 
     // For ease of use in commands and functions, we'll attach the settings
     // to the message object, so `message.settings` is accessible.
@@ -22,12 +24,12 @@ module.exports = async (client, message) => {
 
     // If the bot can't send messages in that channel, let's not even attempt to
     // The user can still get a point, though ^
-    if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+    // if (!message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
 
     if (message.content.indexOf(settings.prefix) !== 0 && message.content.indexOf(client.user) !== 0) return; // Check for prefix or bot mention
 
     let args = message.content.slice(settings.prefix.length).trim().replace(/\n+/g," ").split(/ +/g);
-    if (message.content.indexOf(client.user) == 0) args = message.content.slice(client.user.toString().length).trim().replace(/n+/g," ").split(/ +/g);
+    if (message.content.indexOf(client.user) == 0) args = message.content.slice(client.user.toString().length).trim().replace(/\n+/g," ").split(/ +/g);
     const command = args.shift().toLowerCase();
 
     const level = client.permlevel(message); // Gets the user's permission level

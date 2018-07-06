@@ -10,12 +10,12 @@ const config = {
     // These must be edited within Discord if the bot has already been invited
     "defaultSettings" : {
         "prefix": "/",
-        "aChannel": "general",
-        "modRole": "Moderator",
-        "welcomeEnabled": "false",
-        "pointsEnabled": "false",
-        "roleRewardsEnabled": "true",
-        "guildReset": 2030,
+        "modRole": "Mod",
+        "guildReset": 0000,
+        "points": 0,
+        "roleReward": 0,
+        "welcome": 0,
+        "welcomeChannel": "general",
         "welcomeMessage": "Welcome to {{server}}, {{user}}! Please take a second to enter your swgoh.gg username by typing `{{prefix}}register <swgoh.gg-username>` (remember to remove \`< >\`). If you need any help, just type \`{{prefix}}help\`!"
     },
 

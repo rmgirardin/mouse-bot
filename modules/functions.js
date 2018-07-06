@@ -96,6 +96,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
     */
     client.codeError = async (message) => {
         await message.channel.send("Laugh it up, fuzzball! I screwed up and my code failed. Try again or let someone know I'm failing.");
+        if (["guild", "has", "mods", "need"].includes(message.content)) await message.channel.send(`It's probably my fault, but try running a \`${message.settings.prefix}update\` and try again.`);
     };
 
 
@@ -120,33 +121,6 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
             }
         } catch (error) {
             client.logger.error(client, `awaitReply function failure:\n${error.stack}`);
-        }
-    };
-
-
-    /*
-    --- SEND aMESSAGE TO aCHANNEL ---
-
-    Finds aChannel, defined in the config file, and sends aMessage
-    */
-    client.aMessage = async (guild, text) => {
-            try {
-            const settings = guild ? client.settings.get(guild.id) : client.config.defaultSettings;
-            let guildChannel;
-            if (guild.channels.exists("name", settings.aChannel))
-                guildChannel = await guild.channels.find(r => r.name === settings.aChannel);
-            else return;
-
-            if (!guildChannel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
-
-            try {
-                await guildChannel.send(text);
-            } catch (error) {
-                client.logger.error(client, `Could not send aMessage function:\n${error.stack}`);
-            }
-
-        } catch (error) {
-            client.logger.error(client, `aMessage send failure\n${error.stack}`);
         }
     };
 
@@ -240,7 +214,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
     /*
     --- ADD POINTS ---
 
-    Give the sender 1 point if pointsEnabled
+    Give the sender 1 point if points system is on
     Useful for things like giving users an extra point for using a command or
     for submitting a bug/suggestion
     */
@@ -249,7 +223,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
         // Also check for message.guild
         if (message.author.bot || !message.guild) return;
 
-        if (message.settings.pointsEnabled != "true") return;
+        if (message.settings.points != "1") return;
 
         const guildUser = message.guild.id + message.author.id;
         let userPoints = Number(client.pointsTable.get(guildUser));
@@ -258,7 +232,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
         // and assign the lowest roleReward
         if (!userPoints) {
             userPoints = 0;
-            if (message.settings.roleRewardsEnabled === "true") {
+            if (message.settings.roleReward === "1") {
                 const roleName = client.config.roleRewards.find(l => l.level === userPoints).name;
                 client.assignRole(message.member, roleName);
             }
@@ -279,11 +253,11 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
             let roleName = client.config.roleRewards.find(l => l.level === newLevel);
             if (roleName && roleName != undefined) roleName = roleName.name;
             const congratsMessage = `Congratulations ${message.guild.member(message.author)}! You're now **level ${newLevel}**! 🎉`;
-            if (!roleName || roleName === undefined || message.settings.roleRewardsEnabled != "true" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
+            if (!roleName || roleName === undefined || message.settings.roleReward != "1" || !message.member.guild.members.get(client.user.id).permissions.has("MANAGE_ROLES_OR_PERMISSIONS")) {
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
                     await message.channel.send(congratsMessage);
                 }
-            } else if (message.settings.roleRewardsEnabled === "true") {
+            } else if (message.settings.roleReward === "1") {
                 client.assignRole(message.member, roleName);
                 client.removePointsRole(message.member, newLevel);
                 if (message.channel.permissionsFor(client.user).has("SEND_MESSAGES")) {

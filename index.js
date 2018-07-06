@@ -40,7 +40,6 @@ client.aliases = new Enmap();
 client.swgohData = new Enmap();
 
 // Setting up the databases
-client.settings = new Enmap({provider: new EnmapLevel({ name: "settings" })});
 client.pointsTable = new Enmap({provider: new EnmapLevel({ name: "points" })});
 client.cache = new Enmap({provider: new EnmapLevel({ name: "cache" })});
 

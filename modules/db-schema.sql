@@ -78,3 +78,24 @@ CREATE TABLE `profiles` (
   `guildId` int(10) DEFAULT NULL,
   PRIMARY KEY (`discordId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
+  `guildId` varchar(64) NOT NULL,
+  `prefix` varchar(1) NOT NULL DEFAULT '/',
+  `modRole` varchar(64) NOT NULL DEFAULT 'Mod',
+  `guildReset` int(4) NOT NULL DEFAULT '0',
+  `points` tinyint(1) NOT NULL DEFAULT '0',
+  `roleReward` tinyint(1) NOT NULL DEFAULT '0',
+  `welcome` tinyint(1) NOT NULL DEFAULT '0',
+  `welcomeChannel` varchar(64) NOT NULL DEFAULT 'general',
+  `welcomeMessage` text,
+  PRIMARY KEY (`guildId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
