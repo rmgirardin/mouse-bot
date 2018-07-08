@@ -5,7 +5,7 @@ module.exports = async (client, member) => {
 
     if (member.user.bot) return; // Prevents botception!
 
-    const settings = await client.doSQL("SELECT points, welcome, welcomeMessage FROM settings WHERE guildId = ?", [member.guild.id]);
+    const settings = await client.doSQL("SELECT points, welcome, welcomeMessage, welcomeChannel FROM settings WHERE guildId = ?", [member.guild.id]);
 
     // If the guild has points system on, then when a new member joins the guild
     // we'll set their points to zero and give them the first role reward
