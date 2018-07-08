@@ -61,8 +61,6 @@ async function get(message, key) {
 // This is the same as const action = args[0]; const key = args[1]; const value = args.slice(2);
 exports.run = async (client, message, cmd, [action, key, ...value], level) => {
 
-    console.log(`${action}\n${key}\n${value}`);
-
     try {
 
         // If a user does `-set edit <key> <new value>`, let's change it
