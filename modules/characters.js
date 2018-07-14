@@ -89,6 +89,17 @@ const characters = [
     },
 
     {
+        "name": "Bastila Shan",
+        "nickname": [""],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Jedi", "Old Republic", "Support"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bastilashan.png"
+    },
+
+    {
         "name": "Baze Malbus",
         "nickname": ["Chaze"],
         "light": ["9-C"],
@@ -930,6 +941,17 @@ const characters = [
         "shops": ["cantina"],
         "faction": ["Light Side", "Tank", "Galactic Republic", "Jedi"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_guardian_01.png"
+    },
+
+    {
+        "name": "Jolee Bindo",
+        "nickname": [""],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Jedi", "Old Republic", "Healer"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_joleebindo.png"
     },
 
     {
