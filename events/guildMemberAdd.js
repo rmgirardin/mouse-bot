@@ -25,14 +25,11 @@ module.exports = async (client, member) => {
 
         // Send the welcome message to the welcomeChannel set in the guild configs
         try {
-            let guildChannel;
-            if (member.guild.channels.exists("name", settings[0].welcomeChannel))
-                guildChannel = await member.guild.channels.find(r => r.name === settings[0].welcomeChannel);
-            else return;
-
-            if (!member.guildChannel.permissionsFor(client.user).has("SEND_MESSAGES")) return;
+            const guildChannel = await member.guild.channels.find("name", settings[0].welcomeChannel);
+            if (!guildChannel) return;
 
             await guildChannel.send(welcomeMessage);
+
         } catch (error) {
             client.logger.error(client, `Welcome Message send failure\n${error.stack}`);
         }
