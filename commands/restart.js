@@ -12,8 +12,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         await client.cache.db.close();
 
         await closeMessage.edit(`Only at the end do you realize the power of the Dark Side.
-*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*
-[Please wait 30 seconds before you feed me anymore of your commands]`);
+*<RRRRDDTT!!!! Wewewedt! Veeeeedt!>*`);
 
         if (message.content.includes("shutdown")) {
             const { exec } = require("child_process");
@@ -25,7 +24,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 console.log(`stdout: ${stdout}`);
                 console.log(`stderr: ${stderr}`);
             });
-        } else process.exit(1);
+        } else {
+            await message.channel.send("[Please wait 30 seconds before you feed me anymore of your commands]");
+            process.exit(1);
+        }
 
     } catch (error) {
         client.errlog(cmd, message, level, error);
