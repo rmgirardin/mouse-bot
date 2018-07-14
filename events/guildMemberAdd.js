@@ -21,7 +21,8 @@ module.exports = async (client, member) => {
     // Welcome is on by default
     if (settings[0].welcome === 1) {
         // Replace the placeholders in the welcome message with actual data
-        const welcomeMessage = settings[0].welcomeMessage.replace(/{{user}}/g, member.user).replace(/{{server}}/g, member.guild.name).replace(/{{prefix}}/g, settings.prefix);
+        const decodedWelcomeMessage = decodeURIComponent(settings[0].welcomeMessage);
+        const welcomeMessage = decodedWelcomeMessage.replace(/{{user}}/g, member.user).replace(/{{server}}/g, member.guild.name).replace(/{{prefix}}/g, settings.prefix);
 
         // Send the welcome message to the welcomeChannel set in the guild configs
         try {

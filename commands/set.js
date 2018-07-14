@@ -34,6 +34,7 @@ async function edit(client, message, cmd, level, key, value) {
         value = stringToBool[value.join(" ").toLowerCase()];
         if (value === undefined) return await message.reply("please change the value to on/off, true/false or 1/0.");
     }
+    if (key === "welcomeMessage") value = encodeURIComponent(value.join(" "));
     else value = value.join(" ");
 
     // Once the settings is modified, we write it back to the collection
@@ -48,13 +49,15 @@ async function edit(client, message, cmd, level, key, value) {
         client.codeError(message);
         return;
     }
-    await message.reply(`**${key}** was successfully changed to **${value}**`);
+    if (key === "welcomeMessage") await message.reply(`**${key}** was successfully changed to **${decodeURIComponent(value)}**`);
+    else await message.reply(`**${key}** was successfully changed to **${value}**`);
     if (key === "prefix") await message.channel.send(`Please use \`${value}help\` from now on.`);
 }
 
 // The get function
 async function get(message, key) {
     const getValue = key === "guildReset" ? message.settings[key] : message.settings[key] === 0 ? "Off" : message.settings[key] === 1 ? "On" : message.settings[key];
+    if (key === "welcomeMessage") await message.reply(`the value of **${key}** is currently **${decodeURIComponent(getValue)}**`);
     await message.reply(`the value of **${key}** is currently **${getValue}**`);
 }
 
@@ -85,7 +88,8 @@ exports.run = async (client, message, cmd, [action, key, ...value], level) => {
             const longest = Object.keys(message.settings).reduce((long, str) => Math.max(long, str.length), 0);
             for (var objKey in message.settings) {
                 const objValue = key === "guildReset" ? message.settings[objKey] : message.settings[objKey] === 0 ? "Off" : message.settings[objKey] === 1 ? "On" : message.settings[objKey];
-                if (objKey != "guildId") body.push(`${objKey}${" ".repeat(longest - objKey.length)} :: ${objValue}`);
+                if (objKey === "welcomeMessage") body.push(`${objKey}${" ".repeat(longest - objKey.length)} :: ${decodeURIComponent(objValue)}`);
+                else if (objKey != "guildId") body.push(`${objKey}${" ".repeat(longest - objKey.length)} :: ${objValue}`);
             }
             await message.channel.send(`\`\`\`asciidoc
 = Settings for ${message.guild.name} =\n
@@ -113,10 +117,9 @@ ${body.join("\n")}
 
         // If they want to change a key without the edit, let's do that.
         // This just means that 'action' = 'key' and 'key' + 'value' = 'value'
-        // This code is just copy/pasted from above
         else {
-            if (value.length > 0) value = key.concat(value);
-            else if (key != undefined) value = [key];
+            if (value.length > 0) value = Array(key).concat(value);
+            else if (key != undefined) value = key;
             key = action;
 
             const error = await valueCheck(client, message, cmd, key);
@@ -128,7 +131,7 @@ ${body.join("\n")}
                 await get(message, key);
             }
 
-            // This is the same as the 'add' action
+            // This is the same as the 'edit' action
             else {
 
                 await edit(client, message, cmd, level, key, value);
