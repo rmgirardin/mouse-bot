@@ -58,7 +58,7 @@ async function edit(client, message, cmd, level, key, value) {
 async function get(message, key) {
     const getValue = key === "guildReset" ? message.settings[key] : message.settings[key] === 0 ? "Off" : message.settings[key] === 1 ? "On" : message.settings[key];
     if (key === "welcomeMessage") await message.reply(`the value of **${key}** is currently **${decodeURIComponent(getValue)}**`);
-    await message.reply(`the value of **${key}** is currently **${getValue}**`);
+    else await message.reply(`the value of **${key}** is currently **${getValue}**`);
 }
 
 // This is the same as const action = args[0]; const key = args[1]; const value = args.slice(2);
