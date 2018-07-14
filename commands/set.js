@@ -34,7 +34,7 @@ async function edit(client, message, cmd, level, key, value) {
         value = stringToBool[value.join(" ").toLowerCase()];
         if (value === undefined) return await message.reply("please change the value to on/off, true/false or 1/0.");
     }
-    if (key === "welcomeMessage") value = encodeURIComponent(value.join(" "));
+    else if (key === "welcomeMessage") value = encodeURIComponent(value.join(" "));
     else value = value.join(" ");
 
     // Once the settings is modified, we write it back to the collection
@@ -119,7 +119,7 @@ ${body.join("\n")}
         // This just means that 'action' = 'key' and 'key' + 'value' = 'value'
         else {
             if (value.length > 0) value = Array(key).concat(value);
-            else if (key != undefined) value = key;
+            else if (key != undefined) value = Array(key);
             key = action;
 
             const error = await valueCheck(client, message, cmd, key);
