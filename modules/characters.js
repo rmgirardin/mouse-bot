@@ -67,6 +67,17 @@ const characters = [
     },
 
     {
+        "name": "Aurra Sing",
+        "nickname": ["aura"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Dark Side", "Attacker", "Scoundrel", "Bounty Hunter"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_aurrasing.png"
+    },
+
+    {
         "name": "B2 Super Battle Droid",
         "nickname": ["b2"],
         "light": [],
@@ -169,7 +180,7 @@ const characters = [
         "name": "Bossk",
         "nickname": [],
         "light": [],
-        "dark": [],
+        "dark": ["9-B"],
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Bounty Hunter", "Scoundrel", "Tank"],
@@ -412,6 +423,7 @@ const characters = [
         "light": ["9-A"],
         "dark": [],
         "cantina": [],
+        "ships": ["4-D"],
         "shops": [],
         "faction": ["Dark Side", "Sith", "Tank"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_sion.png"
@@ -494,6 +506,17 @@ const characters = [
     },
 
     {
+        "name": "Embo",
+        "nickname": [],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Dark Side", "Attacker", "Scoundrel", "Bounty Hunter"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_embo.png"
+    },
+
+    {
         "name": "Emperor Palpatine",
         "nickname": ["EP"],
         "light": [],
@@ -510,6 +533,7 @@ const characters = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["5-D"],
         "shops": [],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_enfys.png"
@@ -530,7 +554,7 @@ const characters = [
         "name": "Ewok Scout",
         "nickname": [],
         "light": ["1-A"],
-        "dark": ["9-B"],
+        "dark": [],
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Attacker", "Ewok"],
@@ -1025,7 +1049,7 @@ const characters = [
         "nickname": ["l3"],
         "light": [],
         "dark": [],
-        "cantina": [],
+        "cantina": ["5-A"],
         "shops": [],
         "faction": ["Light Side", "Droid", "Scoundrel", "Tank"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_l337.png"
@@ -1069,7 +1093,7 @@ const characters = [
         "nickname": [],
         "light": ["7-D"],
         "dark": [],
-        "cantina": ["1-B", "5-A"],
+        "cantina": ["1-B"],
         "shops": ["guild shop", "guild events"],
         "faction": ["Light Side", "Attacker", "Human", "Rebel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_luke_ep4.png"
@@ -1106,6 +1130,17 @@ const characters = [
         "shops": ["galactic war", "guild events"],
         "faction": ["Dark Side", "Attacker", "Empire", "Human", "Imperial Trooper"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_trooperstorm_magma.png"
+    },
+
+    {
+        "name": "Mission Vao",
+        "nickname": [],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Attacker", "Old Republic", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_mission.png"
     },
 
     {
@@ -1276,7 +1311,7 @@ const characters = [
         "nickname": ["qira", "kira"],
         "light": [],
         "dark": [],
-        "cantina": [],
+        "cantina": ["3-B"],
         "shops": [],
         "faction": ["Light Side", "Support", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_qira.png"
@@ -1308,7 +1343,7 @@ const characters = [
         "name": "Range Trooper",
         "nickname": [],
         "light": [],
-        "dark": [],
+        "dark": ["3-A"],
         "cantina": [],
         "shops": [],
         "faction": ["Dark Side", "Empire", "Imperial Trooper", "Support", "Assist", "Counter"],
@@ -1341,7 +1376,7 @@ const characters = [
         "name": "Resistance Trooper",
         "nickname": ["RT"],
         "light": ["3-A"],
-        "dark": ["3-A"],
+        "dark": [],
         "cantina": [],
         "shops": ["guild shop"],
         "faction": ["Light Side", "Attacker", "Human", "Resistance"],
@@ -1484,7 +1519,7 @@ const characters = [
         "name": "Stormtrooper",
         "nickname": [],
         "light": ["3-C", "8-D"],
-        "dark": ["4-D"],
+        "dark": [],
         "cantina": [],
         "shops": ["cantina", "guild events"],
         "faction": ["Dark Side", "Tank", "Empire", "Imperial Trooper"],
@@ -1511,6 +1546,17 @@ const characters = [
         "shops": ["guild shop", "fleet"],
         "faction": ["Dark Side", "Tank", "Geonosian", "Separatist"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_geonosian_sunfac.png"
+    },
+
+    {
+        "name": "T3-M4",
+        "nickname": ["T3"],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Droid", "Old Republic", "Support"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_t3m4.png"
     },
 
     {
@@ -1592,9 +1638,9 @@ const characters = [
 
     {
         "name": "Vandor Chewbacca",
-        "nickname": ["chewie"],
+        "nickname": ["chewie", "van chewie", "vanchew"],
         "light": [],
-        "dark": [],
+        "dark": ["4-D"],
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Scoundrel", "Tank"],
@@ -1672,20 +1718,31 @@ const characters = [
         "light": [],
         "dark": [],
         "cantina": [],
-        "shops": [],
+        "shops": ["guild shop"],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_han_young.png"
     },
 
     {
         "name": "Young Lando Calrissian",
-        "nickname": ["yhs", "yolo"],
+        "nickname": [],
         "light": [],
         "dark": [],
         "cantina": [],
         "shops": [],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_younglando.png"
+    },
+
+    {
+        "name": "Zaalbar",
+        "nickname": [],
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Light Side", "Tank", "Old Republic", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_zaalbar.png"
     },
 
     {

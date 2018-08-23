@@ -25,6 +25,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["2-C"],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Support", "Rebel"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_uwing.png"
@@ -56,6 +57,7 @@ const ships = [
         "dark": [],
         "cantina": [],
         "shops": ["galactic war", "fleet", "guild events"],
+        "ships": ["1-A"],
         "faction": ["Light Side", "Tank", "Clone Trooper", "Galactic Republic"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_arc170.png"
     },
@@ -105,6 +107,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["4-A"],
         "shops": ["fleet", "guild events"],
         "faction": ["Dark Side", "Support", "Empire"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_gauntlet.png"
@@ -155,6 +158,7 @@ const ships = [
         "nickname": ["ITF"],
         "dark": [],
         "cantina": [],
+        "ships": ["1-C"],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Attacker", "Empire"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tiefighter.png"
@@ -186,6 +190,7 @@ const ships = [
         "dark": [],
         "cantina": [],
         "shops": [],
+        "ships": ["1-D"],
         "faction": ["Light Side", "Attacker", "Scoundrel"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mil_fal_pristine.png"
     },
@@ -225,6 +230,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["3-A"],
         "shops": ["fleet", "guild events"],
         "faction": ["Light Side", "Attacker", "Resistance"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_blackone.png"
@@ -235,6 +241,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["1-E"],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Support", "Resistance"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_resistance.png"
@@ -255,9 +262,20 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["3-D"],
         "shops": ["fleet", "guild events"],
         "faction": ["Dark Side", "Support", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_sithinfiltrator.png"
+    },
+
+    {
+        "name": "Sith Fighter",
+        "light": [],
+        "dark": [],
+        "cantina": [],
+        "shops": [],
+        "faction": ["Dark Side", "Attacker", "Sith"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_sithfighter.png"
     },
 
     {
@@ -265,6 +283,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["2-B"],
         "shops": ["fleet"],
         "faction": ["Dark Side", "Attacker", "Scoundrel"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_slave1.png"
@@ -275,6 +294,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["2-A"],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Dark Side", "Tank", "Geonosian", "Separatist"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_geonosis_fighter_sunfac.png"
@@ -285,6 +305,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["4-B"],
         "shops": ["fleet"],
         "faction": ["Dark Side", "Attacker", "Empire", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_tieadvanced.png"
@@ -315,6 +336,7 @@ const ships = [
         "light": [],
         "dark": [],
         "cantina": [],
+        "ships": ["3-B"],
         "shops": ["galactic war", "fleet", "guild events"],
         "faction": ["Light Side", "Tank", "Clone Trooper", "Galactic Republic"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_umbaran_star_fighter.png"

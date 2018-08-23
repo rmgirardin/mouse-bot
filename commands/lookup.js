@@ -2,6 +2,7 @@
 const shardLocation = [
     { key : "dark",     text : "DS Hard Nodes" },
     { key : "light",    text : "LS Hard Nodes" },
+    { key : "ships",    text : "Ship Hard Nodes" },
     { key : "cantina",  text : "Cantina" },
     { key : "shops",    text : "Stores" }
 ];

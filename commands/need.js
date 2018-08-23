@@ -57,6 +57,11 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         } else if (searchTerm.toLowerCase() == "cantina battles") {
             chLookup = charactersData.filter(fuzzy("-", ["cantina"]));
             sLookup = shipsData.filter(fuzzy("-", ["cantina"]));
+        } else if (searchTerm.toLowerCase() == "ship battles" ||
+            searchTerm.toLowerCase() == "fleet battles") {
+
+            chLookup = charactersData.filter(fuzzy("-", ["ships"]));
+            sLookup = shipsData.filter(fuzzy("-", ["ships"]));
         } else {
             chLookup = charactersData.filter(fuzzy(searchTerm, ["faction", "shops"]));
             sLookup = shipsData.filter(fuzzy(searchTerm, ["faction", "shops"]));
