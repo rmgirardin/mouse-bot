@@ -65,7 +65,6 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 .setColor(0x268BD2)
                 .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
                 .setDescription(`Level ${profile.level}${guildText}
-**Collection Score:** ${profile.collectionScore}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
                 .addField("Galactic Power (% based on Overall)",
@@ -96,7 +95,6 @@ Gear 10   :: ${profile.gearX} (${(profile.gearX / profile.characters * 100).toFi
                 .setColor(0x268BD2)
                 .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
                 .setDescription(`Level ${profile.level}${guildText}
-**Collection Score:** ${profile.collectionScore}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
                 .addField("Galactic Power",

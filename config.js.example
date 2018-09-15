@@ -1,6 +1,22 @@
 const config = {
     "admins": "[]",
     "token": "",
+    "swapi": { // for https://api.swgoh.help/ future evolution, not yet needed
+        "username":"",
+        "password":""
+    },
+
+    // temporary workaround feature flags
+    "modsDisabled" : "true",
+    "swgohApiCharTrim" : "true",
+    "swgohZeroStarShips" : "true",
+
+    "mySQL": {
+        "host"     : "",
+        "user"     : "mousebot",
+        "password" : "mousebot",
+        "database" : "mousebot"
+    },
 
     // This is for the points systems, changing this dynamically changes how
     // many points user receives

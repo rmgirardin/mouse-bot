@@ -139,7 +139,7 @@ const ships = [
         "dark": ["9-C"],
         "cantina": [],
         "shops": ["fleet", "guild events"],
-        "faction": ["Light Side", "Attacker", "Phoenix", "Rebel"],
+        "faction": ["Light Side", "Attacker", "Phoenix", "Rebel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_ghost.png"
     },
 
@@ -151,6 +151,12 @@ const ships = [
         "shops": [],
         "faction": ["Light Side", "Capital Ship", "Rebel"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_moncalamarilibertycruiser.png"
+    },
+
+    {
+        "name": "Hound's Tooth",
+        "faction": ["Dark Side", "Cargo Ship", "Scoundrel", "Bounty Hunter", "Tank"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_houndstooth.png"
     },
 
     {
@@ -191,7 +197,7 @@ const ships = [
         "cantina": [],
         "shops": [],
         "ships": ["1-D"],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mil_fal_pristine.png"
     },
 
@@ -201,7 +207,7 @@ const ships = [
         "dark": ["5-D"],
         "cantina": [],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Resistance"],
+        "faction": ["Light Side", "Attacker", "Resistance", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
     },
 
@@ -211,7 +217,7 @@ const ships = [
         "dark": ["9-D"],
         "cantina": [],
         "shops": ["fleet", "guild events"],
-        "faction": ["Light Side", "Attacker", "Phoenix", "Rebel"],
+        "faction": ["Light Side", "Attacker", "Phoenix", "Rebel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_phantom2.png"
     },
 
@@ -285,7 +291,7 @@ const ships = [
         "cantina": [],
         "ships": ["2-B"],
         "shops": ["fleet"],
-        "faction": ["Dark Side", "Attacker", "Scoundrel"],
+        "faction": ["Dark Side", "Attacker", "Scoundrel", "Cargo Ship", "Bounty Hunter"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_slave1.png"
     },
 
@@ -351,6 +357,12 @@ const ships = [
         "faction": ["Light Side", "Attacker", "Rebel"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xwing_red2.png"
     },
+
+    {
+        "name": "Xanadu Blood",
+        "faction": ["Dark Side", "Scoundrel", "Bounty Hunter", "Support"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xanadublood.png"
+    }
 
 ];
 

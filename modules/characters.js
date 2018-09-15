@@ -103,9 +103,10 @@ const characters = [
         "name": "Bastila Shan",
         "nickname": [""],
         "light": [],
-        "dark": [],
+        "dark": ["5-B"],
         "cantina": [],
         "shops": [],
+        "ships": ["2-D"],
         "faction": ["Light Side", "Jedi", "Old Republic", "Support"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bastilashan.png"
     },
@@ -156,7 +157,7 @@ const characters = [
 
     {
         "name": "Boba Fett",
-        "nickname": [],
+        "nickname": ["bf"],
         "light": [],
         "dark": ["2-B", "4-E"],
         "cantina": [],
@@ -535,7 +536,7 @@ const characters = [
         "cantina": [],
         "ships": ["5-D"],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_enfys.png"
     },
 
@@ -697,7 +698,7 @@ const characters = [
         "name": "General Veers",
         "nickname": ["zeers"],
         "light": ["4-C", "6-C"],
-        "dark": ["6-D"],
+        "dark": [],
         "cantina": [],
         "shops": ["guild events"],
         "faction": ["Dark Side", "Support", "Empire", "Imperial Trooper"],
@@ -777,7 +778,7 @@ const characters = [
         "dark": [],
         "cantina": [],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_han.png"
     },
 
@@ -903,6 +904,13 @@ const characters = [
     },
 
     {
+        "name": "Jango Fett",
+        "nickname": ["django", "jf"],
+        "faction": ["Dark Side", "Attacker", "Bounty Hunter", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_jangofett.png"
+    },
+
+    {
         "name": "Jawa",
         "nickname": [],
         "light": ["6-B"],
@@ -950,7 +958,7 @@ const characters = [
         "name": "Jedi Knight Anakin",
         "nickname": ["Ani", "JKA"],
         "light": ["5-C"],
-        "dark": ["5-B", "7-D"],
+        "dark": ["7-D"],
         "cantina": ["7-G"],
         "faction": ["Light Side", "Attacker", "Galactic Republic", "Human", "Jedi"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_anakinknight.png"
@@ -969,11 +977,12 @@ const characters = [
 
     {
         "name": "Jolee Bindo",
-        "nickname": [""],
+        "nickname": [],
         "light": [],
-        "dark": [],
+        "dark": ["6-D"],
         "cantina": [],
         "shops": [],
+        "ships": ["4-E"],
         "faction": ["Light Side", "Jedi", "Old Republic", "Healer"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_joleebindo.png"
     },
@@ -1051,7 +1060,7 @@ const characters = [
         "dark": [],
         "cantina": ["5-A"],
         "shops": [],
-        "faction": ["Light Side", "Droid", "Scoundrel", "Tank"],
+        "faction": ["Light Side", "Droid", "Scoundrel", "Tank", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_l337.png"
     },
 
@@ -1313,7 +1322,7 @@ const characters = [
         "dark": [],
         "cantina": ["3-B"],
         "shops": [],
-        "faction": ["Light Side", "Support", "Scoundrel"],
+        "faction": ["Light Side", "Support", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_qira.png"
     },
 
@@ -1643,7 +1652,7 @@ const characters = [
         "dark": ["4-D"],
         "cantina": [],
         "shops": [],
-        "faction": ["Light Side", "Scoundrel", "Tank"],
+        "faction": ["Light Side", "Scoundrel", "Tank", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_chewbacca_vandor.png"
     },
 
@@ -1654,7 +1663,7 @@ const characters = [
         "dark": [],
         "cantina": ["8-F"],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_tfa_chewbacca.png"
     },
 
@@ -1665,7 +1674,7 @@ const characters = [
         "dark": [],
         "cantina": ["8-G"],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_tfa_han.png"
     },
 
@@ -1719,18 +1728,18 @@ const characters = [
         "dark": [],
         "cantina": [],
         "shops": ["guild shop"],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_han_young.png"
     },
 
     {
         "name": "Young Lando Calrissian",
-        "nickname": [],
+        "nickname": ["yando"],
         "light": [],
         "dark": [],
         "cantina": [],
         "shops": [],
-        "faction": ["Light Side", "Attacker", "Scoundrel"],
+        "faction": ["Light Side", "Attacker", "Scoundrel", "Smuggler"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_younglando.png"
     },
 
