@@ -9,7 +9,6 @@ const config = {
     // temporary workaround feature flags
     "modsDisabled" : "true",
     "swgohApiCharTrim" : "true",
-    "swgohZeroStarShips" : "true",
 
     "mySQL": {
         "host"     : "",

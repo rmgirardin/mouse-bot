@@ -125,9 +125,6 @@ Either all characters/ships have been maxed out, or I cannot find a shop or fact
         if (shipDescription != "") {
             if (shipDescription.length > 950) client.splitText("__Ships:__", shipDescription, embed);
             else embed.addField("__Ships:__", shipDescription);
-            if (client.config.swgohZeroStarShips) {
-                embed.addField("__Note:__", "I'm currently unable to pull the correct star levels for ships from swgoh.gg, sorry!");
-            }
         }
 
         await needMessage.edit({ embed });
