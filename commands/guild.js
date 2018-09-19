@@ -42,9 +42,10 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (profile === undefined || profile.userId === undefined) return await guildMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
         const guildInfo = profile.guildUrl.split("/");
         const guildNum = guildInfo[2];
-        const guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
-        const url = `https://swgoh.gg/api/guilds/${guildNum}/units/`;
+        let guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
+        const url = `https://swgoh.gg/api/guild/${guildNum}/`;
         let guildData = {};
+        let guildDataRaw;
         let lookup;
 
         if (searchTerm.length == 2) lookup = charactersData.filter(fuzzy(searchTerm, "nickname")).concat(shipsData.filter(fuzzy(searchTerm, "nickname")));
@@ -62,10 +63,34 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         try {
             // Pull data from swgoh.gg/api
-            guildData = await request(options);
+            guildDataRaw = await request(options);
         } catch (error) {
             client.errlog(cmd, message, level, error);
             client.logger.error(client, `swgoh.gg guild API pull failure within the guild command:\n${error.stack}`);
+        }
+
+        // adapter to translate new API to old format
+        if (guildDataRaw && guildDataRaw.players && guildDataRaw.data) {
+            guildName = guildDataRaw.data.name;
+            for (let i = 0; i < guildDataRaw.players.length; i++) {
+                const playerObj = guildDataRaw.players[i];
+                const playerName = playerObj.data.name;
+                for (let j = 0; j < playerObj.units.length; j++) {
+                    const playerUnit = playerObj.units[j].data;
+
+                    if (!guildData[playerUnit.base_id]) {
+                        guildData[playerUnit.base_id] = [];
+                    }
+
+                    guildData[playerUnit.base_id].push({
+                        "gear_level": playerUnit.gear_level,
+                        "level" : playerUnit.level,
+                        "player" : playerName,
+                        "power" : playerUnit.power,
+                        "rarity" : playerUnit.rarity,
+                    });
+                }
+            }
         }
 
         // We will need to iterate over every character or ship found

@@ -25,14 +25,18 @@ const modsEmojis = {
 };
 
 function getModType(modDescription) {
-    if (modDescription.includes("Health")) return "Health";
-    if (modDescription.includes("Defense")) return "Defense";
-    if (modDescription.includes("Crit Damage")) return "Crit Damage";
-    if (modDescription.includes("Crit Chance")) return "Crit Chance";
-    if (modDescription.includes("Tenacity")) return "Tenacity";
-    if (modDescription.includes("Offense")) return "Offense";
-    if (modDescription.includes("Potency")) return "Potency";
-    if (modDescription.includes("Speed")) return "Speed";
+    if (modDescription) {
+        if (modDescription.includes("Health")) return "Health";
+        if (modDescription.includes("Defense")) return "Defense";
+        if (modDescription.includes("Crit Damage")) return "Crit Damage";
+        if (modDescription.includes("Crit Chance")) return "Crit Chance";
+        if (modDescription.includes("Tenacity")) return "Tenacity";
+        if (modDescription.includes("Offense")) return "Offense";
+        if (modDescription.includes("Potency")) return "Potency";
+        if (modDescription.includes("Speed")) return "Speed";
+    } else {
+        return "Unknown";
+    }
 }
 
 function getObjects(obj, key, val) {
@@ -51,6 +55,9 @@ function getObjects(obj, key, val) {
 exports.run = async (client, message, cmd, args, level) => { // eslint-disable-line no-unused-vars
 
     try {
+        if (client.config.modsDisabled) {
+            return message.reply("I've disabled the mod command functionality until I can migrate to using api.swgoh.help- please stand by!");
+        }
 
         if (!args[0]) return client.cmdError(message, cmd);
 

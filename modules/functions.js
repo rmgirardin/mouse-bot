@@ -160,6 +160,14 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
                 // Character Collection
                 if (input.includes("c")) {
                     const cachedCollection = await swgoh.collection(id);
+
+                    // temporary formatting workaround
+                    if (client.config.swgohApiCharTrim && cachedCollection) {
+                        for (let i = 0; i < cachedCollection.length; i++) {
+                            cachedCollection[i].description = cachedCollection[i].description.trim();
+                        }
+                    }
+
                     client.cache.set(id + "_collection", cachedCollection);
                 } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
                 // Ship Collection
