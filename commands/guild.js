@@ -44,7 +44,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const guildNum = guildInfo[2];
         let guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
         const url = `https://swgoh.gg/api/guild/${guildNum}/`;
-        let guildData = {};
+        const guildData = {};
         let guildDataRaw;
         let lookup;
 

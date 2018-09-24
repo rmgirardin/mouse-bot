@@ -244,6 +244,12 @@ const characters = [
     },
 
     {
+        "name": "Chewbacca",
+        "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel", "Smuggler"],
+        "chImage": "https://swgoh.gg/static/img/assets/blank-character.png"
+    },
+
+    {
         "name": "Chief Chirpa",
         "nickname": [],
         "light": [],

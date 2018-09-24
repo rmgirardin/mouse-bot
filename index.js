@@ -21,6 +21,10 @@ const EnmapLevel = require("enmap-level");
 const request = require("request-promise-native");
 const charactersJS = require("./modules/characters.js");
 const shipsJS = require("./modules/ships.js");
+const fs = require("fs");
+
+const GG_CHAR_CACHE = "./modules/swgoh-gg-chars.json";
+const GG_SHIPS_CACHE = "./modules/swgoh-gg-ships.json";
 
 
 const client = new Discord.Client();
@@ -77,29 +81,37 @@ const init = async () => {
     }
 
     // GET and merge character databases
-    const charactersURL = "https://swgoh.gg/api/characters/";
+    const charactersURL = "https://swgoh.gg/api/characters/?format=json";
     const charactersOptions = { uri: charactersURL, json: true };
     let characters;
+
 
     try {
         characters = await request(charactersOptions);
 
         // Loop through our character array, find the matching characters in the swgoh.gg api
         // and merge its data into ours.
-        for (var i = 0; i < characters.length; i++) {
+        if (characters) {
+            for (var i = 0; i < characters.length; i++) {
+                const character = characters[i];
 
-            const chData = getObjects(charactersJS, "name", characters[i].name);
+                if (character) {
+                    const chData = getObjects(charactersJS, "name", character.name);
 
-            if (chData.length == 1) Object.assign(characters[i], chData[0]);
-            else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${characters[i].name}`);
-            else client.logger.warn(client, `Multiple results found for character: ${characters[i].name}`);
+                    if (chData.length == 1) Object.assign(character, chData[0]);
+                    else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${character.name}`);
+                    else client.logger.warn(client, `Multiple results found for character: ${character.name}`);
+                } else {
+                    client.logger.warn(client, `Found an empty character in the swgoh.gg characters API at index: ${i}`);
+                }
+            }
         }
     } catch (error) {
         client.logger.error(client, `Character Request Failure\n${error.stack}`);
     }
 
     // GET and merge ship databases
-    const shipsURL = "https://swgoh.gg/api/ships/";
+    const shipsURL = "https://swgoh.gg/api/ships/?format=json";
     const shipsOptions = { uri: shipsURL, json: true };
     let ships;
 
@@ -108,16 +120,46 @@ const init = async () => {
 
         // Loop through our ships array, find the matching ships in the swgoh.gg api
         // and merge its data into ours.
-        for (var j = 0; j < ships.length; j++) {
+        if (ships) {
+            for (var j = 0; j < ships.length; j++) {
+                const ship = ships[j];
+                if (ship) {
+                    const sData = getObjects(shipsJS, "name", ship.name);
 
-            const sData = getObjects(shipsJS, "name", ships[j].name);
-
-            if (sData.length == 1) Object.assign(ships[j], sData[0]);
-            else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ships[j].name}`);
-            else client.logger.warn(client, `Multiple results found for ship: ${ships[j].name}`);
+                    if (sData.length == 1) Object.assign(ship, sData[0]);
+                    else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ship.name}`);
+                    else client.logger.warn(client, `Multiple results found for ship: ${ship.name}`);
+                } else {
+                    client.logger.warn(client, `Found an empty ship in the swgoh.gg ships API at index: ${j}`);
+                }
+            }
         }
     } catch (error) {
         client.logger.error(client, `Ships Request Failure\n${error}`);
+    }
+
+    function saveFile(filePath, jsonData) {
+        try {
+            fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 4), "utf8");
+        } catch (err) {
+            if (err) {
+                client.logger.error(err);
+            }
+        }
+    }
+
+    if (characters) {
+        saveFile(GG_CHAR_CACHE, characters);
+    } else {
+        client.logger.warn(client, "Characters from swgoh.gg API was empty, using a cached version");
+        characters = JSON.parse(fs.readFileSync(GG_CHAR_CACHE));
+    }
+
+    if (ships) {
+        saveFile(GG_SHIPS_CACHE, ships);
+    } else {
+        client.logger.warn(client, "Ships from swgoh.gg API was empty, using a cached version");
+        ships = JSON.parse(fs.readFileSync(GG_SHIPS_CACHE));
     }
 
     client.swgohData.set("charactersData", characters);
