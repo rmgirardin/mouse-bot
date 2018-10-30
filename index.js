@@ -21,11 +21,6 @@ const EnmapLevel = require("enmap-level");
 const request = require("request-promise-native");
 const charactersJS = require("./modules/characters.js");
 const shipsJS = require("./modules/ships.js");
-const fs = require("fs");
-
-const GG_CHAR_CACHE = "./modules/swgoh-gg-chars.json";
-const GG_SHIPS_CACHE = "./modules/swgoh-gg-ships.json";
-
 
 const client = new Discord.Client();
 
@@ -105,6 +100,8 @@ const init = async () => {
                     client.logger.warn(client, `Found an empty character in the swgoh.gg characters API at index: ${i}`);
                 }
             }
+        } else {
+            throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
         }
     } catch (error) {
         client.logger.error(client, `Character Request Failure\n${error.stack}`);
@@ -133,33 +130,11 @@ const init = async () => {
                     client.logger.warn(client, `Found an empty ship in the swgoh.gg ships API at index: ${j}`);
                 }
             }
+        } else {
+            throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
         }
     } catch (error) {
         client.logger.error(client, `Ships Request Failure\n${error}`);
-    }
-
-    function saveFile(filePath, jsonData) {
-        try {
-            fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 4), "utf8");
-        } catch (err) {
-            if (err) {
-                client.logger.error(err);
-            }
-        }
-    }
-
-    if (characters) {
-        saveFile(GG_CHAR_CACHE, characters);
-    } else {
-        client.logger.warn(client, "Characters from swgoh.gg API was empty, using a cached version");
-        characters = JSON.parse(fs.readFileSync(GG_CHAR_CACHE));
-    }
-
-    if (ships) {
-        saveFile(GG_SHIPS_CACHE, ships);
-    } else {
-        client.logger.warn(client, "Ships from swgoh.gg API was empty, using a cached version");
-        ships = JSON.parse(fs.readFileSync(GG_SHIPS_CACHE));
     }
 
     client.swgohData.set("charactersData", characters);
