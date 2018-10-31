@@ -88,7 +88,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             for (let i = 0; i < lookupList.length; i++) {
                 const charName = lookupList[i].name;
 
-                const foundCharacter = accountCollection.find(c => c.description === charName);
+                const foundCharacter = accountCollection.find(c => (c.description).trim() === charName);
                 const rank = (foundCharacter) ? Number(foundCharacter.star) : 0;
                 const rankDisplay = rank || "n.a.";
 

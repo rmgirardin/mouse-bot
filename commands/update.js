@@ -5,12 +5,12 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
     try {
 
-        const username = message.profile.username;
+        const allycode = message.profile.allycode;
         const waitMessage = await message.channel.send("Okay, I'll update your cache.");
 
-        client.cache.defer.then(async () => { client.cache.set(username + "_collection", await swgoh.collection(username)); });
-        client.cache.defer.then(async () => { client.cache.set(username + "_ships", await swgoh.ship(username)); });
-        client.cache.defer.then(async () => { client.cache.set(username + "_mods", await swgoh.mods(username)); });
+        client.cache.defer.then(async () => { client.cache.set(allycode + "_collection", await swgoh.collectionAlly(allycode)); });
+        client.cache.defer.then(async () => { client.cache.set(allycode + "_ships", await swgoh.shipAlly(allycode)); });
+        client.cache.defer.then(async () => { client.cache.set(allycode + "_mods", await swgoh.modsAlly(allycode)); });
 
         await waitMessage.edit(`${message.author}, I've updated your cache.`);
 

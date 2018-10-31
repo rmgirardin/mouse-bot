@@ -77,39 +77,34 @@ module.exports = (client) => {
         try {
 
             let id = message.author.id.toString();
-            let username = undefined;
+            let allycode = undefined;
             let text = args.join(" ");
             let error = false;
 
             if (args[0]) {
-                if (args[0].startsWith("~") || args[0].startsWith("--")) {
-                    username = args[0].replace("~", "").replace("--", "");
-                } else if (args[0].startsWith("http")) {
-                    const start = args[0].indexOf("/u/");
-                    if (start == -1) error = ("There is no username in this URL.");
-                    const end = args[0].lastIndexOf("/");
-                    username = args[0].slice(start + 3, end);
-                    username = username.replace(/%20/g, " ");
+                const argString = args[0].toString();
+                if (argString.length === 11 || argString.length === 9) {
+                    allycode = parseInt(argString.replace(/-/g, ""));
                 } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
                     id = message.mentions.users.first().id.toString();
-                    const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [id]);
-                    if (results.length > 0 || results != false) username = results[0].username;
+                    const results = await client.doSQL("SELECT allycode FROM profiles WHERE discordId = ?", [id]);
+                    if (results.length > 0 || results != false) allycode = results[0].allycode;
                 }
 
-                if (username === undefined) {
-                    const results = await client.doSQL("SELECT discordId FROM profiles WHERE username = ?", [args[0]]);
-                    if (results.length > 0 || results != false) username = results[0].username;
+                if (allycode === undefined) {
+                    const results = await client.doSQL("SELECT discordId FROM profiles WHERE allycode = ?", [args[0]]);
+                    if (results.length > 0 || results != false) allycode = results[0].allycode;
                 }
 
-                if (username != undefined) text = args.slice(1).join(" ");
+                if (allycode != undefined) text = args.slice(1).join(" ");
             }
 
-            if (username === undefined) {
-                if (message.profile && message.profile.username) username = message.profile.username;
+            if (allycode === undefined) {
+                if (message.profile && message.profile.allycode) allycode = message.profile.allycode;
             }
 
-            if (username === undefined) error = `I can't find a profile for that username, try adding your (or their) swgoh.gg username with \`${message.settings.prefix}register\`.`;
-            return [encodeURI(username), text, error];
+            if (allycode === undefined) error = `I can't find a profile for that allycode, try adding your (or their) swgoh.gg allycode with \`${message.settings.prefix}register\`.`;
+            return [encodeURI(allycode), text, error];
 
         } catch (error) {
 

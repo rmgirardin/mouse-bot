@@ -38,18 +38,18 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         let embed = new RichEmbed() // eslint-disable-line prefer-const
             .setTitle(`${username}'s Collection:`)
             .setColor(0xEE7100)
-            .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/`)
+            .setURL(`https://swgoh.gg/p/${id.toLowerCase()}/`)
             .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
         for (let i = 0; i < lookup.length; i++) {
 
-            let found = characterCollection.find(c => c.description === lookup[i].name);
-            if (!found) found = shipCollection.find(s => s.description == lookup[i].name);
+            let found = characterCollection.find(c => (c.description).trim() === lookup[i].name);
+            if (!found) found = shipCollection.find(s => (s.description).trim() == lookup[i].name);
             const urlFlip = lookup[i].combat_type == 1 ? "collection" : "ships";
             const isShip = lookup[i].combat_type == 2 ? "ⓢ " : "";
 
             if (found && found.star != 0) {
-                const url = `https://swgoh.gg/u/${id}/${urlFlip}/${found.code}/`;
+                const url = `https://swgoh.gg/p/${id}/${urlFlip}/${found.code}/`;
                 has += `${isShip}[${client.checkClones(lookup[i].name)}](${url}) (${found.star})\n`;
             } else {
                 notHas += `${isShip}${client.checkClones(lookup[i].name)}\n`;

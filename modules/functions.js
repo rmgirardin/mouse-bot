@@ -142,9 +142,9 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
         const moment = require("moment");
 
         try {
-            if (!id) id = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [message.author.id]);
+            if (!id) id = await client.doSQL("SELECT allycode FROM profiles WHERE discordId = ?", [message.author.id]);
             const pastProfile = client.cache.get(id + "_profile");
-            const currentProfile = await swgoh.profile(id);
+            const currentProfile = await swgoh.profileAlly(id);
             const updated = moment(currentProfile.lastUpdatedUTC).fromNow();
             const username = currentProfile.username;
 
@@ -159,7 +159,7 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
                 client.cache.set(id + "_profile", currentProfile);
                 // Character Collection
                 if (input.includes("c")) {
-                    const cachedCollection = await swgoh.collection(id);
+                    const cachedCollection = await swgoh.collectionAlly(id);
 
                     // temporary formatting workaround
                     if (client.config.swgohApiCharTrim && cachedCollection) {
@@ -169,17 +169,17 @@ Examples:\`\`\`${message.settings.prefix}${cmd.help.examples.join(`\n${message.s
                     }
 
                     client.cache.set(id + "_collection", cachedCollection);
-                } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collection(id)); });
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_collection", await swgoh.collectionAlly(id)); });
                 // Ship Collection
                 if (input.includes("s")) {
-                    const cachedShips = await swgoh.ship(id);
+                    const cachedShips = await swgoh.shipAlly(id);
                     client.cache.set(id + "_ships", cachedShips);
-                } else client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.ship(id)); });
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_ships", await swgoh.shipAlly(id)); });
                 // Mods
                 if (input.includes("m")) {
-                    const cachedMods = await swgoh.mods(id);
+                    const cachedMods = await swgoh.modsAlly(id);
                     client.cache.set(id + "_mods", cachedMods);
-                } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.mods(id)); });
+                } else client.cache.defer.then(async () => { client.cache.set(id + "_mods", await swgoh.modsAlly(id)); });
 
             }
 

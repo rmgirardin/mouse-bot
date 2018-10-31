@@ -110,7 +110,7 @@ Level ${lookup[i].level}  |  Gear ${lookup[i].gearLevel}
 Galactic Power: ${lookup[i].galacticPower != undefined ? lookup[i].galacticPower.toLocaleString() : lookup[i].galacticPower} *(${Math.round(lookup[i].galacticPower/lookup[i].maxGalacticPower*100)}% of max)*`)
                 .setColor(0xEE7100)
                 .setThumbnail(`https:${lookup[i].image}`)
-                .setURL(`https://swgoh.gg/u/${id.toLowerCase()}/collection/${lookup[i].code}`)
+                .setURL(`https://swgoh.gg/p/${id.toLowerCase()}/collection/${lookup[i].code}`)
                 .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
 
                 if (lookup.length > 1) embed.setFooter(`(${(i + 1)} of ${lookup.length}) | Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");

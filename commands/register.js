@@ -31,9 +31,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 const embed = new RichEmbed()
                     .setColor(0x268BD2)
                     .setTitle("**Registration Instructions**")
-                    .setDescription(`Hello! I just need your **swgoh.gg username** in order to register with me. You can type it out in a couple different ways. I accept links to your profile page, such as \`http://swgoh.gg/u/username/\`. I also will take just the username. Here are two examples:\`\`\`
-${message.settings.prefix}register http://swgoh.gg/u/username/
-${message.settings.prefix}register necavit\`\`\``)
+                    .setDescription(`Hello! I just need your **ally code** in order to register with me. You can type it out like 123456789 or 123-456-789.`)
                     .setFooter(`If you still need more inforamtion on this command, you can type \`${message.settings.prefix}help register\``);
 
                 await message.channel.send({embed});
@@ -55,10 +53,9 @@ ${message.settings.prefix}register necavit\`\`\``)
                     .setAuthor(message.author.username, message.author.avatarURL)
                     .setTitle(`**Registration with ${client.user.username.toProperCase()}**`)
                     .setDescription(`This is the information I currently have registered for ${message.author}.
-If this information is wrong, please run \`${message.settings.prefix}register\` again or double check swgoh.gg to ensure your information is correct.
-If your allycode is not found, you will be able to add that in the future.`)
+If this information is wrong, please run \`${message.settings.prefix}register\` again or double check swgoh.gg to ensure your information is correct.`)
                     .addField("**Basic User Information**", `\`\`\`asciidoc
-Username  :: ${results[0]["username"] ? results[0]["username"] : "Nothing Found"}
+Player    :: ${results[0]["username"] ? results[0]["username"] : "Nothing Found"}
 Ally Code :: ${ac}
 Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
 \`\`\``, false)
@@ -70,42 +67,33 @@ Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
             // The meat and potatoes of the register command
             else {
 
-                let swName = args.join(" ");
-                if (swName.startsWith("http")) {
-                    const start = swName.indexOf("/u/");
-                    if (start == -1) client.cmdError(message, cmd);
-                    const end = swName.lastIndexOf("/");
-                    swName = swName.slice(start + 3, end);
-                    swName = swName.replace(/%20/g, " ");
-                }
-                if (swName.startsWith("~")) swName = swName.replace("~", "");
-                if (swName.startsWith("--")) swName = swName.replace("--", "");
+                let allycode = args.join(" ");
+                if (allycode.length === 11) allycode = parseInt(allycode.replace(/-/g, ""));
 
-                const profile = await swgoh.profile(swName);
-                let allycode = null;
+                const profile = await swgoh.profileAlly(allycode);
                 let guildId = null;
                 let guildName = "No Guild";
-                if (profile.allyCode && profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
                 if (profile.guildUrl) {
                     const guildInfo = profile.guildUrl.split("/");
                     guildId = parseInt(guildInfo[2]);
                     guildName = guildInfo[3].replace("-", " ").toProperCase();
                 }
+                const username = profile.username;
 
                 await client.doSQL(
                     "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode), guildId=VALUES(guildId)",
-                    [user.id.toString(), user.username, user.discriminator, profile.username, allycode, guildId]
+                    [user.id.toString(), user.username, user.discriminator, username, allycode, guildId]
                 );
 
                 const embed = new RichEmbed()
                     .setColor(0x268BD2)
                     .setAuthor(message.author.username, message.author.avatarURL)
                     .setTitle(`**Registration with ${client.user.username.toProperCase()}**`)
-                    .setDescription(`This is the information found for the username __${swName}__.
+                    .setDescription(`This is the information found for the ally code __${allycode}__.
 If this information is wrong, please run \`${message.settings.prefix}register\` again or double check swgoh.gg to ensure your information is correct.
 If your allycode is not found, you will be able to add that in the future.`)
                     .addField("**Basic User Information**", `\`\`\`asciidoc
-Username  :: ${profile.username ? profile.username : "Nothing Found"}
+Player    :: ${profile.username ? profile.username : "Nothing Found"}
 Ally Code :: ${profile.allyCode && profile.allyCode.length === 11 ? profile.allyCode : "Nothing Found"}
 Guild     :: ${guildName}
 \`\`\``, false)
@@ -113,18 +101,18 @@ Guild     :: ${guildName}
 
                 // Save the username
                 if (!results || results.length === 0) {
-                    await message.reply(`thanks for registering with me! I've added **${swName}** to your record.`);
+                    await message.reply(`thanks for registering with me! I've added **${allycode}** to your record.`);
                 } else {
-                    await message.reply(`I've changed your record from **${results[0].username}** to **${swName}**.`);
+                    await message.reply(`I've changed your record from **${results[0].allycode}** to **${allycode}**.`);
                 }
 
                 await message.channel.send({embed});
 
                 // Manually cache everything!
-                client.cache.defer.then(async () => { client.cache.set(swName + "_profile", profile); });
-                client.cache.defer.then(async () => { client.cache.set(swName + "_collection", await swgoh.collection(swName)); });
-                client.cache.defer.then(async () => { client.cache.set(swName + "_ships", await swgoh.ship(swName)); });
-                client.cache.defer.then(async () => { client.cache.set(swName + "_mods", await swgoh.mods(swName)); });
+                client.cache.defer.then(async () => { client.cache.set(allycode + "_profile", profile); });
+                client.cache.defer.then(async () => { client.cache.set(allycode + "_collection", await swgoh.collectionAlly(allycode)); });
+                client.cache.defer.then(async () => { client.cache.set(allycode + "_ships", await swgoh.shipAlly(allycode)); });
+                client.cache.defer.then(async () => { client.cache.set(allycode + "_mods", await swgoh.modsAlly(allycode)); });
             }
 
         }
@@ -148,7 +136,7 @@ exports.conf = {
 exports.help = {
     name: "register",
     category: "Game",
-	description: "Register your swgoh.gg username to the database",
-	usage: "register http://swgoh.gg/u/username/",
-    examples: ["register https://swgoh.gg/u/necavit/", "register necavit", "register hanshotfirst"]
+	description: "Register your ally code to the database",
+	usage: "register <allycode>",
+    examples: ["register 123456789", "register 123-456-789"]
 };
