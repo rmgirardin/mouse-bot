@@ -31,7 +31,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 const embed = new RichEmbed()
                     .setColor(0x268BD2)
                     .setTitle("**Registration Instructions**")
-                    .setDescription(`Hello! I just need your **ally code** in order to register with me. You can type it out like 123456789 or 123-456-789.`)
+                    .setDescription("Hello! I just need your **ally code** in order to register with me. You can type it out like 123456789 or 123-456-789.")
                     .setFooter(`If you still need more inforamtion on this command, you can type \`${message.settings.prefix}help register\``);
 
                 await message.channel.send({embed});
