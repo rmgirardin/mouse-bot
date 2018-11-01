@@ -11,6 +11,12 @@ const ships = [
     },
 
     {
+        "name": "Anakin's Eta-2 Starfighter",
+        "faction": ["Light Side", "Attacker", "Jedi", "Galactic Republic"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_anakin.png"
+    },
+
+    {
         "name": "B-28 Extinction-class Bomber",
         "faction": ["Dark Side", "Tank", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_b28extinctionclassbomber.png"
