@@ -69,10 +69,7 @@ const characters = [
     {
         "name": "Aurra Sing",
         "nickname": ["aura"],
-        "light": [],
-        "dark": [],
-        "cantina": [],
-        "shops": [],
+        "cantina": ["7-C"],
         "faction": ["Dark Side", "Attacker", "Scoundrel", "Bounty Hunter"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_aurrasing.png"
     },
@@ -1443,7 +1440,6 @@ const characters = [
         "nickname": ["RG"],
         "light": ["1-D"],
         "dark": ["5-F"],
-        "cantina": ["7-C"],
         "shops": ["guild events"],
         "faction": ["Dark Side", "Tank", "Empire"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_royalguard.png"

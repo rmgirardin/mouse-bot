@@ -161,6 +161,7 @@ const ships = [
 
     {
         "name": "Hound's Tooth",
+        "light": ["8-D"],
         "faction": ["Dark Side", "Cargo Ship", "Scoundrel", "Bounty Hunters", "Tank"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_houndstooth.png"
     },
