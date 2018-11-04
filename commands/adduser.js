@@ -17,6 +17,12 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (!args[0]) return await message.reply(`You didn't provide an ally code for ${user}.`).then(client.cmdError(message,cmd));
 
             let allycode = args.shift();
+            const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
+
+            if (!allyCodePattern.test(allycode)) {
+                await message.reply(`Ally code must be in the format of 123456789 or 123-456-789.  You entered: ${allycode}`);
+                continue;
+            }
             if (allycode.length === 11) allycode = parseInt(allycode.replace(/-/g, ""));
 
             const results = await client.doSQL("SELECT allycode FROM profiles WHERE discordId = ?", [userId]);
@@ -35,14 +41,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             // Save the username
             if (!results || results.length === 0) {
                 await client.doSQL(
-                    "INSERT INTO profiles (discordId, discordName, discordTag, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?)",
-                    [userId, user.user.username, user.user.discriminator, allycode, guildId]
+                    "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?)",
+                    [userId, user.user.username, user.user.discriminator, profile.username, allycode, guildId]
                 );
                 await message.reply(`I've registered **${allycode}** to ${user}'s record.`);
             } else {
                 await client.doSQL(
-                    "UPDATE profiles SET discordName = ?, discordTag = ?, allycode = ?, guildId = ? WHERE discordID = ?",
-                    [user.user.username, user.user.discriminator, allycode, guildId, userId]
+                    "UPDATE profiles SET discordName = ?, discordTag = ?, username = ?, allycode = ?, guildId = ? WHERE discordID = ?",
+                    [user.user.username, user.user.discriminator, profile.username, allycode, guildId, userId]
                 );
                 await message.reply(`I've changed ${user}'s record from **${results[0].allycode}** to **${allycode}**.`);
             }

@@ -83,7 +83,9 @@ module.exports = (client) => {
 
             if (args[0]) {
                 const argString = args[0].toString();
-                if (argString.length === 11 || argString.length === 9) {
+                const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
+
+                if (allyCodePattern.test(argString)) {
                     allycode = parseInt(argString.replace(/-/g, ""));
                 } else if (message.mentions.users.first() && message.mentions.users.first().bot === false) {
                     id = message.mentions.users.first().id.toString();

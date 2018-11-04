@@ -66,8 +66,14 @@ Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
 
             // The meat and potatoes of the register command
             else {
+                const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
 
                 let allycode = args.join(" ");
+
+                if (!allyCodePattern.test(allycode)) {
+                    await message.reply("Ally code must be in the format of 123456789 or 123-456-789");
+                    return;
+                }
                 if (allycode.length === 11) allycode = parseInt(allycode.replace(/-/g, ""));
 
                 const profile = await swgoh.profileAlly(allycode);

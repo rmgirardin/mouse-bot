@@ -74,8 +74,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             .setDescription("*Need Shards (current rank)*")
             .setURL("https://swgoh.gg/db/shipments/")
             .setFooter(`Last updated ${updated}`, "https://swgoh.gg/static/img/bb8.png");
-        if (searchTerm == "") embed.setAuthor(`${id.toProperCase()}'s Needs`);
-        if (searchTerm.toLowerCase() == "battles") embed.setAuthor(`${id.toProperCase()}'s Needs for Light & Dark Side Battles`);
+        if (searchTerm == "") embed.setAuthor(`${username.toProperCase()}'s Needs`);
+        if (searchTerm.toLowerCase() == "battles") embed.setAuthor(`${username.toProperCase()}'s Needs for Light & Dark Side Battles`);
 
         const charArray = [];
         const shipArray = [];
