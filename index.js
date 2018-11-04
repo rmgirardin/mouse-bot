@@ -22,7 +22,6 @@ const request = require("request-promise-native");
 const charactersJS = require("./modules/characters.js");
 const shipsJS = require("./modules/ships.js");
 
-
 const client = new Discord.Client();
 
 // Here we load the config and functions files
@@ -77,29 +76,39 @@ const init = async () => {
     }
 
     // GET and merge character databases
-    const charactersURL = "https://swgoh.gg/api/characters/";
+    const charactersURL = "https://swgoh.gg/api/characters/?format=json";
     const charactersOptions = { uri: charactersURL, json: true };
     let characters;
+
 
     try {
         characters = await request(charactersOptions);
 
         // Loop through our character array, find the matching characters in the swgoh.gg api
         // and merge its data into ours.
-        for (var i = 0; i < characters.length; i++) {
+        if (characters) {
+            for (var i = 0; i < characters.length; i++) {
+                const character = characters[i];
 
-            const chData = getObjects(charactersJS, "name", characters[i].name);
+                if (character) {
+                    const chData = getObjects(charactersJS, "name", character.name);
 
-            if (chData.length == 1) Object.assign(characters[i], chData[0]);
-            else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${characters[i].name}`);
-            else client.logger.warn(client, `Multiple results found for character: ${characters[i].name}`);
+                    if (chData.length == 1) Object.assign(character, chData[0]);
+                    else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${character.name}`);
+                    else client.logger.warn(client, `Multiple results found for character: ${character.name}`);
+                } else {
+                    client.logger.warn(client, `Found an empty character in the swgoh.gg characters API at index: ${i}`);
+                }
+            }
+        } else {
+            throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
         }
     } catch (error) {
         client.logger.error(client, `Character Request Failure\n${error.stack}`);
     }
 
     // GET and merge ship databases
-    const shipsURL = "https://swgoh.gg/api/ships/";
+    const shipsURL = "https://swgoh.gg/api/ships/?format=json";
     const shipsOptions = { uri: shipsURL, json: true };
     let ships;
 
@@ -108,13 +117,21 @@ const init = async () => {
 
         // Loop through our ships array, find the matching ships in the swgoh.gg api
         // and merge its data into ours.
-        for (var j = 0; j < ships.length; j++) {
+        if (ships) {
+            for (var j = 0; j < ships.length; j++) {
+                const ship = ships[j];
+                if (ship) {
+                    const sData = getObjects(shipsJS, "name", ship.name);
 
-            const sData = getObjects(shipsJS, "name", ships[j].name);
-
-            if (sData.length == 1) Object.assign(ships[j], sData[0]);
-            else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ships[j].name}`);
-            else client.logger.warn(client, `Multiple results found for ship: ${ships[j].name}`);
+                    if (sData.length == 1) Object.assign(ship, sData[0]);
+                    else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ship.name}`);
+                    else client.logger.warn(client, `Multiple results found for ship: ${ship.name}`);
+                } else {
+                    client.logger.warn(client, `Found an empty ship in the swgoh.gg ships API at index: ${j}`);
+                }
+            }
+        } else {
+            throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
         }
     } catch (error) {
         client.logger.error(client, `Ships Request Failure\n${error}`);

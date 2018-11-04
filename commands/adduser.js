@@ -14,30 +14,25 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
             const user = message.guild.members.get(userId);
             if (!user) return await message.reply(`user ${userId} not found.`).then(client.cmdError(message,cmd));
-            if (!args[0]) return await message.reply(`You didn't provide a swgoh.gg username for ${user}.`).then(client.cmdError(message,cmd));
+            if (!args[0]) return await message.reply(`You didn't provide an ally code for ${user}.`).then(client.cmdError(message,cmd));
 
-            let swName = args.shift();
-            if (swName.startsWith("http")) {
-                const start = swName.indexOf("/u/");
-                if (start == -1) client.cmdError(message, cmd);
-                const end = swName.lastIndexOf("/");
-                swName = swName.slice(start + 3, end);
-                swName = swName.replace(/%20/g, " ");
+            let allycode = args.shift();
+            const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
+
+            if (!allyCodePattern.test(allycode)) {
+                await message.reply(`Ally code must be in the format of 123456789 or 123-456-789.  You entered: ${allycode}`);
+                continue;
             }
-            if (swName.startsWith("~")) swName = swName.replace("~", "");
-            if (swName.startsWith("--")) swName = swName.replace("--", "");
-            swName = swName.replace(/%20/g, " ");
+            if (allycode.length === 11) allycode = parseInt(allycode.replace(/-/g, ""));
 
-            const results = await client.doSQL("SELECT username FROM profiles WHERE discordId = ?", [userId]);
+            const results = await client.doSQL("SELECT allycode FROM profiles WHERE discordId = ?", [userId]);
             if (results === false) {
                 client.logger.warn(client, "doSQL() error within adduser command");
                 return client.codeError(message);
             }
 
-            const profile = await swgoh.profile(swName);
-            let allycode = null;
+            const profile = await swgoh.profileAlly(allycode);
             let guildId = null;
-            if (profile.allyCode && profile.allyCode.length === 11) allycode = parseInt(profile.allyCode.replace(/-/g, ""));
             if (profile.guildUrl) {
                 const guildInfo = profile.guildUrl.split("/");
                 guildId = guildInfo[2];
@@ -47,22 +42,22 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             if (!results || results.length === 0) {
                 await client.doSQL(
                     "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?)",
-                    [userId, user.user.username, user.user.discriminator, swName, allycode, guildId]
+                    [userId, user.user.username, user.user.discriminator, profile.username, allycode, guildId]
                 );
-                await message.reply(`I've registered **${swName}** to ${user}'s record.`);
+                await message.reply(`I've registered **${allycode}** to ${user}'s record.`);
             } else {
                 await client.doSQL(
                     "UPDATE profiles SET discordName = ?, discordTag = ?, username = ?, allycode = ?, guildId = ? WHERE discordID = ?",
-                    [user.user.username, user.user.discriminator, swName, allycode, guildId, userId]
+                    [user.user.username, user.user.discriminator, profile.username, allycode, guildId, userId]
                 );
-                await message.reply(`I've changed ${user}'s record from **${results[0].username}** to **${swName}**.`);
+                await message.reply(`I've changed ${user}'s record from **${results[0].allycode}** to **${allycode}**.`);
             }
 
             // Manually cache everything!
-            client.cache.defer.then(async () => { client.cache.set(swName + "_profile", profile); });
-            client.cache.defer.then(async () => { client.cache.set(swName + "_collection", await swgoh.collection(swName)); });
-            client.cache.defer.then(async () => { client.cache.set(swName + "_ships", await swgoh.ship(swName)); });
-            client.cache.defer.then(async () => { client.cache.set(swName + "_mods", await swgoh.mods(swName)); });
+            client.cache.defer.then(async () => { client.cache.set(allycode + "_profile", profile); });
+            client.cache.defer.then(async () => { client.cache.set(allycode + "_collection", await swgoh.collectionAlly(allycode)); });
+            client.cache.defer.then(async () => { client.cache.set(allycode + "_ships", await swgoh.shipAlly(allycode)); });
+            client.cache.defer.then(async () => { client.cache.set(allycode + "_mods", await swgoh.modsAlly(allycode)); });
 
         }
 
@@ -84,7 +79,7 @@ exports.conf = {
 exports.help = {
     name: "adduser",
     category: "Game",
-	description: "Register the swgoh.gg username for one or more Discord users to the database",
-	usage: "adduser <discord-username> <swgoh.gg-username>",
-    examples: ["adduser @necavit necavit", "adduser @kyloren sweetsaberdude @hoboyoda theGhost"]
+	description: "Register the ally code for one or more Discord users to the database",
+	usage: "adduser <discord-username> <ally code>",
+    examples: ["adduser @necavit 123-456-789", "adduser @kyloren 987654321 @hoboyoda 555666777"]
 };

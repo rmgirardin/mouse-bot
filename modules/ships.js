@@ -11,6 +11,18 @@ const ships = [
     },
 
     {
+        "name": "Anakin's Eta-2 Starfighter",
+        "faction": ["Light Side", "Attacker", "Jedi", "Galactic Republic"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_anakin.png"
+    },
+
+    {
+        "name": "B-28 Extinction-class Bomber",
+        "faction": ["Dark Side", "Tank", "Sith"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_b28extinctionclassbomber.png"
+    },
+
+    {
         "name": "Biggs Darklighter's X-wing",
         "light": [],
         "dark": [],
@@ -155,8 +167,15 @@ const ships = [
 
     {
         "name": "Hound's Tooth",
-        "faction": ["Dark Side", "Cargo Ship", "Scoundrel", "Bounty Hunter", "Tank"],
+        "light": ["8-D"],
+        "faction": ["Dark Side", "Cargo Ship", "Scoundrel", "Bounty Hunters", "Tank"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_houndstooth.png"
+    },
+
+    {
+        "name": "IG-2000",
+        "faction": ["Dark Side", "Droid", "Scoundrel", "Bounty Hunters", "Attacker"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_ig2000.png"
     },
 
     {
@@ -280,6 +299,7 @@ const ships = [
         "dark": [],
         "cantina": [],
         "shops": [],
+        "ships": ["3-E"],
         "faction": ["Dark Side", "Attacker", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_sithfighter.png"
     },
@@ -291,7 +311,7 @@ const ships = [
         "cantina": [],
         "ships": ["2-B"],
         "shops": ["fleet"],
-        "faction": ["Dark Side", "Attacker", "Scoundrel", "Cargo Ship", "Bounty Hunter"],
+        "faction": ["Dark Side", "Attacker", "Scoundrel", "Cargo Ship", "Bounty Hunters"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_slave1.png"
     },
 
@@ -360,7 +380,7 @@ const ships = [
 
     {
         "name": "Xanadu Blood",
-        "faction": ["Dark Side", "Scoundrel", "Bounty Hunter", "Support"],
+        "faction": ["Dark Side", "Scoundrel", "Bounty Hunters", "Support"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xanadublood.png"
     }
 

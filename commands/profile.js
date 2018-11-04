@@ -35,14 +35,14 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         // Now we actually execute the profile command
 
-        const [username, empty, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
-        if (username === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        const [allycode, empty, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
+        if (allycode === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // The courtious "checking" message while the user waits
         const profileMessage = await message.channel.send("Checking... One moment. 👀");
 
         // Here we pull the profile data from swgoh.gg
-        const profile = await swgoh.profile(username);
+        const profile = await swgoh.profileAlly(allycode);
 
         if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
 
@@ -63,7 +63,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
             embed = new RichEmbed()
                 .setTitle(title)
                 .setColor(0x268BD2)
-                .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
+                .setURL(`https://swgoh.gg/p/${encodeURI(allycode)}/`)
                 .setDescription(`Level ${profile.level}${guildText}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
@@ -93,7 +93,7 @@ Gear 10   :: ${profile.gearX} (${(profile.gearX / profile.characters * 100).toFi
             embed = new RichEmbed()
                 .setTitle(title)
                 .setColor(0x268BD2)
-                .setURL(`https://swgoh.gg/u/${encodeURI(username)}/`)
+                .setURL(`https://swgoh.gg/p/${encodeURI(allycode)}/`)
                 .setDescription(`Level ${profile.level}${guildText}
 **Arena Rank:** ${profile.arenaRank.toLocaleString()}`
                 )
