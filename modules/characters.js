@@ -25,7 +25,7 @@ const characters = [
     {
         "name": "Ahsoka Tano",
         "nickname": [],
-        "light": ["5-D"],
+        "light": [],
         "dark": ["4-C"],
         "cantina": [],
         "shops": ["cantina", "fleet"],
@@ -1756,7 +1756,7 @@ const characters = [
     {
         "name": "Zaalbar",
         "nickname": ["big z", "bigz", "z"],
-        "light": [],
+        "light": ["5-D"],
         "dark": [],
         "cantina": [],
         "shops": [],
