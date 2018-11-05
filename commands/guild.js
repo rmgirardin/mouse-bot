@@ -9,8 +9,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (!args[0]) return client.cmdError(message, cmd);
 
         // Cool star emojis! Just like in the game!
-        const starEmoji = client.emojis.get("416420499078512650");
-        const inactiveStarEmoji = client.emojis.get("416422867606044683");
+        const starEmoji = client.emojis.find(emoji => emoji.name === "staractive");
+        const inactiveStarEmoji = client.emojis.find(emoji => emoji.name === "starinactive");
 
         // Pull in our swgoh databases
         const charactersData = client.swgohData.get("charactersData");
