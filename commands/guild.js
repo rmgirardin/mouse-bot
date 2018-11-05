@@ -17,7 +17,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         const shipsData = client.swgohData.get("shipsData");
 
         const [id, searchText, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
-        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!id) return await message.reply(error).then(client.cmdError(message, cmd));
         const splitSearchText = searchText.split(" ");
 
         const guildMessage = await message.channel.send("Checking... One moment. 👀");

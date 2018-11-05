@@ -83,7 +83,7 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} **(${cmd.co
                     .setTitle(`Hello ${message.author.username}!`)
                     .setColor(0x268BD2)
                     .setDescription(`Before you can use any of my commands, please run
-\`\`\`${settings.prefix}register <swgoh.gg-username>\`\`\`
+\`\`\`${settings.prefix}register <ally code>\`\`\`
 (remember to remove \`< >\`)`)
                     .addField("Why?", "Most of my commands use data from your profile; registering helps me run with fewer errors.", false)
                     .setFooter("~Thank you!");

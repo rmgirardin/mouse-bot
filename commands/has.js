@@ -13,7 +13,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (!args[0]) return client.cmdError(message, cmd);
 
         const [id, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line no-unused-vars
-        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!id) return await message.reply(error).then(client.cmdError(message, cmd));
         if (searchTerm === "") return await message.reply("please enter a search term.").then(client.cmdError(message, cmd));
 
         const hasMessage = await message.channel.send("Checking... One moment. 👀"); // wait message

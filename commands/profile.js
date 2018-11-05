@@ -36,7 +36,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Now we actually execute the profile command
 
         const [allycode, empty, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
-        if (allycode === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!allycode) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // The courtious "checking" message while the user waits
         const profileMessage = await message.channel.send("Checking... One moment. 👀");

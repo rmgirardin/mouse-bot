@@ -75,6 +75,7 @@ module.exports = (client) => {
     client.profileCheck = async (message, args) => {
 
         try {
+            const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
 
             let id = message.author.id.toString();
             let allycode = undefined;
@@ -83,7 +84,6 @@ module.exports = (client) => {
 
             if (args[0]) {
                 const argString = args[0].toString();
-                const allyCodePattern = RegExp("[1-9]{3}-?[1-9]{3}-?[1-9]{3}");
 
                 if (allyCodePattern.test(argString)) {
                     allycode = parseInt(argString.replace(/-/g, ""));
@@ -105,8 +105,11 @@ module.exports = (client) => {
                 if (message.profile && message.profile.allycode) allycode = message.profile.allycode;
             }
 
-            if (allycode === undefined) error = `I can't find a profile for that allycode, try adding your (or their) swgoh.gg allycode with \`${message.settings.prefix}register\`.`;
-            return [encodeURI(allycode), text, error];
+            if (!allycode || (allycode && !allyCodePattern.test(allycode))) {
+                allycode = undefined;
+                error = `I can't find a profile for that allycode, try adding your (or their) swgoh.gg allycode with \`${message.settings.prefix}register\`.`;
+            }
+            return [allycode, text, error];
 
         } catch (error) {
 
