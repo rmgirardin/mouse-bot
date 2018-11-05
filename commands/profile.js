@@ -44,7 +44,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Here we pull the profile data from swgoh.gg
         const profile = await swgoh.profileAlly(allycode);
 
-        if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
+        if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that allycode").then(client.cmdError(message, cmd));
 
         // Some user's don't submit thier profile codes on swgoh.gg, if that's the
         // case, lets not display (undefined) next to their name

@@ -9,8 +9,8 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (!args[0]) return client.cmdError(message, cmd);
 
         // Cool star emojis! Just like in the game!
-        const starEmoji = client.emojis.find(emoji => emoji.name === "staractive");
-        const inactiveStarEmoji = client.emojis.find(emoji => emoji.name === "starinactive");
+        const starEmoji = client.emojis.get("416420499078512650") || client.emojis.find(emoji => emoji.name === "staractive") || client.emojis.find(emoji => emoji.name === "star");
+        const inactiveStarEmoji = client.emojis.get("416422867606044683") || client.emojis.find(emoji => emoji.name === "starinactive") || client.emojis.find(emoji => emoji.name === "new_moon");
 
         // Pull in our swgoh databases
         const charactersData = client.swgohData.get("charactersData");
@@ -39,7 +39,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
                 client.logger.error(client, `swgoh.gg profile pull failure within the guild command:\n${error.stack}`);
             }
         } else client.cacheCheck(message, id, ""); // If we don't need to cache, just do it in the background
-        if (profile === undefined || profile.userId === undefined) return await guildMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
+        if (profile === undefined || profile.userId === undefined) return await guildMessage.edit("I can't find a profile for that allycode").then(client.cmdError(message, cmd));
         const guildInfo = profile.guildUrl.split("/");
         const guildNum = guildInfo[2];
         let guildName = guildInfo[3].replace(/-/g, " ").toProperCase();
