@@ -82,7 +82,7 @@ const init = async () => {
     const maxRetries = 3;
     let retries = 0;
 
-    while (!characters) {
+    while (!characters && (retries < maxRetries)) {
         try {
             characters = await request(charactersOptions);
 
@@ -117,8 +117,10 @@ const init = async () => {
                 retries++;
                 client.logger.warn(client, `Character Request Failure: try ${retries} of ${maxRetries}\n${error.stack}`);
                 continue;
+            } else {
+                client.logger.error(client, `Character Request Failure\n${error.stack}`);
+                throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
             }
-            client.logger.error(client, `Character Request Failure\n${error.stack}`);
         }
     }
 
@@ -128,7 +130,7 @@ const init = async () => {
     let ships;
     retries = 0;
 
-    while (!ships) {
+    while (!ships && (retries < maxRetries)) {
         try {
             ships = await request(shipsOptions);
 
@@ -162,8 +164,10 @@ const init = async () => {
                 retries++;
                 client.logger.warn(client, `Ships Request Failure: try ${retries} of ${maxRetries}\n${error.stack}`);
                 continue;
+            } else {
+                client.logger.error(client, `Ships Request Failure\n${error}`);
+                throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
             }
-            client.logger.error(client, `Ships Request Failure\n${error}`);
         }
     }
 
