@@ -174,6 +174,7 @@ const ships = [
 
     {
         "name": "IG-2000",
+        "light": ["6-E"],
         "faction": ["Dark Side", "Droid", "Scoundrel", "Bounty Hunters", "Attacker"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_ig2000.png"
     },
@@ -380,6 +381,7 @@ const ships = [
 
     {
         "name": "Xanadu Blood",
+        "light": ["8-B"],
         "faction": ["Dark Side", "Scoundrel", "Bounty Hunters", "Support"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_xanadublood.png"
     }
