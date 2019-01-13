@@ -67,7 +67,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
 
         // Check for a username
         const [id, searchTerm, error] = await client.profileCheck(message, args);
-        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!id) return await message.reply(error).then(client.cmdError(message, cmd));
         if (searchTerm.length < 2) return await message.reply("please use 2 or more letters to search for characters, I don't want to spam your channel with every character.");
 
         const chMessage = await message.channel.send("Checking... this may take a minute. 👀"); // wait message

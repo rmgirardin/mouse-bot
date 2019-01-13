@@ -79,62 +79,96 @@ const init = async () => {
     const charactersURL = "https://swgoh.gg/api/characters/?format=json";
     const charactersOptions = { uri: charactersURL, json: true };
     let characters;
+    const maxRetries = 3;
+    let retries = 0;
 
+    while (!characters && (retries < maxRetries)) {
+        try {
+            characters = await request(charactersOptions);
 
-    try {
-        characters = await request(charactersOptions);
+            // Loop through our character array, find the matching characters in the swgoh.gg api
+            // and merge its data into ours.
+            if (characters) {
+                for (var i = 0; i < characters.length; i++) {
+                    const character = characters[i];
 
-        // Loop through our character array, find the matching characters in the swgoh.gg api
-        // and merge its data into ours.
-        if (characters) {
-            for (var i = 0; i < characters.length; i++) {
-                const character = characters[i];
+                    if (character) {
+                        const chData = getObjects(charactersJS, "name", character.name);
 
-                if (character) {
-                    const chData = getObjects(charactersJS, "name", character.name);
-
-                    if (chData.length == 1) Object.assign(character, chData[0]);
-                    else if (chData.length == 0) client.logger.warn(client, `No JS results found for character: ${character.name}`);
-                    else client.logger.warn(client, `Multiple results found for character: ${character.name}`);
-                } else {
-                    client.logger.warn(client, `Found an empty character in the swgoh.gg characters API at index: ${i}`);
+                        if (chData.length == 1) Object.assign(character, chData[0]);
+                        else if (chData.length == 0) {
+                            const newCharacter = {
+                                "name": character.name,
+                                "faction": [character.alignment].concat(character.role).concat(character.categories),
+                                "chImage": `https:${character.image}`
+                            };
+                            client.logger.warn(client, `No JS results found for character: ${character.name}. ${JSON.stringify(newCharacter)}`);
+                        }
+                        else client.logger.warn(client, `Multiple results found for character: ${character.name}`);
+                    } else {
+                        client.logger.warn(client, `Found an empty character in the swgoh.gg characters API at index: ${i}`);
+                    }
                 }
+            } else {
+                throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
             }
-        } else {
-            throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
+        } catch (error) {
+            if (retries < maxRetries) {
+                retries++;
+                client.logger.warn(client, `Character Request Failure: try ${retries} of ${maxRetries}\n${error.stack}`);
+                continue;
+            } else {
+                client.logger.error(client, `Character Request Failure\n${error.stack}`);
+                throw new Error("I wasn't able to get the list of characters from swgoh.gg's API!");
+            }
         }
-    } catch (error) {
-        client.logger.error(client, `Character Request Failure\n${error.stack}`);
     }
 
     // GET and merge ship databases
     const shipsURL = "https://swgoh.gg/api/ships/?format=json";
     const shipsOptions = { uri: shipsURL, json: true };
     let ships;
+    retries = 0;
 
-    try {
-        ships = await request(shipsOptions);
+    while (!ships && (retries < maxRetries)) {
+        try {
+            ships = await request(shipsOptions);
 
-        // Loop through our ships array, find the matching ships in the swgoh.gg api
-        // and merge its data into ours.
-        if (ships) {
-            for (var j = 0; j < ships.length; j++) {
-                const ship = ships[j];
-                if (ship) {
-                    const sData = getObjects(shipsJS, "name", ship.name);
+            // Loop through our ships array, find the matching ships in the swgoh.gg api
+            // and merge its data into ours.
+            if (ships) {
+                for (var j = 0; j < ships.length; j++) {
+                    const ship = ships[j];
+                    if (ship) {
+                        const sData = getObjects(shipsJS, "name", ship.name);
 
-                    if (sData.length == 1) Object.assign(ship, sData[0]);
-                    else if (sData.length == 0) client.logger.warn(client, `No JS results found for ship: ${ship.name}`);
-                    else client.logger.warn(client, `Multiple results found for ship: ${ship.name}`);
-                } else {
-                    client.logger.warn(client, `Found an empty ship in the swgoh.gg ships API at index: ${j}`);
+                        if (sData.length == 1) Object.assign(ship, sData[0]);
+                        else if (sData.length == 0) {
+                            const newShip = {
+                                "name": ship.name,
+                                "faction": [ship.alignment].concat(ship.role).concat(ship.categories),
+                                "sImage": `https:${ship.image}`
+                            };
+                            client.logger.warn(client, `No JS results found for ship: ${ship.name}. ${JSON.stringify(newShip)}`);
+                        }
+                        else client.logger.warn(client, `Multiple results found for ship: ${ship.name}`);
+                    } else {
+                        client.logger.warn(client, `Found an empty ship in the swgoh.gg ships API at index: ${j}`);
+                    }
                 }
+            } else {
+                throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
             }
-        } else {
-            throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
+        } catch (error) {
+            if (retries < maxRetries) {
+                retries++;
+                client.logger.warn(client, `Ships Request Failure: try ${retries} of ${maxRetries}\n${error.stack}`);
+                continue;
+            } else {
+                client.logger.error(client, `Ships Request Failure\n${error}`);
+                throw new Error("I wasn't able to get the list of ships from swgoh.gg's API!");
+            }
         }
-    } catch (error) {
-        client.logger.error(client, `Ships Request Failure\n${error}`);
     }
 
     client.swgohData.set("charactersData", characters);

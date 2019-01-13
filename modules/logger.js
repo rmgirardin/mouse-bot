@@ -4,11 +4,14 @@ Logger class for easy and aesthetically pleasing console logging
 const chalk = require("chalk");
 const moment = require("moment");
 
+const MAX_DETAILS_LENGTH = 225; // from SQL db-schema
+
 async function sqlLog(client, type, details) {
+    const truncatedDetails = details.length > MAX_DETAILS_LENGTH ? details.substring(0, MAX_DETAILS_LENGTH) : details;
     try {
         await client.doSQL(
             "INSERT INTO botlog (timestamp, type, details) VALUES (?, ?, ?)",
-            [new Date(), type, details]
+            [new Date(), type, truncatedDetails]
         );
     } catch (error) {
         console.log(error);

@@ -24,7 +24,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         if (!args[0]) return client.cmdError(message, cmd);
 
         let [id, searchTerm, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const
-        if (id === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!id) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // Pull in our swgoh databases
         const charactersData = client.swgohData.get("charactersData");

@@ -109,6 +109,13 @@ const characters = [
     },
 
     {
+        "name": "Bastila Shan (Fallen)",
+        "nickname": ["gothstila", "badstila", "bsf"],
+        "faction": ["Dark Side", "Support", "Old Republic", "Sith"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bastilashan_dark.png"
+    },
+
+    {
         "name": "Baze Malbus",
         "nickname": ["Chaze"],
         "light": ["9-C"],
@@ -186,6 +193,13 @@ const characters = [
     },
 
     {
+        "name": "C-3PO",
+        "nickname": ["c3"],
+        "faction": ["Light Side", "Support", "Droid", "Galactic Republic", "Rebel", "Resistance"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_c3p0.png"
+    },
+
+    {
         "name": "Cad Bane",
         "nickname": [],
         "light": [],
@@ -194,6 +208,12 @@ const characters = [
         "shops": ["galactic war"],
         "faction": ["Dark Side", "Support", "Bounty Hunter", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_cadbane.png"
+    },
+
+    {
+        "name": "Canderous Ordo",
+        "faction": ["Dark Side", "Attacker", "Old Republic", "Scoundrel"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_canderous.png"
     },
 
     {
@@ -216,6 +236,12 @@ const characters = [
         "shops": ["galactic war"],
         "faction": ["Dark Side", "Support", "First Order", "Human"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_phasma.png"
+    },
+
+    {
+        "name": "Carth Onasi",
+        "faction": ["Light Side", "Attacker", "Old Republic"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_carth.png"
     },
 
     {
@@ -909,6 +935,7 @@ const characters = [
     {
         "name": "Jango Fett",
         "nickname": ["django", "jf"],
+        "light": ["8-D"],
         "faction": ["Dark Side", "Attacker", "Bounty Hunter", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_jangofett.png"
     },
@@ -995,6 +1022,12 @@ const characters = [
         "ships": ["4-E"],
         "faction": ["Light Side", "Jedi", "Old Republic", "Healer"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_joleebindo.png"
+    },
+
+    {
+        "name": "Juhani",
+        "faction": ["Light Side", "Tank", "Jedi", "Old Republic"],
+        "chImage": "https://swgoh.gg/static/img/assets/tex.charui_juhani.png"
     },
 
     {
@@ -1536,7 +1569,7 @@ const characters = [
     {
         "name": "Stormtrooper",
         "nickname": [],
-        "light": ["3-C", "8-D"],
+        "light": ["3-C"],
         "dark": [],
         "cantina": [],
         "shops": ["cantina", "guild events"],

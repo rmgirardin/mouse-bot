@@ -36,7 +36,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Now we actually execute the profile command
 
         const [allycode, empty, error] = await client.profileCheck(message, args); // eslint-disable-line prefer-const, no-unused-vars
-        if (allycode === undefined) return await message.reply(error).then(client.cmdError(message, cmd));
+        if (!allycode) return await message.reply(error).then(client.cmdError(message, cmd));
 
         // The courtious "checking" message while the user waits
         const profileMessage = await message.channel.send("Checking... One moment. 👀");
@@ -44,7 +44,7 @@ exports.run = async (client, message, cmd, args, level) => { // eslint-disable-l
         // Here we pull the profile data from swgoh.gg
         const profile = await swgoh.profileAlly(allycode);
 
-        if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that username").then(client.cmdError(message, cmd));
+        if (profile === undefined || profile.userId === undefined) return await profileMessage.edit("I can't find a profile for that allycode").then(client.cmdError(message, cmd));
 
         // Some user's don't submit thier profile codes on swgoh.gg, if that's the
         // case, lets not display (undefined) next to their name
