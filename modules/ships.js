@@ -12,12 +12,14 @@ const ships = [
 
     {
         "name": "Anakin's Eta-2 Starfighter",
+        "ships": ["1-B"],
         "faction": ["Light Side", "Attacker", "Jedi", "Galactic Republic"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_anakin.png"
     },
 
     {
         "name": "B-28 Extinction-class Bomber",
+        "light": ["6-C"],
         "faction": ["Dark Side", "Tank", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_b28extinctionclassbomber.png"
     },
@@ -156,6 +158,13 @@ const ships = [
     },
 
     {
+        "name": "Han's Millennium Falcon",
+        "nickname": "milf",
+        "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel", "Cargo Ship"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon.png"
+    },
+
+    {
         "name": "Home One",
         "light": [],
         "dark": [],
@@ -222,11 +231,12 @@ const ships = [
     },
 
     {
+        // NOTE: CG changed the name to "Rey's" falcon and dropped the (Ep VII)
+        // api.swgoh.gg has the updated name, but the profile pages at the moment
+        // still uses the old name
         "name": "Millennium Falcon (Ep VII)",
-        "light": [],
+        "nickname": "Rey's Millennium Falcon",
         "dark": ["5-D"],
-        "cantina": [],
-        "shops": [],
         "faction": ["Light Side", "Attacker", "Resistance", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
     },

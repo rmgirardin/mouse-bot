@@ -111,6 +111,7 @@ const characters = [
     {
         "name": "Bastila Shan (Fallen)",
         "nickname": ["gothstila", "badstila", "bsf"],
+        "dark": ["7-A"],
         "faction": ["Dark Side", "Support", "Old Republic", "Sith"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_bastilashan_dark.png"
     },
@@ -212,6 +213,7 @@ const characters = [
 
     {
         "name": "Canderous Ordo",
+        "cantina": ["5-C"],
         "faction": ["Dark Side", "Attacker", "Old Republic", "Scoundrel"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_canderous.png"
     },
@@ -607,7 +609,7 @@ const characters = [
         "nickname": ["Zinn", "zfinn"],
         "light": ["7-A"],
         "dark": [],
-        "cantina": ["3-E", "5-C"],
+        "cantina": ["3-E"],
         "shops": ["guild shop"],
         "faction": ["Light Side", "Tank", "Human", "Resistance"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_finnjakku.png"
@@ -1329,8 +1331,6 @@ const characters = [
         "name": "Poe Dameron",
         "nickname": [],
         "light": ["7-B"],
-        "dark": ["7-A"],
-        "cantina": [],
         "shops": ["cantina", "fleet"],
         "faction": ["Light Side", "Tank", "Human", "Resistance"],
         "chImage": "https://swgoh.gg/static/img/assets/tex.charui_poe.png"
