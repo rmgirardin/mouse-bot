@@ -159,7 +159,7 @@ const ships = [
 
     {
         "name": "Han's Millennium Falcon",
-        "nickname": "milf",
+        "nickname": ["milf", "hmf"],
         "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon.png"
     },
@@ -221,21 +221,15 @@ const ships = [
 
     {
         "name": "Lando's Millennium Falcon",
-        "light": [],
-        "dark": [],
-        "cantina": [],
-        "shops": [],
+        "nickname": ["yando", "lmf"],
         "ships": ["1-D"],
         "faction": ["Light Side", "Attacker", "Scoundrel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mil_fal_pristine.png"
     },
 
     {
-        // NOTE: CG changed the name to "Rey's" falcon and dropped the (Ep VII)
-        // api.swgoh.gg has the updated name, but the profile pages at the moment
-        // still uses the old name
-        "name": "Millennium Falcon (Ep VII)",
-        "nickname": "Rey's Millennium Falcon",
+        "name": "Rey's Millennium Falcon",
+        "nickname": ["rmf"],
         "dark": ["5-D"],
         "faction": ["Light Side", "Attacker", "Resistance", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
