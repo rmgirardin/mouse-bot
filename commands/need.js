@@ -149,6 +149,6 @@ exports.help = {
     name: "need",
     category: "Game",
     description: "Let user know which characters they need in shipments",
-    usage: "need <show|faction|name|nickname>",
+    usage: "need <shop|faction|name|nickname>",
     examples: ["need gw", "need jedi", "need ~necavit fleet"]
 };
