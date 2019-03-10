@@ -12,12 +12,14 @@ const ships = [
 
     {
         "name": "Anakin's Eta-2 Starfighter",
+        "ships": ["1-B"],
         "faction": ["Light Side", "Attacker", "Jedi", "Galactic Republic"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_jedi_fighter_anakin.png"
     },
 
     {
         "name": "B-28 Extinction-class Bomber",
+        "light": ["6-C"],
         "faction": ["Dark Side", "Tank", "Sith"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_b28extinctionclassbomber.png"
     },
@@ -156,6 +158,13 @@ const ships = [
     },
 
     {
+        "name": "Han's Millennium Falcon",
+        "nickname": ["milf", "hmf"],
+        "faction": ["Light Side", "Attacker", "Rebel", "Scoundrel", "Cargo Ship"],
+        "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon.png"
+    },
+
+    {
         "name": "Home One",
         "light": [],
         "dark": [],
@@ -212,21 +221,16 @@ const ships = [
 
     {
         "name": "Lando's Millennium Falcon",
-        "light": [],
-        "dark": [],
-        "cantina": [],
-        "shops": [],
+        "nickname": ["yando", "lmf"],
         "ships": ["1-D"],
         "faction": ["Light Side", "Attacker", "Scoundrel", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mil_fal_pristine.png"
     },
 
     {
-        "name": "Millennium Falcon (Ep VII)",
-        "light": [],
+        "name": "Rey's Millennium Falcon",
+        "nickname": ["rmf"],
         "dark": ["5-D"],
-        "cantina": [],
-        "shops": [],
         "faction": ["Light Side", "Attacker", "Resistance", "Cargo Ship"],
         "sImage": "https://swgoh.gg/static/img/assets/tex.charui_mfalcon_ep7.png"
     },
